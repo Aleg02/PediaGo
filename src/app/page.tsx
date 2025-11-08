@@ -1,36 +1,36 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState, useEffect, useMemo } from "react";   // ✅ ← c’est suffisant en Next 16
 import AgeWeightPicker from "@/components/AgeWeightPicker";
 import SearchBar from "@/components/SearchBar";
 import ProtocolCard from "@/components/ProtocolCard";
 import Fuse from "fuse.js";
 import { PROTOCOLS, type Protocol } from "@/data/protocols";
 import { useRouter } from "next/navigation";
+import { useAppStore } from "@/store/useAppStore";
+
 
 export default function HomePage() {
   const router = useRouter();
 
-  // Valeurs par défaut du mockup
-  const [ageLabel, setAgeLabel] = useState<string | null>("10 mois");
-  const [weightKg, setWeightKg] = useState<number | null>(10);
+  // On lit/écrit dans le store global
+  const ageLabel = useAppStore((s) => s.ageLabel);
+  const weightKg = useAppStore((s) => s.weightKg);
+  const setAgeLabel = useAppStore((s) => s.setAgeLabel);
+  const setWeightKg = useAppStore((s) => s.setWeightKg);
 
-  // État "search mode"
+  // État "search mode" géré localement à la page (pas besoin de global)
   const [searchMode, setSearchMode] = useState(false);
   const [query, setQuery] = useState("");
 
+  // S’assure que les valeurs par défaut existent (au cas où le store est vide)
   useEffect(() => {
-    if (ageLabel === "10 mois" && weightKg == null) setWeightKg(10);
-  }, [ageLabel, weightKg]);
+    if (ageLabel == null) setAgeLabel("10 mois");
+    if (weightKg == null) setWeightKg(10);
+  }, [ageLabel, weightKg, setAgeLabel, setWeightKg]);
 
-  // Index Fuse (recherche floue)
   const fuse = useMemo(
-    () =>
-      new Fuse(PROTOCOLS, {
-        keys: ["title", "slug"],
-        threshold: 0.35,
-        ignoreLocation: true,
-      }),
+    () => new Fuse(PROTOCOLS, { keys: ["title", "slug"], threshold: 0.35, ignoreLocation: true }),
     []
   );
 
@@ -40,20 +40,17 @@ export default function HomePage() {
   }, [fuse, query]);
 
   const openProtocol = (slug: string) => {
-    // On navigue vers la page protocole
     router.push(`/protocols/${slug}`);
   };
 
   return (
     <main className="min-h-screen w-full flex items-center justify-center">
       <div className="w-full max-w-[420px] mx-auto px-6">
-        {/* Titre + sous-titre */}
         <div className={`text-center ${searchMode ? "mt-2" : "mt-6"}`}>
           <h1 className="text-[36px] leading-[1.1] font-semibold tracking-tight">PediaGo</h1>
           <p className="text-slate-500 mt-2">Le bon geste, maintenant !</p>
         </div>
 
-        {/* Âge / Poids */}
         <div className={`${searchMode ? "mt-2" : "mt-6"}`}>
           <AgeWeightPicker
             ageLabel={ageLabel}
@@ -63,19 +60,12 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Barre de recherche */}
-        <SearchBar
-          onFocus={() => setSearchMode(true)}
-          onChange={setQuery}
-          autoFocus={false}
-          value=""
-        />
+        <SearchBar onFocus={() => setSearchMode(true)} onChange={setQuery} />
 
-        {/* Zone “Search mode” */}
         {searchMode && (
           <div className="w-full max-w-[420px] mx-auto mt-6 space-y-3">
             {query.trim().length >= 3 ? (
-              hits.length > 0 ? (
+              hits.length ? (
                 <div className="space-y-3">
                   {hits.map((p) => (
                     <ProtocolCard key={p.slug} item={p} onOpen={openProtocol} />

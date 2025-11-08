@@ -6,6 +6,11 @@ import { PROTOCOLS } from "@/data/protocols";
 import { PROTOCOL_DETAILS } from "@/data/protocolDetails";
 import { DRUGS, DOSING_RULES, WEIGHT_OVERRIDES, PROTOCOL_DRUGS } from "@/data/drugs";
 import { computeDose } from "@/lib/dosing";
+import { useAppStore } from "@/store/useAppStore";
+import { DRUG_INFOS } from "@/data/drugInfos";
+import { formatMg } from "@/lib/units";
+import { ageLabelToMonths } from "@/lib/age";
+
 
 export default function ProtocolPage() {
   const router = useRouter();
@@ -15,17 +20,26 @@ export default function ProtocolPage() {
   const sections = PROTOCOL_DETAILS[slug] ?? [];
   const drugIds = PROTOCOL_DRUGS[slug] ?? [];
 
-  const [tab, setTab] = useState<"protocole" | "posologie">("protocole");
-  const [weightKg, setWeightKg] = useState<number>(10); // TODO: on branchera avec l'accueil plus tard
+    // age
+const ageLabel = useAppStore((s) => s.ageLabel);
+const ageMonths = ageLabelToMonths(ageLabel);
 
-  const drugs = useMemo(() => DRUGS.filter(d => drugIds.includes(d.id)), [drugIds]);
+  const [tab, setTab] = useState<"protocole" | "posologie">("protocole");
+
+  // poids global
+  const weightKg = useAppStore((s) => s.weightKg) ?? 10;
+  const setWeightKg = useAppStore((s) => s.setWeightKg);
+
+  const drugs = useMemo(() => DRUGS.filter((d) => drugIds.includes(d.id)), [drugIds]);
 
   if (!protocol) {
     return (
       <main className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <p className="text-slate-500 mb-4">Protocole introuvable 😕</p>
-          <button onClick={() => router.push("/")} className="underline text-slate-700">Retour</button>
+          <button onClick={() => router.push("/")} className="underline text-slate-700">
+            Retour
+          </button>
         </div>
       </main>
     );
@@ -57,60 +71,73 @@ export default function ProtocolPage() {
           </button>
         </div>
 
-        {/* Contenu */}
         {tab === "protocole" ? (
           <div className="space-y-4">
             {sections.map((sec, idx) => (
               <div key={idx} className="rounded-xl bg-white border border-black/10 shadow-sm px-4 py-3">
                 <p className="font-medium mb-2">{sec.title}</p>
                 <ul className="list-disc pl-5 space-y-1 text-slate-700">
-                  {sec.bullets.map((b, i) => <li key={i}>{b}</li>)}
+                  {sec.bullets.map((b, i) => (
+                    <li key={i}>{b}</li>
+                  ))}
                 </ul>
               </div>
             ))}
-            {sections.length === 0 && (
-              <p className="text-sm text-slate-500">Contenu détaillé à venir.</p>
-            )}
+            {sections.length === 0 && <p className="text-sm text-slate-500">Contenu détaillé à venir.</p>}
           </div>
         ) : (
           <div className="space-y-4">
-            {/* Poids modifiable localement (on synchronisera plus tard via store/global) */}
+            {/* Poids global */}
             <div>
               <label className="text-slate-600 text-sm">Poids (kg)</label>
               <input
                 type="number"
                 min="1"
-                value={weightKg}
+                value={weightKg ?? 10}
                 onChange={(e) => setWeightKg(Number(e.target.value))}
                 className="mt-1 w-full rounded-full border border-black/10 shadow-sm px-4 py-2"
               />
             </div>
 
-            {/* Doses calculées pour chaque médicament du protocole */}
+            {/* Doses + infos d’administration */}
             {drugs.map((d) => {
               const rule = DOSING_RULES[d.id];
               const overrides = WEIGHT_OVERRIDES[d.id] ?? [];
-              const result = rule ? computeDose(weightKg, rule, overrides) : null;
+              const result = rule ? computeDose(weightKg ?? 10, rule, overrides) : null;
+              const info = DRUG_INFOS[d.id];
 
               return (
                 <div key={d.id} className="rounded-xl bg-white border border-black/10 shadow-sm px-4 py-3">
-                  <p className="font-medium">{d.name}{d.route ? ` — ${d.route}` : ""}</p>
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="font-medium">
+                      {d.name} {d.route ? <span className="text-slate-500">— {d.route}</span> : null}
+                    </p>
+                  </div>
 
+                  {/* Ligne dose */}
                   {!result ? (
                     <p className="text-sm text-slate-600 mt-1">Règle non définie.</p>
                   ) : Number.isNaN(result.doseMg) ? (
                     <p className="text-sm text-slate-600 mt-1">{result.note ?? "Voir protocole."}</p>
                   ) : (
-                    <div className="text-sm text-slate-700 mt-1">
-                      Dose : <strong>{result.doseMg}</strong> mg pour {weightKg} kg
+                    <div className="text-sm text-slate-800 mt-1">
+                      Dose : <strong>{formatMg(result.doseMg)}</strong> pour {weightKg} kg
                       {result.frequency && <> — <span className="text-slate-500">{result.frequency}</span></>}
-                      <div className="text-xs text-slate-500 mt-1">
-                        source: {result.source}{result.note ? ` — ${result.note}` : ""}
-                        {result.route ? ` — voie ${result.route}` : ""}
-                        {result.maxDailyMg ? ` — max/jour: ${Math.round(result.maxDailyMg)} mg` : ""}
-                      </div>
                     </div>
                   )}
+
+                  {/* Méta-infos (prépa / durée / précautions) */}
+                  <div className="mt-2 text-xs text-slate-600 space-y-1">
+                    {info?.prep && <div>• Prépa : {info.prep}</div>}
+                    {info?.admin && <div>• Admin : {info.admin}</div>}
+                    {info?.duration && <div>• Durée : {info.duration}</div>}
+                    {info?.caution && <div>• ⚠️ {info.caution}</div>}
+                    <div className="text-[11px] text-slate-500">
+                      source: {result ? result.source : "rule"}{result?.note ? ` — ${result.note}` : ""}
+                      {result?.route ? ` — voie ${result.route}` : ""}
+                      {result?.maxDailyMg ? ` — max/jour: ${Math.round(result.maxDailyMg)} mg` : ""}
+                    </div>
+                  </div>
                 </div>
               );
             })}
