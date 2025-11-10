@@ -127,10 +127,6 @@ const WEIGHT_VALUES = Array.from(new Set(POSOLOGY?.weights?.map((w) => w.kg) ?? 
 const DEFAULT_MIN_WEIGHT = WEIGHT_VALUES.length > 0 ? WEIGHT_VALUES[0] : 1;
 const DEFAULT_MAX_WEIGHT =
   WEIGHT_VALUES.length > 0 ? WEIGHT_VALUES[WEIGHT_VALUES.length - 1] : Math.max(DEFAULT_MIN_WEIGHT, 60);
-const DEFAULT_PRESETS =
-  WEIGHT_VALUES.length > 0
-    ? computePresetWeights(WEIGHT_VALUES, DEFAULT_MIN_WEIGHT, DEFAULT_MAX_WEIGHT)
-    : [5, 10, 15, 20];
 
 type Props = { slug: string };
 
@@ -142,7 +138,6 @@ export default function PosologySections({ slug }: Props) {
   const sectionsToShow = SECTION_MAP[slug] ?? [];
   const minWeight = DEFAULT_MIN_WEIGHT;
   const maxWeight = DEFAULT_MAX_WEIGHT;
-  const presets = DEFAULT_PRESETS;
 
   const updateWeight = (next: number) => {
     if (Number.isNaN(next)) return;
@@ -192,22 +187,6 @@ export default function PosologySections({ slug }: Props) {
               onChange={(e) => updateWeight(Number(e.target.value))}
               className="w-full accent-slate-900"
             />
-          </div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {presets.map((val) => (
-              <button
-                key={val}
-                type="button"
-                onClick={() => updateWeight(val)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition border ${
-                  Math.round(weightKg) === Math.round(val)
-                    ? "border-slate-900 bg-slate-900 text-white"
-                    : "border-slate-200 bg-slate-100 text-slate-600 hover:border-slate-300 hover:bg-white"
-                }`}
-              >
-                {formatNum(val, 0)} kg
-              </button>
-            ))}
           </div>
         </div>
       </div>
@@ -486,21 +465,6 @@ function Row({ label, value }: { label: string; value: string }) {
 /* =======================
    Helpers libellés
    ======================= */
-function computePresetWeights(weights: number[], min: number, max: number): number[] {
-  if (!weights.length) return [];
-  const unique = Array.from(new Set(weights)).sort((a, b) => a - b);
-  const evenlySpaced: number[] = [];
-  const segments = 5;
-  for (let i = 0; i <= segments; i += 1) {
-    const target = min + ((max - min) / segments) * i;
-    const nearest = unique.reduce((prev, curr) =>
-      Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev
-    );
-    if (!evenlySpaced.includes(nearest)) evenlySpaced.push(nearest);
-  }
-  return evenlySpaced.slice(0, 6);
-}
-
 function labelize(key: string): string {
   return key
     .replace(/_/g, " ")
