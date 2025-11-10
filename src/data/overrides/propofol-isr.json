@@ -1,0 +1,6 @@
+[
+  { "kg": 3,  "dose_mg": 6,  "note": "exemple, remplace par carte 3 kg" },
+  { "kg": 4,  "dose_mg": 8 },
+  { "kg": 5,  "dose_mg": 10 }
+  // … compléter 6 → 50 kg
+]

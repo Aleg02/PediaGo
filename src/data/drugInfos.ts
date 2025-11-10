@@ -86,7 +86,7 @@ export const DRUG_INFOS: Record<string, DrugInfo> = {
     caution: "Bien calculer le volume à administrer.",
   },
 
-  // Nouveaux
+  // Nouveaux (antidotes, antalgie, TSV, ATB)
   "naloxone": {
     admin: "IV/IM/IN",
     prep: "Ampoules prêtes à l’emploi. IN via atomiseur nasal si dispo.",
@@ -95,7 +95,7 @@ export const DRUG_INFOS: Record<string, DrugInfo> = {
   "flumazenil": {
     admin: "IV",
     prep: "Solution prête. Administrer lentement.",
-    caution: "⚠️ Risque de convulsions/sevrage en cas d’intoxication mixte ou épilepsie.",
+    caution: "⚠️ Convulsions/sevrage si intoxication mixte ou épilepsie.",
   },
   "morphine": {
     admin: "IV (bolus ± IVSE)",
@@ -105,11 +105,32 @@ export const DRUG_INFOS: Record<string, DrugInfo> = {
   "adenosine": {
     admin: "IV en bolus RAPIDE + rinçage immédiat",
     prep: "Voie proximale, 3 voies en Y idéalement.",
-    caution: "Pause/brady cardie transitoire attendue ; ECG continu.",
+    caution: "Pause/bradycardie transitoire attendue ; ECG continu.",
   },
   "ceftriaxone": {
     admin: "IV",
     prep: "Reconstituer/diluer selon notice pour perfusion.",
-    caution: "Respecter les doses selon indication (sepsis/meningite).",
+    caution: "Respecter les doses selon indication (sepsis/ méningite).",
   },
+
+  "ipratropium-ae": {
+    admin: "Nébulisation (AE)",
+    prep: "Ampoules prêtes (0,25 ou 0,5 mg).",
+    caution: "1 dose / 8 h avec salbutamol continu (voir carte).",
+  },
+
+  // ISR
+  "ketamine-isr":   { admin: "IV",   prep: "Dilution selon carte ISR.",    caution: "ISR (séquence rapide)." },
+  "propofol-isr":   { admin: "IV",   prep: "Dilution selon carte ISR.",    caution: "ISR ; surveiller TA/FR." },
+  "suxamethonium":  { admin: "IV",   prep: "Solution prête/diluée carte.", caution: "Vérifier contre-indications." },
+
+  // Sédation IVSE
+  "midazolam-ivse": { admin: "IVSE", prep: "Préparer selon carte Sédation.", caution: "Surveillance respi/TA." },
+  "sufentanil-ivse":{ admin: "IVSE", prep: "Préparer selon carte Sédation.", caution: "Surveillance respi/TA." },
+
+  // État de choc
+  "noradrenaline":        { admin: "IVSE", prep: "PSE selon carte.", caution: "Titrat° µg/kg/min ; monitorage continu." },
+  "adrenaline-ivse-choc": { admin: "IVSE", prep: "PSE selon carte.", caution: "Titrat° µg/kg/min ; monitorage continu." },
+  "dobutamine-ivse":      { admin: "IVSE", prep: "PSE selon carte.", caution: "Titrat° µg/kg/min ; monitorage continu." },
+  "dopamine-ivse":        { admin: "IVSE", prep: "PSE selon carte.", caution: "Titrat° µg/kg/min ; monitorage continu." },
 };

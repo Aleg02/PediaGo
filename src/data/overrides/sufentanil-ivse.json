@@ -1,0 +1,6 @@
+[
+  { "kg": 3,  "dose_mg": 6,   "note": "carte 3 kg"  },
+  { "kg": 4,  "dose_mg": 8,   "note": "carte 4 kg"  },
+  ...
+  { "kg": 50, "dose_mg": 100, "note": "carte 50 kg" }
+]

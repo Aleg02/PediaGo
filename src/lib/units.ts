@@ -5,3 +5,4 @@ export function formatMg(mg: number) {
   if (mg < 1) return `${Math.round(mg * 1000)} µg`;
   return `${Number(mg.toFixed(mg < 10 ? 2 : 1))} mg`;
 }
+
