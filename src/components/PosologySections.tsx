@@ -10,9 +10,12 @@ import {
   calcVolumeFromConc,
 } from "@/data/posology";
 
-// Protocole → sections à afficher (ajuste si besoin)
+/* ===============================
+   Sections par protocole (posologie)
+   =============================== */
 const SECTION_MAP: Record<string, string[]> = {
-  aag: [
+  // Asthme aigu grave
+  "aag": [
     "constantes",
     "iot",
     "isr",
@@ -21,13 +24,90 @@ const SECTION_MAP: Record<string, string[]> = {
     "etat_de_choc",
     "exacerbation_asthme",
   ],
-  anaphylaxie: ["constantes", "iot", "etat_de_choc", "divers"],
-  "choc-hemorragique": ["constantes", "perfusion_transfusion", "etat_de_choc"],
-  "acr-enfant": ["constantes", "acr"],
-  eme: ["constantes", "eme", "sedation"],
+
+  // Arrêt cardio-respiratoire (enfant)
+  "acr-enfant": [
+    "constantes",
+    "iot",
+    "acr",
+    "isr",
+    "perfusion_transfusion",
+    "sedation",
+    "etat_de_choc",
+  ],
+
+  // Anaphylaxie
+  "anaphylaxie": [
+    "constantes",
+    "iot",
+    "isr",
+    "perfusion_transfusion",
+    "sedation",
+    "etat_de_choc",
+  ],
+
+  // Antalgiques (tolère les deux slugs)
+  "antalgique": [
+    "constantes",
+    "antalgiques",
+    "isr",
+    "perfusion_transfusion",
+    "sedation",
+    "etat_de_choc",
+  ],
+  "antalgiques": [
+    "constantes",
+    "antalgiques",
+    "isr",
+    "perfusion_transfusion",
+    "sedation",
+    "etat_de_choc",
+  ],
+
+  // Choc hémorragique
+  "choc-hemorragique": [
+    "constantes",
+    "iot",
+    "isr",
+    "perfusion_transfusion",
+    "sedation",
+    "etat_de_choc",
+  ],
+
+  // État de mal épileptique
+  "eme": [
+    "constantes",
+    "iot",
+    "isr",
+    "perfusion_transfusion",
+    "sedation",
+    "etat_de_choc",
+    "eme",
+  ],
 };
 
-// Titres lisibles
+// normalisation + alias pour tolérer variations d’URL
+function getSectionsForSlug(slug: string): string[] {
+  const key = slug
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-");
+
+  const aliases: Record<string, string> = {
+    "arret-cardio": "acr-enfant",
+    "arret-cardiorespiratoire": "acr-enfant",
+    "asthme-severe": "aag",
+    "choc-hemorragique-enfant": "choc-hemorragique",
+  };
+
+  const normalized = aliases[key] ?? key;
+  return SECTION_MAP[normalized] ?? [];
+}
+
+/* ===============================
+   Titres lisibles
+   =============================== */
 const TITLES: Record<string, string> = {
   constantes: "CONSTANTES",
   iot: "IOT",
@@ -48,16 +128,16 @@ export default function PosologySections({ slug }: Props) {
   const setWeightKg = useAppStore((s) => s.setWeightKg);
 
   const entry = useMemo(() => findPosoByWeight(weightKg), [weightKg]);
-  const sectionsToShow = SECTION_MAP[slug] ?? [];
+  const sectionsToShow = getSectionsForSlug(slug);
 
   return (
     <div className="space-y-6">
-      {/* Barre de poids en haut */}
+      {/* Saisie du poids en haut (les fiches démarrent à 3 kg) */}
       <div>
         <label className="text-slate-600 text-sm">Poids (kg)</label>
         <input
           type="number"
-          min={1}
+          min={3}
           value={weightKg}
           onChange={(e) => setWeightKg(Number(e.target.value))}
           className="mt-1 w-full rounded-full border border-black/10 shadow-sm px-4 py-2"
@@ -86,12 +166,25 @@ function SectionBlock({ entry, sectionKey }: { entry: any; sectionKey: string })
   // CONSTANTES
   if (sectionKey === "constantes") {
     const c = entry.constantes ?? entry.data?.constantes;
+    const fcStr =
+      c?.fc_min && c?.fc_max
+        ? `${c.fc_min}-${c.fc_max}/min`
+        : typeof c?.fc === "string"
+        ? c.fc
+        : "—";
+    const frStr =
+      c?.fr_min && c?.fr_max
+        ? `${c.fr_min}-${c.fr_max}/min`
+        : c?.fr
+        ? `${c.fr}/min`
+        : c?.fr_text ?? "—";
+
     return (
       <Card title={title}>
         <Rows>
-          <Row label="FC" value={c?.fc_min && c?.fc_max ? `${c.fc_min}-${c.fc_max}/min` : c?.fc ?? "—"} />
+          <Row label="FC" value={fcStr} />
           <Row label="PAS" value={c?.pas ? `${c.pas} mmHg` : "—"} />
-          <Row label="FR" value={c?.fr ? `${c.fr}/min` : c?.fr_text ?? "—"} />
+          <Row label="FR" value={frStr} />
         </Rows>
       </Card>
     );
@@ -100,29 +193,43 @@ function SectionBlock({ entry, sectionKey }: { entry: any; sectionKey: string })
   // IOT
   if (sectionKey === "iot") {
     const i = entry.iot ?? entry.data?.iot;
+    const tubeText =
+      i?.tube?.size || i?.tube?.type
+        ? `${i.tube.type ?? ""} ${i.tube.size ?? ""}`.trim()
+        : i?.sit ?? "—";
+
+    const distanceText =
+      typeof i?.distance_cm === "number" || typeof i?.distance_cm_min === "number"
+        ? i?.distance_cm_min && i?.distance_cm_max
+          ? `${i.distance_cm_min}-${i.distance_cm_max} cm`
+          : i?.distance_cm
+          ? `${i.distance_cm} cm`
+          : "—"
+        : i?.distance ?? "—";
+
+    const sngText =
+      typeof i?.sng_ch === "number" ? `${i.sng_ch} CH` : i?.sng ?? "—";
+
     return (
       <Card title={title}>
         <Rows>
           <Row label="Lame" value={i?.lame ?? "—"} />
-          <Row
-            label="Tube"
-            value={i?.tube ? `${i.tube.type ?? ""} ${i.tube.size ?? ""}`.trim() : i?.sit ?? "—"}
-          />
-          <Row label="Distance" value={i?.distance_cm ? `${i.distance_cm} cm` : i?.distance ?? "—"} />
-          <Row label="SNG" value={i?.sng_ch ? `${i.sng_ch} CH` : i?.sng ?? "—"} />
+          <Row label="Tube" value={tubeText} />
+          <Row label="Distance" value={distanceText} />
+          <Row label="SNG" value={sngText} />
         </Rows>
       </Card>
     );
   }
 
-  // Récupérer la section "brute" (pour détecter si ce sont des valeurs texte)
+  // Récup brute (permet de gérer les sections “clé → texte”)
   const raw =
     (entry.sections && entry.sections[sectionKey]) ??
     entry[sectionKey] ??
     (entry.data && entry.data[sectionKey]) ??
     null;
 
-  // 1) Cas “liste clé → texte” (ex. perfusion_transfusion)
+  // 1) Cas “clé → texte” (ex. perfusion_transfusion dans certaines fiches)
   if (raw && typeof raw === "object" && !Array.isArray(raw)) {
     const entries = Object.entries(raw);
     const allStrings = entries.length > 0 && entries.every(([, v]) => typeof v === "string");
@@ -137,7 +244,7 @@ function SectionBlock({ entry, sectionKey }: { entry: any; sectionKey: string })
     }
   }
 
-  // 2) Cas “sous-objets” (médicaments, posologies détaillées)
+  // 2) Cas “médicaments / sous-objets”
   const pairs = entriesOfSection(entry, sectionKey);
   if (pairs.length > 0) {
     return (
@@ -149,7 +256,7 @@ function SectionBlock({ entry, sectionKey }: { entry: any; sectionKey: string })
     );
   }
 
-  // 3) Fallback texte si structure atypique
+  // 3) Fallback : affiche JSON lisible (utile tant que tout n’est pas normalisé)
   return (
     <Card title={title}>
       <pre className="px-4 py-3 text-xs text-slate-600 whitespace-pre-wrap">
@@ -162,7 +269,6 @@ function SectionBlock({ entry, sectionKey }: { entry: any; sectionKey: string })
 /* =======================
    Lignes de rendu
    ======================= */
-
 function SimpleLine({ name, text }: { name: string; text: string }) {
   return (
     <div className="px-4 py-3 text-sm">
@@ -200,7 +306,7 @@ function DrugLine({ name, data }: { name: string; data: any }) {
     undefined;
   const computedVol = vol == null ? calcVolumeFromConc(data?.dose_mg, conc) : undefined;
 
-  // 2) Si pas de champs numériques, afficher les champs texte de tes cartes
+  // 2) Champs texte (issus des cartes quand pas encore normalisés)
   const textFields: { label: string; key: string }[] = [
     { label: "Dose", key: "dose" },
     { label: "Bolus", key: "bolus" },
@@ -212,10 +318,10 @@ function DrugLine({ name, data }: { name: string; data: any }) {
     { label: "Prépa", key: "prep_text" },
     { label: "Durée", key: "duration" },
     { label: "Note", key: "note" },
-    // suffixes *text génériques
     { label: "Dose", key: "dose_text" },
     { label: "Débit", key: "rate_text" },
   ];
+
   const hasNumeric =
     typeof dose === "number" ||
     typeof vol === "number" ||
@@ -234,10 +340,7 @@ function DrugLine({ name, data }: { name: string; data: any }) {
               <span className="text-slate-500">Dose&nbsp;:&nbsp;</span>
               <strong>{unitLine(dose, doseUnit)}</strong>
               {typeof data?.admin_over_min === "number" && (
-                <span className="text-slate-500">
-                  {" "}
-                  sur {formatNum(data.admin_over_min, 0)} min
-                </span>
+                <span className="text-slate-500"> sur {formatNum(data.admin_over_min, 0)} min</span>
               )}
             </div>
           )}
@@ -261,7 +364,7 @@ function DrugLine({ name, data }: { name: string; data: any }) {
         </div>
       )}
 
-      {/* Bloc texte (si présent) */}
+      {/* Bloc texte (quand les champs numériques ne sont pas encore normalisés) */}
       <div className="mt-2 space-y-1 text-xs text-slate-600">
         {textFields.map(({ label, key }) =>
           typeof data?.[key] === "string" && data[key].trim() !== "" ? (
@@ -274,9 +377,17 @@ function DrugLine({ name, data }: { name: string; data: any }) {
 }
 
 /* =======================
-   Composants UI
+   Composants UI de base
    ======================= */
-function Card({ title, children, divided = false }: { title: string; children: React.ReactNode; divided?: boolean }) {
+function Card({
+  title,
+  children,
+  divided = false,
+}: {
+  title: string;
+  children: React.ReactNode;
+  divided?: boolean;
+}) {
   return (
     <div className="rounded-xl bg-white border border-black/10 shadow-sm">
       <div className="px-4 py-2 border-b text-xs tracking-wide text-slate-600">{title}</div>
@@ -284,9 +395,11 @@ function Card({ title, children, divided = false }: { title: string; children: R
     </div>
   );
 }
+
 function Rows({ children }: { children: React.ReactNode }) {
   return <div className="px-4 py-3 text-sm text-slate-800 space-y-1">{children}</div>;
 }
+
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
