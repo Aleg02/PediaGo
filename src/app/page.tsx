@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useMemo, useState } from "react";
 import AgeWeightPicker from "@/components/AgeWeightPicker";
 import SearchBar from "@/components/SearchBar";
 import ProtocolCard from "@/components/ProtocolCard";
 import Fuse from "fuse.js";
-import { PROTOCOLS, type Protocol } from "@/data/protocols";
+import { PROTOCOLS } from "@/data/protocols";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 
@@ -19,16 +19,7 @@ export default function HomePage() {
   const setWeightKg = useAppStore((s) => s.setWeightKg);
 
   // état page
-  const [searchMode, setSearchMode] = useState(false);
   const [query, setQuery] = useState("");
-
-  // valeurs par défaut
-  useEffect(() => {
-    if (ageLabel == null && weightKg == null) {
-      setAgeLabel("10 mois");
-      setWeightKg(10);
-    }
-  }, [ageLabel, weightKg, setAgeLabel, setWeightKg]);
 
   // index Fuse
   const fuse = useMemo(
@@ -41,32 +32,28 @@ export default function HomePage() {
     []
   );
 
-  // 🔎 NOUVEAU: si query vide ⇒ on affiche tout (trié A→Z). Sinon ⇒ résultats Fuse.
-  const hits: Protocol[] = useMemo(() => {
-    const q = query.trim();
-    if (q.length === 0) {
-      return [...PROTOCOLS].sort((a, b) =>
-        a.title.localeCompare(b.title, "fr", { sensitivity: "base" })
-      );
+  // On ne déclenche la recherche que si l'utilisateur saisit une requête.
+  const trimmedQuery = query.trim();
+  const hits = useMemo(() => {
+    if (trimmedQuery.length === 0) {
+      return [];
     }
-    return fuse.search(q).map((r) => r.item);
-  }, [fuse, query]);
+    return fuse.search(trimmedQuery).map((r) => r.item);
+  }, [fuse, trimmedQuery]);
 
   const openProtocol = (slug: string) => {
     router.push(`/protocols/${slug}`);
   };
 
   return (
-    <main className="min-h-screen w-full flex items-center justify-center">
-      <div className="w-full max-w-[420px] mx-auto px-6">
-        {/* Titre + sous-titre */}
-        <div className={`text-center ${searchMode ? "mt-2" : "mt-6"}`}>
-          <h1 className="text-[36px] leading-[1.1] font-semibold tracking-tight">PediaGo</h1>
-          <p className="text-slate-500 mt-2">Le bon geste, maintenant !</p>
-        </div>
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100">
+      <div className="mx-auto flex w-full max-w-2xl flex-col items-center px-6 pb-16 pt-12">
+        <header className="text-center">
+          <h1 className="text-4xl font-semibold tracking-tight text-slate-900">PediaGo</h1>
+          <p className="mt-3 text-base text-slate-500">Le bon geste, maintenant !</p>
+        </header>
 
-        {/* Âge / Poids */}
-        <div className={`${searchMode ? "mt-2" : "mt-6"}`}>
+        <div className="mt-10 flex w-full justify-center">
           <AgeWeightPicker
             ageLabel={ageLabel}
             setAgeLabel={setAgeLabel}
@@ -75,17 +62,24 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Barre de recherche */}
         <SearchBar
-          onFocus={() => setSearchMode(true)}
+          className="mt-10"
           onChange={setQuery}
           autoFocus={false}
           value={query}
         />
 
-        {/* Zone “Search mode” */}
-        {searchMode && (
-          <div className="w-full max-w-[420px] mx-auto mt-6 space-y-3">
+        <div className="mt-4 w-full max-w-[360px] rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 shadow-sm">
+          <div className="flex items-start gap-3">
+            <span className="text-lg leading-none">⚠️</span>
+            <p className="text-left text-sm font-medium">
+              Ces informations ne remplacent pas le jugement clinique.
+            </p>
+          </div>
+        </div>
+
+        {trimmedQuery.length > 0 && (
+          <div className="mt-10 w-full max-w-[420px] space-y-3">
             {hits.length > 0 ? (
               <div className="space-y-3">
                 {hits.map((p) => (
@@ -94,25 +88,11 @@ export default function HomePage() {
               </div>
             ) : (
               <div className="text-center text-slate-500 text-sm">
-                Aucun protocole ne correspond à « {query} ».
+                Aucun protocole ne correspond à « {trimmedQuery} ».
               </div>
             )}
-
-            <div className="text-center">
-              <button
-                onClick={() => {
-                  setSearchMode(false);
-                  setQuery("");
-                }}
-                className="mt-6 text-slate-600 underline underline-offset-4"
-              >
-                Quitter le mode recherche
-              </button>
-            </div>
           </div>
         )}
-
-        <div className="h-16" />
       </div>
     </main>
   );
