@@ -1,7 +1,8 @@
 "use client";
-import { useMemo, useState } from "react";
 
-export type TheoreticalAge = { label: string; weightKg: number; };
+import { useEffect, useMemo } from "react";
+
+export type TheoreticalAge = { label: string; weightKg: number };
 
 export const THEORETICAL_WEIGHTS: TheoreticalAge[] = [
   { label: "Naissance", weightKg: 3 },
@@ -28,7 +29,7 @@ export const THEORETICAL_WEIGHTS: TheoreticalAge[] = [
 
 export function getTheoreticalWeight(ageLabel: string | null) {
   if (!ageLabel) return null;
-  const found = THEORETICAL_WEIGHTS.find(a => a.label.toLowerCase() === ageLabel.toLowerCase());
+  const found = THEORETICAL_WEIGHTS.find((a) => a.label.toLowerCase() === ageLabel.toLowerCase());
   return found?.weightKg ?? null;
 }
 
@@ -56,83 +57,132 @@ type Props = {
   setWeightKg: (v: number | null) => void;
 };
 
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
 const formatWeight = (value: number | null) =>
-  value == null ? "" : value.toString().replace(".", ",");
+  value == null ? "--" : `${Number.isInteger(value) ? value : value.toString().replace(".", ",")} kg`;
 
 export default function AgeWeightPicker({ ageLabel, setAgeLabel, weightKg, setWeightKg }: Props) {
-  const ageOptions = useMemo(() => THEORETICAL_WEIGHTS.map(a => a.label), []);
+  const ageOptions = useMemo(() => THEORETICAL_WEIGHTS.map((a) => a.label), []);
 
-  const [weightDraft, setWeightDraft] = useState<string | null>(null);
-
-  const onAgeChange = (value: string) => {
-    setAgeLabel(value);
-    const w = getTheoreticalWeight(value);
-    if (w !== null) {
-      setWeightKg(w); // règle: âge → poids
-      setWeightDraft(null);
-    } else {
-      setWeightKg(null);
-      setWeightDraft(null);
+  useEffect(() => {
+    if (ageLabel != null && weightKg != null) return;
+    const first = THEORETICAL_WEIGHTS[0];
+    if (!first) return;
+    if (ageLabel == null) {
+      setAgeLabel(first.label);
     }
+    if (weightKg == null) {
+      setWeightKg(first.weightKg);
+    }
+  }, [ageLabel, weightKg, setAgeLabel, setWeightKg]);
+
+  useEffect(() => {
+    if (weightKg == null) return;
+    const estimated = estimateAgeFromWeight(weightKg);
+    if (estimated && estimated !== ageLabel) {
+      setAgeLabel(estimated);
+    }
+  }, [weightKg, ageLabel, setAgeLabel]);
+
+  const currentLabel = useMemo(() => {
+    if (ageLabel) {
+      return ageLabel;
+    }
+    const estimated = estimateAgeFromWeight(weightKg);
+    if (estimated) return estimated;
+    return ageOptions[0];
+  }, [ageLabel, weightKg, ageOptions]);
+
+  const currentIndex = useMemo(() => {
+    const idx = ageOptions.findIndex((label) => label === currentLabel);
+    return idx === -1 ? 0 : idx;
+  }, [ageOptions, currentLabel]);
+
+  const hasPrev = currentIndex > 0;
+  const hasNext = currentIndex < ageOptions.length - 1;
+
+  const goToIndex = (index: number) => {
+    const clamped = clamp(index, 0, ageOptions.length - 1);
+    const item = THEORETICAL_WEIGHTS[clamped];
+    if (!item) return;
+    setAgeLabel(item.label);
+    setWeightKg(item.weightKg);
   };
 
-  const onWeightChange = (value: string) => {
-    setWeightDraft(value);
-
-    const normalized = value.replace(/,/g, ".").trim();
-
-    if (normalized === "") {
-      setWeightKg(null);
-      return;
-    }
-
-    if (/[.,]$/.test(normalized)) {
-      return;
-    }
-
-    const parsed = Number(normalized);
-    if (!Number.isNaN(parsed)) {
-      setWeightKg(parsed);
-    }
+  const handleAgeStep = (delta: number) => {
+    goToIndex(currentIndex + delta);
   };
 
-  const onWeightBlur = () => {
-    setWeightDraft(null);
+  const handleWeightStep = (delta: number) => {
+    const inferredIndex = (() => {
+      if (weightKg == null) return currentIndex;
+      const estimated = estimateAgeFromWeight(weightKg);
+      const idx = estimated ? ageOptions.findIndex((label) => label === estimated) : -1;
+      if (idx >= 0) return idx;
+      return currentIndex;
+    })();
+    goToIndex(inferredIndex + delta);
   };
 
-  const weightInput = weightDraft ?? formatWeight(weightKg);
+  const prevAge = hasPrev ? ageOptions[currentIndex - 1] : null;
+  const nextAge = hasNext ? ageOptions[currentIndex + 1] : null;
 
-  const labelCls = "text-slate-500 text-sm mb-1";
-
-  const pillCls =
-    "rounded-full px-4 py-2 bg-white border border-black/10 shadow-sm text-[16px] leading-6 w-full";
+  const prevWeight = hasPrev ? THEORETICAL_WEIGHTS[currentIndex - 1].weightKg : null;
+  const nextWeight = hasNext ? THEORETICAL_WEIGHTS[currentIndex + 1].weightKg : null;
+  const displayWeight = weightKg ?? THEORETICAL_WEIGHTS[currentIndex]?.weightKg ?? null;
 
   return (
-    <div className="w-full max-w-[360px] mx-auto grid grid-cols-2 gap-3 mt-6">
-      <div>
-        <div className={labelCls}>Âge</div>
-        <select
-          className={pillCls}
-          value={ageLabel ?? ""}
-          onChange={(e) => onAgeChange(e.target.value)}
-        >
-          <option value="" disabled>Choisir…</option>
-          {ageOptions.map((label) => (<option key={label} value={label}>{label}</option>))}
-        </select>
-      </div>
+    <div className="w-full max-w-[360px] mx-auto bg-white/80 backdrop-blur-sm border border-slate-200/80 shadow-lg shadow-slate-200/70 rounded-3xl px-6 py-6">
+      <div className="grid grid-cols-2 gap-6">
+        <div className="flex flex-col items-center text-center">
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400">Âge</span>
+          <div className="mt-4 w-full space-y-2">
+            <button
+              type="button"
+              onClick={() => handleAgeStep(-1)}
+              disabled={!hasPrev}
+              className="w-full py-2 rounded-2xl text-sm font-medium text-slate-400 disabled:text-slate-200 transition-colors"
+            >
+              {prevAge ?? ""}
+            </button>
+            <div className="w-full py-3 rounded-2xl bg-white text-slate-900 text-lg font-semibold border border-slate-900/10 shadow-inner">
+              {currentLabel}
+            </div>
+            <button
+              type="button"
+              onClick={() => handleAgeStep(1)}
+              disabled={!hasNext}
+              className="w-full py-2 rounded-2xl text-sm font-medium text-slate-400 disabled:text-slate-200 transition-colors"
+            >
+              {nextAge ?? ""}
+            </button>
+          </div>
+        </div>
 
-      <div>
-        <div className={labelCls}>Poids</div>
-        <div className="relative">
-          <input
-            inputMode="decimal"
-            className={`${pillCls} pr-12`}
-            value={weightInput}
-            onChange={(e) => onWeightChange(e.target.value)}
-            onBlur={onWeightBlur}
-            placeholder="ex : 10"
-          />
-          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 select-none">kg</span>
+        <div className="flex flex-col items-center text-center">
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400">Poids</span>
+          <div className="mt-4 w-full space-y-2">
+            <button
+              type="button"
+              onClick={() => handleWeightStep(-1)}
+              disabled={!hasPrev}
+              className="w-full py-2 rounded-2xl text-sm font-medium text-slate-400 disabled:text-slate-200 transition-colors"
+            >
+              {prevWeight != null ? formatWeight(prevWeight) : ""}
+            </button>
+            <div className="w-full py-3 rounded-2xl bg-white text-slate-900 text-lg font-semibold border border-slate-900/10 shadow-inner">
+              {formatWeight(displayWeight)}
+            </div>
+            <button
+              type="button"
+              onClick={() => handleWeightStep(1)}
+              disabled={!hasNext}
+              className="w-full py-2 rounded-2xl text-sm font-medium text-slate-400 disabled:text-slate-200 transition-colors"
+            >
+              {nextWeight != null ? formatWeight(nextWeight) : ""}
+            </button>
+          </div>
         </div>
       </div>
     </div>

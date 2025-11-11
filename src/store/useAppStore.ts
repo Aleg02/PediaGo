@@ -9,21 +9,33 @@ type AppState = {
   reset: () => void;
 };
 
-// Par défaut, on part sur le mockup: "10 mois" / 10 kg.
+const DEFAULT_AGE_LABEL = "Naissance";
+const DEFAULT_WEIGHT_KG = 3;
+
 // On persiste pour que le poids reste si on rafraîchit la page.
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
-      ageLabel: "10 mois",
-      weightKg: 10,
+      ageLabel: DEFAULT_AGE_LABEL,
+      weightKg: DEFAULT_WEIGHT_KG,
       setAgeLabel: (age) => set({ ageLabel: age }),
       setWeightKg: (w) => set({ weightKg: w }),
-      reset: () => set({ ageLabel: "10 mois", weightKg: 10 }),
+      reset: () => set({ ageLabel: DEFAULT_AGE_LABEL, weightKg: DEFAULT_WEIGHT_KG }),
     }),
     {
       name: "pediago-app-store",
       storage: createJSONStorage(() => localStorage),
-      version: 1,
+      version: 2,
+      migrate: (persistedState, version) => {
+        if (version < 2) {
+          return {
+            ...persistedState,
+            ageLabel: DEFAULT_AGE_LABEL,
+            weightKg: DEFAULT_WEIGHT_KG,
+          } as AppState;
+        }
+        return persistedState as AppState;
+      },
     }
   )
 );
