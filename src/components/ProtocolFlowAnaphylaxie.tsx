@@ -3,7 +3,6 @@
 import { useMemo, type ReactNode } from "react";
 
 import { useAppStore } from "@/store/useAppStore";
-import { ageLabelToMonths } from "@/lib/age";
 import { computeDose } from "@/lib/dosing";
 import { DOSING_RULES, WEIGHT_OVERRIDES } from "@/data/drugs";
 import { formatMg } from "@/lib/units";
@@ -116,8 +115,6 @@ export default function ProtocolFlowAnaphylaxie() {
   const weightFromStore = useAppStore((s) => s.weightKg);
   const setWeightKg = useAppStore((s) => s.setWeightKg);
   const setAgeLabel = useAppStore((s) => s.setAgeLabel);
-  const ageLabel = useAppStore((s) => s.ageLabel);
-
   const weightKg =
     weightFromStore != null && Number.isFinite(weightFromStore)
       ? Math.min(Math.max(weightFromStore, MIN_WEIGHT_KG), MAX_WEIGHT_KG)
@@ -130,9 +127,6 @@ export default function ProtocolFlowAnaphylaxie() {
     setWeightKg(clamped);
     setAgeLabel(estimateAgeFromWeight(clamped));
   };
-
-  const ageMonths = ageLabelToMonths(ageLabel);
-  const ageYears = ageMonths != null ? ageMonths / 12 : null;
 
   const adrenalineIm = useMemo(
     () =>
@@ -169,7 +163,6 @@ export default function ProtocolFlowAnaphylaxie() {
           <p className="text-xs uppercase tracking-[0.28em] font-semibold text-white/80">Protocole</p>
           <div className="mt-2 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
             <h2 className="text-3xl font-semibold tracking-tight">ANAPHYLAXIE</h2>
-            <span className="text-sm text-white/80">Gestion pédiatrique immédiate</span>
           </div>
         </div>
 
@@ -182,12 +175,7 @@ export default function ProtocolFlowAnaphylaxie() {
               </div>
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#C62828]">Âge estimé</p>
-                <p className="text-xl font-semibold text-slate-900">
-                  {estimatedAgeLabel ?? "-"}
-                  {ageYears != null && ageYears > 0
-                    ? ` (${ageYears < 1 ? `${Math.round(ageMonths ?? 0)} mois` : `${Number(ageYears.toFixed(1))} ans`})`
-                    : ""}
-                </p>
+                <p className="text-xl font-semibold text-slate-900">{estimatedAgeLabel ?? "-"}</p>
               </div>
             </div>
             <div>
@@ -211,30 +199,48 @@ export default function ProtocolFlowAnaphylaxie() {
                 </div>
               </div>
             </div>
-            <div className="text-sm text-slate-600">
-              <p>Les doses ci-dessous se mettent à jour automatiquement selon le poids ajusté ci-dessus.</p>
-            </div>
           </div>
 
           <div className="space-y-5">
-            <ColoredBlock
-              tone="red"
-              title="ATTEINTE CARDIO-VASCULAIRE OU RESPIRATOIRE"
-              subtitle="Adrénaline IM 0,01 mg/kg (max 0,5 mg)"
-              bullets={[
-                "Injection face latéro-externe cuisse",
-                "Éviction allergène immédiate",
-              ]}
-              footer={`Dose calculée : ${formatDose(adrenalineImDoseMg)}${
-                Number.isFinite(adrenalineImVolume) ? ` (${formatMl(adrenalineImVolume)} de solution 1 mg/mL)` : ""
-              }`}
-            />
-
-            <ColoredBlock
-              tone="yellow"
-              title="SYMPTÔMES GASTRO-INTESTINAUX IMPORTANTS OU PERSISTANTS ?"
-              bullets={["Adrénaline IM + surveillance rapprochée"]}
-            />
+            <div className="grid gap-5 xl:grid-cols-[1fr_1.4fr_1fr]">
+              <div>
+                <ColoredBlock tone="orange" title="ANTIHISTAMINIQUE & CORTICOÏDE">
+                  <ul className="space-y-2 text-sm text-slate-800 list-disc pl-5">
+                    <li>
+                      Solumédrol : <strong>{formatDose(solumedrolRange.min)}</strong> – <strong>{formatDose(solumedrolRange.max)}</strong>
+                      <span className="text-xs text-slate-600 block">(1–2 mg/kg IV)</span>
+                    </li>
+                    <li>
+                      Polaramine : <strong>{formatDose(polaramineDoseMg)}</strong> (0,1 mg/kg)
+                    </li>
+                  </ul>
+                </ColoredBlock>
+              </div>
+              <div>
+                <ColoredBlock
+                  tone="red"
+                  title="ANAPHYLAXIE"
+                  subtitle="Atteinte cardio-vasculaire ou respiratoire"
+                  bullets={[
+                    "Adrénaline IM 0,01 mg/kg → pure (max 0,5 mg)",
+                    "Injection face latéro-externe cuisse",
+                    "Éviction allergène immédiate",
+                  ]}
+                  footer={`Dose calculée : ${formatDose(adrenalineImDoseMg)}${
+                    Number.isFinite(adrenalineImVolume)
+                      ? ` (${formatMl(adrenalineImVolume)} de solution 1 mg/mL)`
+                      : ""
+                  }`}
+                />
+              </div>
+              <div>
+                <ColoredBlock
+                  tone="yellow"
+                  title="SYMPTÔMES GASTRO-INTESTINAUX IMPORTANTS OU PERSISTANTS ?"
+                  bullets={["Adrénaline IM + surveillance rapprochée"]}
+                />
+              </div>
+            </div>
 
             <div className="grid gap-5 lg:grid-cols-2">
               <ColoredBlock
@@ -311,21 +317,6 @@ export default function ProtocolFlowAnaphylaxie() {
                 ]}
               />
             </div>
-
-            <ColoredBlock
-              tone="orange"
-              title="ANTIHISTAMINIQUE & CORTICOÏDE"
-            >
-              <ul className="space-y-2 text-sm text-slate-800 list-disc pl-5">
-                <li>
-                  Solumédrol : <strong>{formatDose(solumedrolRange.min)}</strong> – <strong>{formatDose(solumedrolRange.max)}</strong>
-                  <span className="text-xs text-slate-600 block">(1–2 mg/kg IV)</span>
-                </li>
-                <li>
-                  Polaramine : <strong>{formatDose(polaramineDoseMg)}</strong> (0,1 mg/kg)
-                </li>
-              </ul>
-            </ColoredBlock>
 
             <ColoredBlock
               tone="red"
