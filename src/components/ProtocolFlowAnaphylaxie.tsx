@@ -115,6 +115,97 @@ export default function ProtocolFlowAnaphylaxie() {
   // --- UI state
   const [branch, setBranch] = useState<Branch | null>(null);
 
+  const cardioSteps: FlowCardProps[] = [
+    {
+      tone: "grey",
+      eyebrow: "Voie cardio-vasculaire",
+      title: "Détresse cardio-vasculaire",
+      badge: "Stabilisation",
+      bullets: [
+        "O₂ haute concentration, scope, VVP, ECG",
+        `Remplissage NaCl 0,9 % ${formatMl(remplissageVolumeMl)} (20 mL/kg)`,
+        "Position Trendelenburg, préparer amines vasopressives / intubation",
+      ],
+    },
+    {
+      tone: "yellow",
+      eyebrow: "Escalade cardio-vasculaire",
+      title: "Adrénaline IVSE 0,1 µg/kg/min",
+      bullets: ["Surveillance continue, titrer selon réponse clinique"],
+      children: (
+        <>
+          <p>
+            Débit calculé : <strong>{formatUg(adrenalineIvseUgPerMin)}</strong> par minute pour {Number(weightKg.toFixed(1))} kg.
+          </p>
+          {Number.isFinite(adrenalineIvseMlPerMin) && (
+            <p className="text-xs text-slate-500">
+              Solution 1 mg/50 mL = 20 µg/mL → {Number(adrenalineIvseMlPerMin.toFixed(2))} mL/min.
+            </p>
+          )}
+        </>
+      ),
+      footer: "Dose maximale cumulée : 0,5 mg.",
+    },
+    {
+      tone: "red",
+      eyebrow: "Renforcement hémodynamique",
+      title: "Adrénaline IVSE + NAD 0,2 µg/kg/min",
+      bullets: [
+        "Réévaluer tension artérielle toutes les 2–3 minutes",
+        "Associer autres vasopresseurs selon l’évolution",
+      ],
+      children: (
+        <p>
+          Débit NAD recommandé : <strong>{formatUg(nadIvseUgPerMin)}</strong> par minute (à adapter selon concentration).
+        </p>
+      ),
+    },
+  ];
+
+  const respiratorySteps: FlowCardProps[] = [
+    {
+      tone: "violet",
+      eyebrow: "Voie respiratoire",
+      title: "Détresse respiratoire",
+      badge: "Aérosols",
+      bullets: [
+        "Adrénaline nébulisée 0,1 mg/kg (max 5 mg)",
+        "Salbutamol en aérosols répétés, O₂ humidifié",
+        "Envisager VNI / IOT si épuisement",
+      ],
+      children: (
+        <p>
+          Dose calculée : <strong>{formatDose(adrenalineNebuliseeDoseMg)}</strong>.
+        </p>
+      ),
+    },
+    {
+      tone: "orange",
+      eyebrow: "Escalade respiratoire",
+      title: "Poursuite des aérosols",
+      bullets: [
+        "Adrénaline nébulisée alternée ± salbutamol",
+        "Ipratropium si bronchospasme sévère",
+        "Kinésithérapie respiratoire à discuter",
+      ],
+    },
+    {
+      tone: "grey",
+      eyebrow: "Réévaluation",
+      title: "Surveillance & sortie",
+      bullets: [
+        "Observation minimale 6 h (risque biphasique)",
+        "Cardio-monitoring ± saturométrie continue",
+        "Prescription kit d’adrénaline auto-injectable",
+      ],
+    },
+  ];
+
+  const cardioInitialStep = cardioSteps[0]!;
+  const cardioEscaladeSteps = cardioSteps.slice(1);
+  const respiratoryInitialStep = respiratorySteps[0]!;
+  const respiratoryEscaladeSteps = respiratorySteps.slice(1);
+
   return (
     <div className="w-full">
       <div className="rounded-[32px] border border-slate-200 bg-[#F9F9F9] shadow-xl overflow-hidden">
@@ -156,7 +247,7 @@ export default function ProtocolFlowAnaphylaxie() {
                 <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">▾</span>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Colonne info gauche (Solumédrol/Polaramine)  */}
           <Block tone="orange" title="Antihistaminique & Corticoïde">
