@@ -135,7 +135,7 @@ export default function PosologySections({ slug }: Props) {
   const setWeightKg = useAppStore((s) => s.setWeightKg);
 
   const entry = useMemo(() => findPosoByWeight(weightKg), [weightKg]);
-  const sectionsToShow = SECTION_MAP[slug] ?? [];
+  const sectionsToShow = getSectionsForSlug(slug);
   const minWeight = DEFAULT_MIN_WEIGHT;
   const maxWeight = DEFAULT_MAX_WEIGHT;
 

@@ -2,16 +2,10 @@
 
 import type { ComponentType } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { PROTOCOLS } from "@/data/protocols";
 import { PROTOCOL_DETAILS } from "@/data/protocolDetails";
-import { DRUGS, DOSING_RULES, WEIGHT_OVERRIDES, PROTOCOL_DRUGS } from "@/data/drugs";
-import { computeDose } from "@/lib/dosing";
-import { useAppStore } from "@/store/useAppStore";
-import { DRUG_INFOS } from "@/data/drugInfos";
-import { formatMg } from "@/lib/units";
-import { ageLabelToMonths } from "@/lib/age";
 
 // Flows (bandes + chevrons)
 import ProtocolFlowAAG from "@/components/ProtocolFlowAAG";
@@ -29,14 +23,8 @@ export default function ProtocolPage() {
 
   const protocol = PROTOCOLS.find((p) => p.slug === slug);
   const sections = PROTOCOL_DETAILS[slug] ?? [];
-  const drugIds = PROTOCOL_DRUGS[slug] ?? [];
-
-  const ageLabel = useAppStore((s) => s.ageLabel);
-  const ageMonths = ageLabelToMonths(ageLabel);
 
   const [tab, setTab] = useState<"protocole" | "posologie">("protocole");
-
-  const drugs = useMemo(() => DRUGS.filter((d) => drugIds.includes(d.id)), [drugIds]);
 
   const FlowBySlug: Record<string, ComponentType | undefined> = {
     aag: ProtocolFlowAAG,

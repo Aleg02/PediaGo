@@ -33,6 +33,14 @@ export default function ProtocolFlowAAG() {
   const salbutamolMg = isSixOrLess ? 2.5 : 5;
   const ipratropiumMg = isSixOrLess ? 0.25 : 0.5;
 
+  const inhaledDoseLines = useMemo(
+    () => [
+      `SALBUTAMOL : ${formatNumber(salbutamolMg, salbutamolMg < 5 ? 1 : 0)} mg (selon âge)`,
+      `IPRATROPIUM : ${formatNumber(ipratropiumMg, ipratropiumMg < 1 ? 2 : 1)} mg (selon âge)`,
+    ],
+    [salbutamolMg, ipratropiumMg]
+  );
+
   // Solumédrol calculé
   const s = AAG_CONSTANTS.solumedrolMgPerKg * weightKg;
   const solumedrolDoseMg =
@@ -120,6 +128,7 @@ export default function ProtocolFlowAAG() {
         rightBadge="1ʳᵉ ligne thérapeutique"
         leftAsideTitle="Posologies (référence fiche)"
         leftAsideItems={smallDoseBox}
+        items={inhaledDoseLines}
       />
       <FlowChevron />
 

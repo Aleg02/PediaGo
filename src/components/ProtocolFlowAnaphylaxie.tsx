@@ -110,8 +110,6 @@ export default function ProtocolFlowAnaphylaxie() {
 
   const ivseUgPerMin            = weightKg * 0.1;
   const ivseMlPerMin            = Number.isFinite(ivseUgPerMin) ? ivseUgPerMin / 20 : NaN; // 1 mg/50 mL = 20 µg/mL
-  const adrenalineIvseUgPerMin  = ivseUgPerMin;
-  const adrenalineIvseMlPerMin  = ivseMlPerMin;
   const nadIvseUgPerMin         = weightKg * 0.2;
 
   const glucagonMg              = weightKg < 20 ? 0.5 : 1;
@@ -119,97 +117,6 @@ export default function ProtocolFlowAnaphylaxie() {
 
   // --- UI state
   const [branch, setBranch] = useState<Branch | null>(null);
-
-  const cardioSteps: FlowCardProps[] = [
-    {
-      tone: "grey",
-      eyebrow: "Voie cardio-vasculaire",
-      title: "Détresse cardio-vasculaire",
-      badge: "Stabilisation",
-      bullets: [
-        "O₂ haute concentration, scope, VVP, ECG",
-        `Remplissage NaCl 0,9 % ${formatMl(remplissageVolumeMl)} (20 mL/kg)`,
-        "Position Trendelenburg, préparer amines vasopressives / intubation",
-      ],
-    },
-    {
-      tone: "yellow",
-      eyebrow: "Escalade cardio-vasculaire",
-      title: "Adrénaline IVSE 0,1 µg/kg/min",
-      bullets: ["Surveillance continue, titrer selon réponse clinique"],
-      children: (
-        <>
-          <p>
-            Débit calculé : <strong>{formatUg(adrenalineIvseUgPerMin)}</strong> par minute pour {Number(weightKg.toFixed(1))} kg.
-          </p>
-          {Number.isFinite(adrenalineIvseMlPerMin) && (
-            <p className="text-xs text-slate-500">
-              Solution 1 mg/50 mL = 20 µg/mL → {Number(adrenalineIvseMlPerMin.toFixed(2))} mL/min.
-            </p>
-          )}
-        </>
-      ),
-      footer: "Dose maximale cumulée : 0,5 mg.",
-    },
-    {
-      tone: "red",
-      eyebrow: "Renforcement hémodynamique",
-      title: "Adrénaline IVSE + NAD 0,2 µg/kg/min",
-      bullets: [
-        "Réévaluer tension artérielle toutes les 2–3 minutes",
-        "Associer autres vasopresseurs selon l’évolution",
-      ],
-      children: (
-        <p>
-          Débit NAD recommandé : <strong>{formatUg(nadIvseUgPerMin)}</strong> par minute (à adapter selon concentration).
-        </p>
-      ),
-    },
-  ];
-
-  const respiratorySteps: FlowCardProps[] = [
-    {
-      tone: "violet",
-      eyebrow: "Voie respiratoire",
-      title: "Détresse respiratoire",
-      badge: "Aérosols",
-      bullets: [
-        "Adrénaline nébulisée 0,1 mg/kg (max 5 mg)",
-        "Salbutamol en aérosols répétés, O₂ humidifié",
-        "Envisager VNI / IOT si épuisement",
-      ],
-      children: (
-        <p>
-          Dose calculée : <strong>{formatDose(adrenalineNebuliseeDoseMg)}</strong>.
-        </p>
-      ),
-    },
-    {
-      tone: "orange",
-      eyebrow: "Escalade respiratoire",
-      title: "Poursuite des aérosols",
-      bullets: [
-        "Adrénaline nébulisée alternée ± salbutamol",
-        "Ipratropium si bronchospasme sévère",
-        "Kinésithérapie respiratoire à discuter",
-      ],
-    },
-    {
-      tone: "grey",
-      eyebrow: "Réévaluation",
-      title: "Surveillance & sortie",
-      bullets: [
-        "Observation minimale 6 h (risque biphasique)",
-        "Cardio-monitoring ± saturométrie continue",
-        "Prescription kit d’adrénaline auto-injectable",
-      ],
-    },
-  ];
-
-  const cardioInitialStep = cardioSteps[0]!;
-  const cardioEscaladeSteps = cardioSteps.slice(1);
-  const respiratoryInitialStep = respiratorySteps[0]!;
-  const respiratoryEscaladeSteps = respiratorySteps.slice(1);
 
   return (
     <div className="w-full">
@@ -317,7 +224,9 @@ export default function ProtocolFlowAnaphylaxie() {
                 <ul className="list-disc space-y-1.5 pl-5">
                   <li>O₂, scope, VVP, ECG</li>
                   <li>Trendelenburg</li>
-                  <li>Remplissage NaCl 20 mL/kg</li>
+                  <li>
+                    Remplissage NaCl 0,9 % : <strong>{formatMl(remplissageVolumeMl)}</strong> (20 mL/kg)
+                  </li>
                 </ul>
               </Block>
 
@@ -330,7 +239,9 @@ export default function ProtocolFlowAnaphylaxie() {
                   <li>
                     Débit IVSE (calcul) : <strong>{formatUg(ivseUgPerMin)}</strong>/min
                     {Number.isFinite(ivseMlPerMin) && (
-                      <span className="text-xs text-slate-600"> — 1 mg/50 mL (20 µg/mL) → {ivseMlPerMin.toFixed(2)} mL/min</span>
+                      <span className="text-xs text-slate-600">
+                        {" "}— 1 mg/50 mL (20 µg/mL) → {ivseMlPerMin.toFixed(2)} mL/min
+                      </span>
                     )}
                   </li>
                 </ul>
@@ -341,7 +252,9 @@ export default function ProtocolFlowAnaphylaxie() {
               </Block>
 
               <Block tone="red" title="Adrénaline IVSE">
-                <p>Titrer selon clinique et TA.</p>
+                <p>
+                  Titrer selon clinique et TA. NAD : <strong>{formatUg(nadIvseUgPerMin)}</strong>/min si associé.
+                </p>
               </Block>
 
               <Block tone="grey" title="Appel réanimateur">
@@ -372,7 +285,10 @@ export default function ProtocolFlowAnaphylaxie() {
                 <ul className="list-disc space-y-1.5 pl-5">
                   <li>O₂, scope, VVP, ECG</li>
                   <li>½ assis</li>
-                  <li>VAS : aérosol adrénaline 0,1 mg/kg (max 5 mg)</li>
+                  <li>
+                    VAS : adrénaline nébulisée 0,1 mg/kg (max 5 mg) →
+                    <strong> {formatDose(adrenalineNebuliseeDoseMg)}</strong>
+                  </li>
                   <li>VAI : aérosol β₂</li>
                 </ul>
               </Block>
