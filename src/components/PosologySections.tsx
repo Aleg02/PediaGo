@@ -128,6 +128,99 @@ const DEFAULT_MIN_WEIGHT = WEIGHT_VALUES.length > 0 ? WEIGHT_VALUES[0] : 1;
 const DEFAULT_MAX_WEIGHT =
   WEIGHT_VALUES.length > 0 ? WEIGHT_VALUES[WEIGHT_VALUES.length - 1] : Math.max(DEFAULT_MIN_WEIGHT, 60);
 
+const TONE_STYLES = {
+  slate: {
+    border: "border-slate-200/80",
+    shadow: "shadow-sm",
+    headerBg: "bg-gradient-to-r from-slate-900 to-slate-800",
+    headerText: "text-white",
+    bodyBg: "bg-white",
+    label: "text-slate-400",
+    muted: "text-slate-600",
+    bodyText: "text-slate-800",
+    strong: "text-slate-900",
+    divide: "divide-slate-100",
+  },
+  teal: {
+    border: "border-emerald-200/80",
+    shadow: "shadow-[0_18px_36px_-24px_rgba(16,185,129,0.8)]",
+    headerBg: "bg-gradient-to-r from-emerald-500 to-teal-500",
+    headerText: "text-white",
+    bodyBg: "bg-emerald-50",
+    label: "text-emerald-600",
+    muted: "text-emerald-700",
+    bodyText: "text-emerald-900",
+    strong: "text-emerald-900",
+    divide: "divide-emerald-100",
+  },
+  azure: {
+    border: "border-sky-200/80",
+    shadow: "shadow-[0_18px_36px_-24px_rgba(14,165,233,0.8)]",
+    headerBg: "bg-gradient-to-r from-sky-500 to-blue-600",
+    headerText: "text-white",
+    bodyBg: "bg-sky-50",
+    label: "text-sky-600",
+    muted: "text-sky-700",
+    bodyText: "text-slate-900",
+    strong: "text-slate-900",
+    divide: "divide-sky-100",
+  },
+  indigo: {
+    border: "border-indigo-200/80",
+    shadow: "shadow-[0_18px_36px_-24px_rgba(79,70,229,0.6)]",
+    headerBg: "bg-gradient-to-r from-indigo-500 to-indigo-600",
+    headerText: "text-white",
+    bodyBg: "bg-indigo-50",
+    label: "text-indigo-600",
+    muted: "text-indigo-700",
+    bodyText: "text-slate-900",
+    strong: "text-slate-900",
+    divide: "divide-indigo-100",
+  },
+  amber: {
+    border: "border-amber-200/80",
+    shadow: "shadow-[0_18px_36px_-24px_rgba(245,158,11,0.7)]",
+    headerBg: "bg-gradient-to-r from-amber-500 to-orange-500",
+    headerText: "text-white",
+    bodyBg: "bg-amber-50",
+    label: "text-amber-600",
+    muted: "text-amber-700",
+    bodyText: "text-slate-900",
+    strong: "text-slate-900",
+    divide: "divide-amber-100",
+  },
+  rose: {
+    border: "border-rose-200/80",
+    shadow: "shadow-[0_18px_36px_-24px_rgba(244,114,182,0.7)]",
+    headerBg: "bg-gradient-to-r from-rose-500 to-pink-500",
+    headerText: "text-white",
+    bodyBg: "bg-rose-50",
+    label: "text-rose-600",
+    muted: "text-rose-700",
+    bodyText: "text-slate-900",
+    strong: "text-slate-900",
+    divide: "divide-rose-100",
+  },
+} as const;
+
+type ToneKey = keyof typeof TONE_STYLES;
+
+const SECTION_TONE: Record<string, ToneKey> = {
+  constantes: "teal",
+  iot: "indigo",
+  isr: "azure",
+  perfusion_transfusion: "amber",
+  sedation: "rose",
+  etat_de_choc: "rose",
+  exacerbation_asthme: "amber",
+  acr: "indigo",
+  eme: "indigo",
+};
+
+function toneForSection(sectionKey: string): ToneKey {
+  return SECTION_TONE[sectionKey] ?? "slate";
+}
+
 type Props = { slug: string };
 
 export default function PosologySections({ slug }: Props) {
@@ -209,6 +302,8 @@ export default function PosologySections({ slug }: Props) {
    ======================= */
 function SectionBlock({ entry, sectionKey }: { entry: PosologyWeightEntry; sectionKey: string }) {
   const title = TITLES[sectionKey] ?? sectionKey.toUpperCase();
+  const tone = toneForSection(sectionKey);
+  const toneStyles = TONE_STYLES[tone];
 
   // CONSTANTES
   if (sectionKey === "constantes") {
@@ -227,11 +322,11 @@ function SectionBlock({ entry, sectionKey }: { entry: PosologyWeightEntry; secti
         : c?.fr_text ?? "—";
 
     return (
-      <Card title={title}>
-        <Rows>
-          <Row label="FC" value={fcStr} />
-          <Row label="PAS" value={c?.pas ? `${c.pas} mmHg` : "—"} />
-          <Row label="FR" value={frStr} />
+      <Card title={title} tone={tone}>
+        <Rows tone={tone}>
+          <Row tone={tone} label="FC" value={fcStr} />
+          <Row tone={tone} label="PAS" value={c?.pas ? `${c.pas} mmHg` : "—"} />
+          <Row tone={tone} label="FR" value={frStr} />
         </Rows>
       </Card>
     );
@@ -258,12 +353,12 @@ function SectionBlock({ entry, sectionKey }: { entry: PosologyWeightEntry; secti
       typeof i?.sng_ch === "number" ? `${i.sng_ch} CH` : i?.sng ?? "—";
 
     return (
-      <Card title={title}>
-        <Rows>
-          <Row label="Lame" value={i?.lame ?? "—"} />
-          <Row label="Tube" value={tubeText} />
-          <Row label="Distance" value={distanceText} />
-          <Row label="SNG" value={sngText} />
+      <Card title={title} tone={tone}>
+        <Rows tone={tone}>
+          <Row tone={tone} label="Lame" value={i?.lame ?? "—"} />
+          <Row tone={tone} label="Tube" value={tubeText} />
+          <Row tone={tone} label="Distance" value={distanceText} />
+          <Row tone={tone} label="SNG" value={sngText} />
         </Rows>
       </Card>
     );
@@ -282,9 +377,9 @@ function SectionBlock({ entry, sectionKey }: { entry: PosologyWeightEntry; secti
     const allStrings = entries.length > 0 && entries.every(([, v]) => typeof v === "string");
     if (allStrings) {
       return (
-        <Card title={title} divided>
+        <Card title={title} tone={tone} divided>
           {entries.map(([k, v]) => (
-            <SimpleLine key={k} name={labelize(k)} text={String(v)} />
+            <SimpleLine key={k} tone={tone} name={labelize(k)} text={String(v)} />
           ))}
         </Card>
       );
@@ -295,18 +390,18 @@ function SectionBlock({ entry, sectionKey }: { entry: PosologyWeightEntry; secti
   const pairs = entriesOfSection(entry, sectionKey);
   if (pairs.length > 0) {
     return (
-      <Card title={title} divided>
-          {pairs.map(([key, obj]) => (
-            <DrugLine key={key} name={labelize(key)} data={obj} />
-          ))}
-        </Card>
-      );
+      <Card title={title} tone={tone} divided>
+        {pairs.map(([key, obj]) => (
+          <DrugLine key={key} tone={tone} name={labelize(key)} data={obj} />
+        ))}
+      </Card>
+    );
   }
 
   // 3) Fallback : affiche JSON lisible (utile tant que tout n’est pas normalisé)
   return (
-    <Card title={title}>
-      <pre className="px-4 py-3 text-xs text-slate-600 whitespace-pre-wrap">
+    <Card title={title} tone={tone}>
+      <pre className={`px-4 py-3 text-xs ${toneStyles.muted} whitespace-pre-wrap`}>
         {raw ? (typeof raw === "object" ? JSON.stringify(raw, null, 2) : String(raw)) : "—"}
       </pre>
     </Card>
@@ -316,16 +411,17 @@ function SectionBlock({ entry, sectionKey }: { entry: PosologyWeightEntry; secti
 /* =======================
    Lignes de rendu
    ======================= */
-function SimpleLine({ name, text }: { name: string; text: string }) {
+function SimpleLine({ name, text, tone }: { name: string; text: string; tone: ToneKey }) {
+  const toneStyles = TONE_STYLES[tone] ?? TONE_STYLES.slate;
   return (
-    <div className="px-5 py-4 text-sm">
-      <div className="text-sm font-semibold text-slate-900">{name}</div>
-      <div className="mt-1 text-xs leading-relaxed text-slate-600">{text}</div>
+    <div className={`px-5 py-4 text-sm ${toneStyles.bodyText}`}>
+      <div className={`text-sm font-semibold ${toneStyles.strong}`}>{name}</div>
+      <div className={`mt-1 text-xs leading-relaxed ${toneStyles.muted}`}>{text}</div>
     </div>
   );
 }
 
-function DrugLine({ name, data }: { name: string; data: DoseCommon }) {
+function DrugLine({ name, data, tone }: { name: string; data: DoseCommon; tone: ToneKey }) {
   // 1) Affichage numérique si présent (JSON normalisé)
   const dose =
     data?.dose_mg ??
@@ -375,36 +471,38 @@ function DrugLine({ name, data }: { name: string; data: DoseCommon }) {
     typeof rate === "number" ||
     typeof computedVol === "number";
 
+  const toneStyles = TONE_STYLES[tone] ?? TONE_STYLES.slate;
+
   return (
-    <div className="px-5 py-4 text-sm text-slate-800">
-      <div className="text-sm font-semibold text-slate-900">{name}</div>
+    <div className={`px-5 py-4 text-sm ${toneStyles.bodyText}`}>
+      <div className={`text-sm font-semibold ${toneStyles.strong}`}>{name}</div>
 
       {/* Bloc numérique (si dispo) */}
       {hasNumeric && (
-        <div className="mt-2 grid grid-cols-1 gap-2 text-[13px] text-slate-700">
+        <div className={`mt-2 grid grid-cols-1 gap-2 text-[13px] ${toneStyles.muted}`}>
           {typeof dose === "number" && (
             <div>
-              <span className="text-slate-500">Dose&nbsp;:&nbsp;</span>
+              <span className={toneStyles.label}>Dose&nbsp;:&nbsp;</span>
               <strong>{unitLine(dose, doseUnit)}</strong>
               {typeof data?.admin_over_min === "number" && (
-                <span className="text-slate-500"> sur {formatNum(data.admin_over_min, 0)} min</span>
+                <span className={toneStyles.muted}> sur {formatNum(data.admin_over_min, 0)} min</span>
               )}
             </div>
           )}
 
           {(typeof vol === "number" || typeof computedVol === "number") && (
             <div>
-              <span className="text-slate-500">Volume&nbsp;:&nbsp;</span>
+              <span className={toneStyles.label}>Volume&nbsp;:&nbsp;</span>
               <strong>{formatNum(vol ?? computedVol, 2)} mL</strong>
               {typeof conc === "number" && (
-                <span className="text-slate-500"> @ {formatNum(conc, 2)} mg/mL</span>
+                <span className={toneStyles.muted}> @ {formatNum(conc, 2)} mg/mL</span>
               )}
             </div>
           )}
 
           {typeof rate === "number" && (
             <div>
-              <span className="text-slate-500">Débit&nbsp;:&nbsp;</span>
+              <span className={toneStyles.label}>Débit&nbsp;:&nbsp;</span>
               <strong>{formatNum(rate, 2)} mL/h</strong>
             </div>
           )}
@@ -412,13 +510,13 @@ function DrugLine({ name, data }: { name: string; data: DoseCommon }) {
       )}
 
       {/* Bloc texte (si présent) */}
-      <div className="mt-3 space-y-1.5 text-xs text-slate-600">
+      <div className={`mt-3 space-y-1.5 text-xs ${toneStyles.muted}`}>
         {textFields.map(({ label, key }) =>
           typeof data?.[key] === "string" && data[key].trim() !== "" ? (
             <div key={key}>
-              <span className="font-semibold text-slate-500">{label}</span>
-              <span className="text-slate-500"> : </span>
-              <span className="text-slate-600">{data[key]}</span>
+              <span className={`font-semibold ${toneStyles.label}`}>{label}</span>
+              <span className={toneStyles.muted}> : </span>
+              <span className={toneStyles.bodyText}>{data[key]}</span>
             </div>
           ) : null
         )}
@@ -434,30 +532,39 @@ function Card({
   title,
   children,
   divided = false,
+  tone = "slate",
 }: {
   title: string;
   children: React.ReactNode;
   divided?: boolean;
+  tone?: ToneKey;
 }) {
+  const toneStyles = TONE_STYLES[tone] ?? TONE_STYLES.slate;
   return (
-    <div className="rounded-2xl bg-white border border-slate-200 shadow-sm overflow-hidden">
-      <div className="px-5 py-3 border-b border-slate-100 bg-slate-50 text-[11px] font-semibold tracking-[0.2em] text-slate-500 uppercase">
+    <div
+      className={`rounded-2xl overflow-hidden border ${toneStyles.border} ${toneStyles.shadow} bg-white/60 backdrop-blur-[1px]`}
+    >
+      <div
+        className={`px-5 py-3 text-[11px] font-semibold tracking-[0.2em] uppercase ${toneStyles.headerBg} ${toneStyles.headerText}`}
+      >
         {title}
       </div>
-      <div className={divided ? "divide-y divide-slate-100" : ""}>{children}</div>
+      <div className={`${toneStyles.bodyBg} ${divided ? `divide-y ${toneStyles.divide}` : ""}`}>{children}</div>
     </div>
   );
 }
 
-function Rows({ children }: { children: React.ReactNode }) {
-  return <div className="px-5 py-4 text-sm text-slate-800 space-y-2">{children}</div>;
+function Rows({ children, tone }: { children: React.ReactNode; tone: ToneKey }) {
+  const toneStyles = TONE_STYLES[tone] ?? TONE_STYLES.slate;
+  return <div className={`px-5 py-4 text-sm space-y-2 ${toneStyles.bodyText}`}>{children}</div>;
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ label, value, tone }: { label: string; value: string; tone: ToneKey }) {
+  const toneStyles = TONE_STYLES[tone] ?? TONE_STYLES.slate;
   return (
     <div className="flex items-center justify-between gap-3">
-      <span className="text-xs font-semibold tracking-[0.16em] text-slate-400 uppercase">{label}</span>
-      <span className="text-sm font-semibold text-slate-900">{value}</span>
+      <span className={`text-xs font-semibold tracking-[0.16em] uppercase ${toneStyles.label}`}>{label}</span>
+      <span className={`text-sm font-semibold ${toneStyles.strong}`}>{value}</span>
     </div>
   );
 }
