@@ -17,7 +17,7 @@ export default function SearchBar({ onFocus, onChange, autoFocus, value }: Props
     <div className="w-full max-w-[360px] mx-auto mt-8">
       <div className="relative">
         <input
-          className="rounded-full px-4 py-2 bg-white border border-black/10 shadow-sm text-[16px] leading-6 w-full pl-10"
+          className="rounded-full px-4 py-2 bg-white border border-black/10 shadow-sm text-[14px] leading-6 w-full pl-10"
           placeholder="Rechercher un protocole d'urgence"
           value={inputValue}
           autoFocus={autoFocus}

@@ -42,7 +42,6 @@ export default function HomePage() {
     []
   );
 
-  // Si query vide => tous les protocoles triés A→Z, sinon => résultats Fuse
   const hits: Protocol[] = useMemo(() => {
     const q = query.trim();
     if (q.length === 0) {
@@ -58,64 +57,79 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col justify-between items-center bg-white">
-      {/* --------- HEADER (logo + slogan) --------- */}
+    <main className="min-h-screen flex flex-col bg-white">
+      {/* --- HEADER : titre / slogan en haut --- */}
       <header className="w-full max-w-[420px] mx-auto text-center mt-8 px-6">
         <h1 className="text-[36px] leading-[1.1] font-semibold tracking-tight">PediaGo</h1>
         <p className="text-slate-500 mt-2 text-base">Le bon geste, maintenant !</p>
       </header>
 
-      {/* --------- CONTENU CENTRAL --------- */}
-      <section className="w-full max-w-[420px] mx-auto px-6 flex flex-col items-center">
-        <div className="mt-4 w-full">
+      {/* --- BLOC CENTRAL (âge/poids + recherche + résultats/disclaimer) --- */}
+      <section className="w-full max-w-[420px] mx-auto px-6 flex-1 flex flex-col items-center">
+        <div className="w-full mt-40 space-y-4">
+          {/* Âge / Poids */}
           <AgeWeightPicker
             ageLabel={ageLabel}
             setAgeLabel={setAgeLabel}
             weightKg={weightKg}
             setWeightKg={setWeightKg}
           />
-        </div>
 
-        <SearchBar
-          onFocus={() => setSearchMode(true)}
-          onChange={setQuery}
-          autoFocus={false}
-          value={query}
-        />
+          {/* Barre de recherche juste sous âge/poids */}
+          <SearchBar
+            onFocus={() => setSearchMode(true)}
+            onChange={(value) => {
+              setQuery(value);
+              if (value.trim().length === 0) {
+                setSearchMode(false);
+              } else {
+                setSearchMode(true);
+              }
+            }}
+            autoFocus={false}
+            value={query}
+          />
 
-        {searchMode && (
-          <div className="w-full max-w-[420px] mx-auto mt-6 space-y-3">
-            {hits.length > 0 ? (
-              <div className="space-y-3">
-                {hits.map((p) => (
+          {/* HOME : disclaimer directement sous la barre */}
+          {!searchMode && (
+            <Disclaimer className="mt-10" />
+          )}
+
+          {/* MODE RECHERCHE : résultats sous la barre */}
+          {searchMode && (
+            <div className="mt-6 space-y-3">
+              {hits.length > 0 ? (
+                hits.map((p) => (
                   <ProtocolCard key={p.slug} item={p} onOpen={openProtocol} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center text-slate-500 text-sm">
-                Aucun protocole ne correspond à « {query} ».
-              </div>
-            )}
+                ))
+              ) : (
+                <div className="text-center text-slate-500 text-sm">
+                  Aucun protocole ne correspond à « {query} ».
+                </div>
+              )}
 
-            <div className="text-center">
-              <button
-                onClick={() => {
-                  setSearchMode(false);
-                  setQuery("");
-                }}
-                className="mt-6 text-slate-600 underline underline-offset-4"
-              >
-                Quitter le mode recherche
-              </button>
+              <div className="text-center">
+                <button
+                  onClick={() => {
+                    setSearchMode(false);
+                    setQuery("");
+                  }}
+                  className="mt-6 text-slate-600 underline underline-offset-4"
+                >
+                  Quitter le mode recherche
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </section>
 
-      {/* --------- FOOTER (Disclaimer en bas d’écran) --------- */}
-      <footer className="w-full max-w-[420px] mx-auto px-6 mb-4">
-        <Disclaimer />
-      </footer>
+      {/* MODE RECHERCHE : disclaimer collé en bas */}
+      {searchMode && (
+        <footer className="mt-auto w-full max-w-[420px] mx-auto px-6 mb-4">
+          <Disclaimer />
+        </footer>
+      )}
     </main>
   );
 }
