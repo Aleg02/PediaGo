@@ -26,8 +26,6 @@ export default function HomePage() {
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const searchModeTrigger = useRef<"button" | null>(null);
-  const trimmedQuery = query.trim();
-  const hasQuery = trimmedQuery.length > 0;
 
   // valeurs par défaut
   useEffect(() => {
@@ -67,13 +65,14 @@ export default function HomePage() {
   );
 
   const hits: Protocol[] = useMemo(() => {
-    if (trimmedQuery.length === 0) {
+    const q = query.trim();
+    if (q.length === 0) {
       return [...PROTOCOLS].sort((a, b) =>
         a.title.localeCompare(b.title, "fr", { sensitivity: "base" })
       );
     }
-    return fuse.search(trimmedQuery).map((r) => r.item);
-  }, [fuse, trimmedQuery]);
+    return fuse.search(q).map((r) => r.item);
+  }, [fuse, query]);
 
   const openProtocol = (slug: string) => {
     router.push(`/protocols/${slug}`);
@@ -117,10 +116,6 @@ export default function HomePage() {
                   setSearchMode(true);
                 }
               }}
-              onClear={() => {
-                setQuery("");
-                setSearchMode(false);
-              }}
               autoFocus={false}
               value={query}
               className="mt-6"
@@ -155,27 +150,9 @@ export default function HomePage() {
           {/* MODE RECHERCHE : résultats sous la carte */}
           {searchMode && (
             <div ref={resultsRef} className="mt-10 space-y-4">
-              <div className="flex flex-col gap-1 rounded-2xl border border-slate-200/60 bg-white/80 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                <span>
-                  {hasQuery
-                    ? `Résultats (${hits.length})`
-                    : `Tous les protocoles (${hits.length})`}
-                </span>
-                {hasQuery && (
-                  <span className="text-[13px] normal-case text-[#2563eb]">
-                    « {trimmedQuery} »
-                  </span>
-                )}
-              </div>
-
               {hits.length > 0 ? (
                 hits.map((p) => (
-                  <ProtocolCard
-                    key={p.slug}
-                    item={p}
-                    onOpen={openProtocol}
-                    highlightQuery={trimmedQuery}
-                  />
+                  <ProtocolCard key={p.slug} item={p} onOpen={openProtocol} />
                 ))
               ) : (
                 <div className="rounded-2xl border border-dashed border-slate-200 bg-white/80 px-6 py-8 text-center text-sm text-slate-500">
