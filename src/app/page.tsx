@@ -26,6 +26,8 @@ export default function HomePage() {
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const searchModeTrigger = useRef<"button" | null>(null);
+  const trimmedQuery = query.trim();
+  const hasQuery = trimmedQuery.length > 0;
 
   // valeurs par défaut
   useEffect(() => {
@@ -65,14 +67,13 @@ export default function HomePage() {
   );
 
   const hits: Protocol[] = useMemo(() => {
-    const q = query.trim();
-    if (q.length === 0) {
+    if (trimmedQuery.length === 0) {
       return [...PROTOCOLS].sort((a, b) =>
         a.title.localeCompare(b.title, "fr", { sensitivity: "base" })
       );
     }
-    return fuse.search(q).map((r) => r.item);
-  }, [fuse, query]);
+    return fuse.search(trimmedQuery).map((r) => r.item);
+  }, [fuse, trimmedQuery]);
 
   const openProtocol = (slug: string) => {
     router.push(`/protocols/${slug}`);
@@ -128,6 +129,10 @@ export default function HomePage() {
                   setSearchMode(true);
                 }
               }}
+              onClear={() => {
+                setQuery("");
+                setSearchMode(false);
+              }}
               autoFocus={false}
               value={query}
               className="mt-1"
@@ -161,10 +166,32 @@ export default function HomePage() {
 
           {/* MODE RECHERCHE : résultats sous les champs */}
           {searchMode && (
+<<<<<<< HEAD
             <div ref={resultsRef} className="mt-8 space-y-4">
+=======
+            <div ref={resultsRef} className="mt-10 space-y-4">
+              <div className="flex flex-col gap-1 rounded-2xl border border-slate-200/60 bg-white/80 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <span>
+                  {hasQuery
+                    ? `Résultats (${hits.length})`
+                    : `Tous les protocoles (${hits.length})`}
+                </span>
+                {hasQuery && (
+                  <span className="text-[13px] normal-case text-[#2563eb]">
+                    « {trimmedQuery} »
+                  </span>
+                )}
+              </div>
+
+>>>>>>> f5114cabb6f0eea161dde58cb22e41ba91a032c9
               {hits.length > 0 ? (
                 hits.map((p) => (
-                  <ProtocolCard key={p.slug} item={p} onOpen={openProtocol} />
+                  <ProtocolCard
+                    key={p.slug}
+                    item={p}
+                    onOpen={openProtocol}
+                    highlightQuery={trimmedQuery}
+                  />
                 ))
               ) : (
                 <div className="rounded-2xl border border-dashed border-slate-200 bg-white px-6 py-8 text-center text-sm text-slate-500">
