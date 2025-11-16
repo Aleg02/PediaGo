@@ -42,7 +42,10 @@ export default function HomePage() {
     if (searchMode && searchModeTrigger.current === "button") {
       const raf = requestAnimationFrame(() => {
         searchInputRef.current?.focus();
-        resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        resultsRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         searchModeTrigger.current = null;
       });
       return () => cancelAnimationFrame(raf);
@@ -121,16 +124,18 @@ export default function HomePage() {
             )}
             <h1
               className={`${
-                searchMode
-                  ? "text-4xl"
-                  : "mt-7 text-[64px]"
+                searchMode ? "text-4xl" : "mt-7 text-[64px]"
               } leading-none font-semibold tracking-tight text-slate-900`}
             >
               <span>Pedia</span>
               <span className="text-[#ef4444]">Go</span>
             </h1>
           </button>
-          <p className={`${searchMode ? "mt-1" : "mt-2"} text-sm text-slate-500`}>
+          <p
+            className={`${
+              searchMode ? "mt-1" : "mt-2"
+            } text-sm text-slate-500`}
+          >
             Le bon geste, maintenant&nbsp;!
           </p>
 
@@ -144,7 +149,7 @@ export default function HomePage() {
               className="max-w-none"
             />
 
-            <div className={`${searchMode ? "mt-4" : "mt-8"}`}>
+            <div className={searchMode ? "mt-4" : "mt-8"}>
               <SearchBar
                 onFocus={() => {
                   searchModeTrigger.current = null;
@@ -167,19 +172,7 @@ export default function HomePage() {
                 className="mt-1"
                 inputRef={searchInputRef}
               />
-
-              {searchMode && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setQuery("");
-                    setSearchMode(true);
-                  }}
-                  className="mt-3 w-full rounded-full border border-slate-200/80 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_4px_18px_rgba(15,23,42,0.08)] transition hover:border-slate-300"
-                >
-                  Tous les protocoles ({PROTOCOLS.length})
-                </button>
-              )}
+              {/* En mode recherche sticky, on ne garde QUE PediaGo + slogan + Age/Poids + barre de recherche */}
             </div>
           </div>
         </header>
