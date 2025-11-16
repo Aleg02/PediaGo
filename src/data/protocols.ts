@@ -187,4 +187,34 @@ export const PROTOCOLS: Protocol[] = [
       },
     ],
   },
+  {
+    slug: "traumatisme-cranien",
+    title: "Traumatisme crânien (enfant)",
+    version: "V0.1",
+    tags: ["trauma", "neuro"],
+    icon: "🧠",
+    accentColor: "#3b82f6",
+    sources: [
+      {
+        label: "HAS – Traumatisme crânien léger",
+        url: "https://www.has-sante.fr/jcms/p_3225285/fr/traumatismes-craniens-legers",
+      },
+      {
+        label: "SFP – Urgences pédiatriques",
+        url: "https://www.sfpediatrie.com",
+      },
+      {
+        label: "PECARN – Kuppermann 2009",
+        url: "https://www.nejm.org/doi/full/10.1056/NEJMoa080457",
+      },
+      {
+        label: "NICE – Head Injury Guidelines",
+        url: "https://www.nice.org.uk/guidance/cg176",
+      },
+      {
+        label: "American Academy of Pediatrics",
+        url: "https://publications.aap.org",
+      },
+    ],
+  },
 ];

@@ -16,6 +16,7 @@ import ProtocolFlowEME from "@/components/ProtocolFlowEME";
 import ProtocolFlowAntalgiques from "@/components/ProtocolFlowAntalgiques";
 import ProtocolFlowBronchiolite from "@/components/ProtocolFlowBronchiolite";
 import ProtocolFlowSepsisPurpura from "@/components/ProtocolFlowSepsisPurpura";
+import ProtocolFlowTCC from "@/components/ProtocolFlowTCC";
 
 // Sections posologie (NOUVEAU rendu V2 depuis le JSON)
 import PosologySections from "@/components/PosologySections";
@@ -39,6 +40,7 @@ export default function ProtocolPage() {
     antalgiques: ProtocolFlowAntalgiques,
     bronchiolite: ProtocolFlowBronchiolite,
     "fievre-sepsis-purpura": ProtocolFlowSepsisPurpura,
+    "traumatisme-cranien": ProtocolFlowTCC,
   };
   const Flow = FlowBySlug[slug];
 
