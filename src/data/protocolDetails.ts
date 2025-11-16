@@ -737,4 +737,53 @@ export const PROTOCOL_DETAILS: Record<string, ProtocolSection[]> = {
       ],
     },
   ],
+  "traumatisme-thoraco-abdominal-fast": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Prise en charge standardisée des traumatismes thoraciques et/ou abdominaux graves avec intégration systématique du FAST.",
+        "Limiter les erreurs de calcul sur les bolus de remplissage, transfusions et agents d'induction pédiatriques.",
+      ],
+    },
+    {
+      title: "ABCDE",
+      bullets: [
+        "Immobilisation tête-cou, aspiration PRN, O₂ 10–15 L/min si SpO₂ < 94 %.",
+        "2 VVP larges ± IO, NaCl 0,9 % 20 mL/kg avant transfusion équilibrée.",
+        "Glycémie systématique : G10 % 2 mL/kg si < 0,7 g/L.",
+      ],
+    },
+    {
+      title: "Airway/Breathing",
+      bullets: [
+        "Induction séquence rapide : kétamine 2 mg/kg IV + rocuronium 1 mg/kg (immobilisation cervicale maintenue).",
+        "Décompression immédiate des pneumothorax suffocants, drain thoracique si hémothorax massif.",
+        "Morphine 0,1 mg/kg IV puis titration 0,025 mg/kg toutes les 5 min selon EVA.",
+      ],
+    },
+    {
+      title: "Circulation",
+      bullets: [
+        "Transfusion damage control : CGR 10–15 mL/kg, PFC 10–15 mL/kg, plaquettes 10–20 mL/kg.",
+        "Objectifs : PAM ≥ 60–70 mmHg selon âge, température > 36 °C, calcium ionisé > 0,9 mmol/L.",
+        "Adjoints : acide tranexamique < 3 h, ceinture pelvienne, contrôle mécanique du saignement.",
+      ],
+    },
+    {
+      title: "FAST pédiatrique",
+      bullets: [
+        "Fenêtres : péricarde, hépatique droite, splénique gauche, cul-de-sac de Douglas.",
+        "FAST + instable → bloc opératoire immédiat / damage control ; FAST + stable → scanner TAP.",
+        "FAST − mais instable → rechercher autre cause (tamponnade, hémorragie thoracique, fracture de bassin).",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Thorax : O₂ haut débit, drains, ventilation assistée si volet thoracique.",
+        "Abdomen : chirurgie si instabilité persistante, PEC conservatrice si lésions hépatiques/spléniques stables.",
+        "Situations particulières (nourrisson, pénétrant, polytrauma) → damage control resuscitation et transfusion précoce.",
+      ],
+    },
+  ],
 };

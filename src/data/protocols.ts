@@ -380,4 +380,19 @@ export const PROTOCOLS: Protocol[] = [
       },
     ],
   },
+  {
+    slug: "traumatisme-thoraco-abdominal-fast",
+    title: "Traumatisme thoraco-abdominal grave – FAST",
+    version: "V1.0",
+    tags: ["trauma", "urgence"],
+    icon: "🛡️",
+    accentColor: "#dc2626",
+    sources: [
+      { label: "HAS – Trauma pédiatrique", url: "https://www.has-sante.fr" },
+      { label: "Société Française de Pédiatrie", url: "https://www.sfpediatrie.com" },
+      { label: "SFAR – Trauma et réanimation", url: "https://sfar.org" },
+      { label: "NICE – Trauma Guidelines", url: "https://www.nice.org.uk" },
+      { label: "ATLS Pédiatrique – American College of Surgeons", url: "https://www.facs.org" },
+    ],
+  },
 ];

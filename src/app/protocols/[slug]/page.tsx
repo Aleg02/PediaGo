@@ -26,6 +26,7 @@ import ProtocolFlowPCB from "@/components/ProtocolFlowPCB";
 import ProtocolFlowPneumopathieMyco from "@/components/ProtocolFlowPneumopathieMyco";
 import ProtocolFlowMeningite from "@/components/ProtocolFlowMeningite";
 import ProtocolFlowTSV from "@/components/ProtocolFlowTSV";
+import ProtocolFlowFAST from "@/components/ProtocolFlowFAST";
 
 // Sections posologie (NOUVEAU rendu V2 depuis le JSON)
 import PosologySections from "@/components/PosologySections";
@@ -59,6 +60,7 @@ export default function ProtocolPage() {
     "pneumopathie-atypique-mycoplasma": ProtocolFlowPneumopathieMyco,
     "meningite-bacterienne-purulente": ProtocolFlowMeningite,
     "tachycardie-supraventriculaire": ProtocolFlowTSV,
+    "traumatisme-thoraco-abdominal-fast": ProtocolFlowFAST,
   };
   const Flow = FlowBySlug[slug];
 
