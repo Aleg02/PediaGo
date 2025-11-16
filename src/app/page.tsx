@@ -22,7 +22,9 @@ export default function HomePage() {
   const setWeightKg = useAppStore((s) => s.setWeightKg);
 
   // état page
-  const [searchMode, setSearchMode] = useState(() => searchParams.get("mode") === "search");
+  const [searchMode, setSearchMode] = useState(
+    () => searchParams.get("mode") === "search"
+  );
   const [query, setQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const resultsRef = useRef<HTMLDivElement | null>(null);
@@ -101,79 +103,88 @@ export default function HomePage() {
       <div className="flex min-h-[calc(100vh-4px)] flex-col items-center">
         {/* HEADER : logo + titre + formulaire de recherche */}
         <header
-          className={`w-full max-w-[420px] px-6 text-center transition-shadow ${
+          className={`w-full ${
             searchMode
-              ? "sticky top-0 z-20 bg-white/95 pb-4 pt-4 shadow-[0_8px_30px_rgba(15,23,42,0.12)] backdrop-blur"
-              : "pt-10"
+              ? "sticky top-0 z-20 bg-white/0 px-4 pt-3 pb-3 backdrop-blur"
+              : "px-6 pt-10"
           }`}
         >
-          <button
-            type="button"
-            onClick={resetHomepage}
-            className="mx-auto flex w-full max-w-[320px] flex-col items-center text-center focus:outline-none"
-            aria-label="Revenir à l’accueil"
+          {/* Carte interne avec bords arrondis en mode recherche */}
+          <div
+            className={`mx-auto max-w-[420px] text-center transition-shadow ${
+              searchMode
+                ? "rounded-3xl bg-white/95 px-6 py-4 shadow-[0_8px_30px_rgba(15,23,42,0.16)]"
+                : ""
+            }`}
           >
-            {!searchMode && (
-              <Image
-                src="/logo.svg"
-                alt="PediaGo"
-                width={160}
-                height={160}
-                priority
-                className="mx-auto h-20 w-auto"
-              />
-            )}
-            <h1
-              className={`${
-                searchMode ? "text-4xl" : "mt-7 text-[64px]"
-              } leading-none font-semibold tracking-tight text-slate-900`}
+            <button
+              type="button"
+              onClick={resetHomepage}
+              className="mx-auto flex w-full max-w-[320px] flex-col items-center text-center focus:outline-none"
+              aria-label="Revenir à l’accueil"
             >
-              <span>Pedia</span>
-              <span className="text-[#ef4444]">Go</span>
-            </h1>
-          </button>
-          <p
-            className={`${
-              searchMode ? "mt-1" : "mt-2"
-            } text-sm text-slate-500`}
-          >
-            Le bon geste, maintenant&nbsp;!
-          </p>
+              {!searchMode && (
+                <Image
+                  src="/logo.svg"
+                  alt="PediaGo"
+                  width={160}
+                  height={160}
+                  priority
+                  className="mx-auto h-20 w-auto"
+                />
+              )}
+              <h1
+                className={`${
+                  searchMode ? "text-4xl" : "mt-7 text-[64px]"
+                } leading-none font-semibold tracking-tight text-slate-900`}
+              >
+                <span>Pedia</span>
+                <span className="text-[#ef4444]">Go</span>
+              </h1>
+            </button>
+            <p
+              className={`${
+                searchMode ? "mt-1" : "mt-2"
+              } text-sm text-slate-500`}
+            >
+              Le bon geste, maintenant&nbsp;!
+            </p>
 
-          <div className={`${searchMode ? "mt-4" : "mt-10"} space-y-4`}>
-            {/* Âge / Poids : le composant interne gère déjà le layout */}
-            <AgeWeightPicker
-              ageLabel={ageLabel}
-              setAgeLabel={setAgeLabel}
-              weightKg={weightKg}
-              setWeightKg={setWeightKg}
-              className="max-w-none"
-            />
-
-            <div className={searchMode ? "mt-4" : "mt-8"}>
-              <SearchBar
-                onFocus={() => {
-                  searchModeTrigger.current = null;
-                  setSearchMode(true);
-                }}
-                onChange={(value) => {
-                  setQuery(value);
-                  if (value.trim().length === 0) {
-                    setSearchMode(false);
-                  } else {
-                    setSearchMode(true);
-                  }
-                }}
-                onClear={() => {
-                  setQuery("");
-                  setSearchMode(false);
-                }}
-                autoFocus={false}
-                value={query}
-                className="mt-1"
-                inputRef={searchInputRef}
+            <div className={`${searchMode ? "mt-4" : "mt-10"} space-y-4`}>
+              {/* Âge / Poids : le composant interne gère déjà le layout */}
+              <AgeWeightPicker
+                ageLabel={ageLabel}
+                setAgeLabel={setAgeLabel}
+                weightKg={weightKg}
+                setWeightKg={setWeightKg}
+                className="max-w-none"
               />
-              {/* En mode recherche sticky, on ne garde QUE PediaGo + slogan + Age/Poids + barre de recherche */}
+
+              <div className={searchMode ? "mt-4" : "mt-8"}>
+                <SearchBar
+                  onFocus={() => {
+                    searchModeTrigger.current = null;
+                    setSearchMode(true);
+                  }}
+                  onChange={(value) => {
+                    setQuery(value);
+                    if (value.trim().length === 0) {
+                      setSearchMode(false);
+                    } else {
+                      setSearchMode(true);
+                    }
+                  }}
+                  onClear={() => {
+                    setQuery("");
+                    setSearchMode(false);
+                  }}
+                  autoFocus={false}
+                  value={query}
+                  className="mt-1"
+                  inputRef={searchInputRef}
+                />
+                {/* En mode recherche sticky, on ne garde QUE PediaGo + slogan + Age/Poids + barre de recherche */}
+              </div>
             </div>
           </div>
         </header>
