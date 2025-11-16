@@ -97,7 +97,7 @@ export default function HomePage() {
         <header
           className={`w-full max-w-[420px] px-6 text-center transition-shadow ${
             searchMode
-              ? "sticky top-0 z-20 bg-white/95 pb-6 pt-6 shadow-[0_8px_30px_rgba(15,23,42,0.12)] backdrop-blur"
+              ? "sticky top-0 z-20 bg-white/95 pb-4 pt-4 shadow-[0_8px_30px_rgba(15,23,42,0.12)] backdrop-blur"
               : "pt-10"
           }`}
         >
@@ -107,22 +107,32 @@ export default function HomePage() {
             className="mx-auto flex w-full max-w-[320px] flex-col items-center text-center focus:outline-none"
             aria-label="Revenir à l’accueil"
           >
-            <Image
-              src="/logo.svg"
-              alt="PediaGo"
-              width={160}
-              height={160}
-              priority
-              className="mx-auto h-20 w-auto"
-            />
-            <h1 className="mt-7 text-[64px] leading-none font-semibold tracking-tight text-slate-900">
+            {!searchMode && (
+              <Image
+                src="/logo.svg"
+                alt="PediaGo"
+                width={160}
+                height={160}
+                priority
+                className="mx-auto h-20 w-auto"
+              />
+            )}
+            <h1
+              className={`${
+                searchMode
+                  ? "text-4xl"
+                  : "mt-7 text-[64px]"
+              } leading-none font-semibold tracking-tight text-slate-900`}
+            >
               <span>Pedia</span>
               <span className="text-[#ef4444]">Go</span>
             </h1>
           </button>
-          <p className="mt-2 text-sm text-slate-500">Le bon geste, maintenant&nbsp;!</p>
+          <p className={`${searchMode ? "mt-1" : "mt-2"} text-sm text-slate-500`}>
+            Le bon geste, maintenant&nbsp;!
+          </p>
 
-          <div className={`${searchMode ? "mt-6" : "mt-10"} space-y-4`}>
+          <div className={`${searchMode ? "mt-4" : "mt-10"} space-y-4`}>
             {/* Âge / Poids : le composant interne gère déjà le layout */}
             <AgeWeightPicker
               ageLabel={ageLabel}
@@ -131,49 +141,31 @@ export default function HomePage() {
               setWeightKg={setWeightKg}
               className="max-w-none"
             />
-            <h1 className="mt-7 text-[64px] leading-none font-semibold tracking-tight text-slate-900">
-              <span>Pedia</span>
-              <span className="text-[#ef4444]">Go</span>
-            </h1>
-          </button>
-          <p className="mt-2 text-sm text-slate-500">Le bon geste, maintenant&nbsp;!</p>
 
-          <div className={`${searchMode ? "mt-4" : "mt-8"}`}>
-            <SearchBar
-              onFocus={() => {
-                searchModeTrigger.current = null;
-                setSearchMode(true);
-              }}
-              onChange={(value) => {
-                setQuery(value);
-                if (value.trim().length === 0) {
-                  setSearchMode(false);
-                } else {
-                  setSearchMode(true);
-                }
-              }}
-              onClear={() => {
-                setQuery("");
-                setSearchMode(false);
-              }}
-              autoFocus={false}
-              value={query}
-              className="mt-1"
-              inputRef={searchInputRef}
-            />
-
-            {searchMode && (
-              <button
-                type="button"
-                onClick={() => {
-                  setQuery("");
+            <div className={`${searchMode ? "mt-2" : "mt-6"}`}>
+              <SearchBar
+                onFocus={() => {
+                  searchModeTrigger.current = null;
                   setSearchMode(true);
                 }}
-                className="w-full rounded-full border border-slate-200/80 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_4px_18px_rgba(15,23,42,0.08)] transition hover:border-slate-300"
-              >
-                Tous les protocoles ({PROTOCOLS.length})
-              </button>
-            )}
+                onChange={(value) => {
+                  setQuery(value);
+                  if (value.trim().length === 0) {
+                    setSearchMode(false);
+                  } else {
+                    setSearchMode(true);
+                  }
+                }}
+                onClear={() => {
+                  setQuery("");
+                  setSearchMode(false);
+                }}
+                autoFocus={false}
+                value={query}
+                className="mt-1"
+                inputRef={searchInputRef}
+              />
+            </div>
           </div>
         </header>
 
