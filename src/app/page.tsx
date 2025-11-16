@@ -131,8 +131,14 @@ export default function HomePage() {
               setWeightKg={setWeightKg}
               className="max-w-none"
             />
+            <h1 className="mt-7 text-[64px] leading-none font-semibold tracking-tight text-slate-900">
+              <span>Pedia</span>
+              <span className="text-[#ef4444]">Go</span>
+            </h1>
+          </button>
+          <p className="mt-2 text-sm text-slate-500">Le bon geste, maintenant&nbsp;!</p>
 
-            {/* Barre de recherche */}
+          <div className={`${searchMode ? "mt-4" : "mt-8"}`}>
             <SearchBar
               onFocus={() => {
                 searchModeTrigger.current = null;
