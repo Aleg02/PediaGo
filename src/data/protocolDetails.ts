@@ -157,4 +157,47 @@ export const PROTOCOL_DETAILS: Record<string, ProtocolSection[]> = {
       "Immunodépression : adapter l'ATB selon protocole d'hémato-oncologie"
     ]},
   ],
+  "traumatisme-cranien": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Stabiliser l’enfant selon ABCDE, évaluer le Glasgow et repérer les signes menaçants.",
+        "Appliquer les règles PECARN pour l’imagerie et adapter la conduite au niveau de gravité.",
+      ],
+    },
+    {
+      title: "Évaluation initiale",
+      bullets: [
+        "A : VA + immobilisation ; GCS ≤ 8 → intubation.",
+        "B : SpO₂ 94–98 %, O₂ MHC 10–15 L/min si détresse.",
+        "C : prévenir hypotension, remplissage 20 mL/kg si choc.",
+        "D : GCS, pupilles, convulsions (midazolam 0,1 mg/kg IV).",
+        "E : examen complet, glycémie, température.",
+      ],
+    },
+    {
+      title: "Signes imposant scanner / avis neurochir",
+      bullets: [
+        "GCS < 15 persistant ou ≤ 13 d’emblée.",
+        "Déficit focal, anisocorie/mydriase, convulsions post-traumatiques.",
+        "Vomissements incoercibles, altération de conscience > 2 h, mécanisme violent, fracture ouverte/embarrure.",
+      ],
+    },
+    {
+      title: "Conduite selon la sévérité",
+      bullets: [
+        "Léger : PECARN, surveillance 3–6 h, paracétamol 15 mg/kg (max 1 g).",
+        "Modéré : scanner en urgence, O₂, VVP, transferts spécialisés.",
+        "Sévère : intubation (kétamine 2 mg/kg + rocuronium 1 mg/kg), ventilation normocapnique, double VVP, scanner prioritaire.",
+      ],
+    },
+    {
+      title: "Prévention HTIC & orientation",
+      bullets: [
+        "Buste 30°, normothermie, osmothérapie : mannitol 0,5–1 g/kg ou NaCl 3 % 5 mL/kg.",
+        "< 1 an, trouble coagulation, polytrauma : imagerie systématique + avis spé.",
+        "Hospitalisation si GCS < 15, facteurs PECARN ou lésion ; sortie seulement si examen normal + parents informés.",
+      ],
+    },
+  ],
 };
