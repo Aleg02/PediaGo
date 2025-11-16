@@ -37,6 +37,7 @@ export default function HomePage() {
     }
   }, [ageLabel, weightKg, setAgeLabel, setWeightKg]);
 
+  // focus / scroll lors de l’activation du mode recherche par le CTA
   useEffect(() => {
     if (searchMode && searchModeTrigger.current === "button") {
       const raf = requestAnimationFrame(() => {
@@ -48,6 +49,7 @@ export default function HomePage() {
     }
   }, [searchMode]);
 
+  // sortie du mode recherche
   useEffect(() => {
     if (!searchMode) {
       searchModeTrigger.current = null;
@@ -120,7 +122,10 @@ export default function HomePage() {
               <span className="text-[#ef4444]">Go</span>
             </h1>
           </button>
-          <p className="mt-2 text-sm text-slate-500">Le bon geste, maintenant&nbsp;!</p>
+
+          <p className="mt-2 text-sm text-slate-500">
+            Le bon geste, maintenant&nbsp;!
+          </p>
 
           <div className={`${searchMode ? "mt-6" : "mt-10"} space-y-4`}>
             {/* Âge / Poids : le composant interne gère déjà le layout */}
@@ -131,55 +136,49 @@ export default function HomePage() {
               setWeightKg={setWeightKg}
               className="max-w-none"
             />
-            <h1 className="mt-7 text-[64px] leading-none font-semibold tracking-tight text-slate-900">
-              <span>Pedia</span>
-              <span className="text-[#ef4444]">Go</span>
-            </h1>
-          </button>
-          <p className="mt-2 text-sm text-slate-500">Le bon geste, maintenant&nbsp;!</p>
 
-          <div className={`${searchMode ? "mt-4" : "mt-8"}`}>
-            <SearchBar
-              onFocus={() => {
-                searchModeTrigger.current = null;
-                setSearchMode(true);
-              }}
-              onChange={(value) => {
-                setQuery(value);
-                if (value.trim().length === 0) {
-                  setSearchMode(false);
-                } else {
-                  setSearchMode(true);
-                }
-              }}
-              onClear={() => {
-                setQuery("");
-                setSearchMode(false);
-              }}
-              autoFocus={false}
-              value={query}
-              className="mt-1"
-              inputRef={searchInputRef}
-            />
-
-            {searchMode && (
-              <button
-                type="button"
-                onClick={() => {
-                  setQuery("");
+            <div className={`${searchMode ? "mt-4" : "mt-8"}`}>
+              <SearchBar
+                onFocus={() => {
+                  searchModeTrigger.current = null;
                   setSearchMode(true);
                 }}
-                className="w-full rounded-full border border-slate-200/80 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_4px_18px_rgba(15,23,42,0.08)] transition hover:border-slate-300"
-              >
-                Tous les protocoles ({PROTOCOLS.length})
-              </button>
-            )}
+                onChange={(value) => {
+                  setQuery(value);
+                  if (value.trim().length === 0) {
+                    setSearchMode(false);
+                  } else {
+                    setSearchMode(true);
+                  }
+                }}
+                onClear={() => {
+                  setQuery("");
+                  setSearchMode(false);
+                }}
+                autoFocus={false}
+                value={query}
+                className="mt-1"
+                inputRef={searchInputRef}
+              />
+
+              {searchMode && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    setSearchMode(true);
+                  }}
+                  className="mt-3 w-full rounded-full border border-slate-200/80 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_4px_18px_rgba(15,23,42,0.08)] transition hover:border-slate-300"
+                >
+                  Tous les protocoles ({PROTOCOLS.length})
+                </button>
+              )}
+            </div>
           </div>
         </header>
 
         {/* CONTENU PRINCIPAL */}
         <section className="w-full max-w-[420px] flex-1 px-6 pb-14">
-
           {/* HOME : disclaimer + CTA */}
           {!searchMode && (
             <>
