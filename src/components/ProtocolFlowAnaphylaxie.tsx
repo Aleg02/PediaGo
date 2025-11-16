@@ -144,7 +144,7 @@ export default function ProtocolFlowAnaphylaxie() {
       <div className="rounded-3xl bg-gradient-to-b from-[#E53935] to-[#FF7043] px-4 pt-6 pb-5 text-white shadow-sm">
         <h1 className="text-2xl font-extrabold tracking-wide flex items-center gap-2">
           <span>ANAPHYLAXIE</span>
-          <span className="text-[20px]">⚡</span>
+          <span className="text-[20px]"></span>
         </h1>
 
         <div className="mt-4 bg-white rounded-3xl p-3 shadow-sm text-gray-900">
