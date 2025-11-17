@@ -1,31 +1,35 @@
-import type { Metadata } from "next";
-import { cookies } from "next/headers";
-import { Inter } from "next/font/google";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import type { Session } from "@supabase/supabase-js";
-import type { Database } from "@/types/database";
-import "./globals.css";
-import "@fontsource-variable/inter"; // charge la VF localement
-import TopMenu from "@/components/TopMenu";
-import SupabaseProvider from "@/components/SupabaseProvider";
+// src/app/layout.tsx
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import type { Session } from '@supabase/supabase-js';
+import type { Database } from '@/types/database';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
+import './globals.css';
+import TopMenu from '@/components/TopMenu';
+import SupabaseProvider from '@/components/SupabaseProvider';
 
-
+// Métadonnées et police restent inchangées...
 export const metadata: Metadata = {
-  title: "PediaGo",
-  description: "Le bon geste, maintenant !",
+  title: 'PediaGo',
+  description: 'Le bon geste, maintenant !',
 };
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
+// Remplace createServerComponentClient(...)
 async function getInitialSession(): Promise<Session | null> {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = await createServerSupabaseClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();
   return session;
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const session = await getInitialSession();
 
   return (

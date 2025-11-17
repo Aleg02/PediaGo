@@ -1,13 +1,18 @@
-"use server";
+// src/app/actions/auth.ts
+'use server';
 
-import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import type { Database } from "@/types/database";
+import { revalidatePath } from 'next/cache';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
+import type { Database } from '@/types/database';
 
 export async function logoutAction() {
-  const supabase = createServerActionClient<Database>({ cookies });
+  // On crée le client Supabase via notre helper SSR
+  const supabase = await createServerSupabaseClient();
+
+  // Déconnexion de l’utilisateur
   await supabase.auth.signOut();
-  revalidatePath("/");
-  revalidatePath("/mon-compte");
+
+  // Invalidation du cache des pages concernées
+  revalidatePath('/');
+  revalidatePath('/mon-compte');
 }
