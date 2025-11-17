@@ -33,6 +33,18 @@ export default function AccountPage({ searchParams }: AccountPageProps) {
           </p>
         </header>
 
+        <div className="mt-8 rounded-3xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+          <p className="text-sm text-slate-600">
+            Prêt à débloquer toutes les fiches critiques ?
+          </p>
+          <Link
+            href="/subscribe"
+            className="mt-3 inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-slate-800"
+          >
+            Passer à PediaGo+ Premium
+          </Link>
+        </div>
+
         {showPremiumNotice && (
           <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-900">
             <p className="font-semibold">Abonnement requis pour cette fiche premium.</p>

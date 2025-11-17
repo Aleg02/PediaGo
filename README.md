@@ -1,42 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PediaGo
 
-## Getting Started
+Assistant décisionnel pour l’urgence pédiatrique. L’application calcule automatiquement les posologies selon le poids/âge, affiche des protocoles séquentiels et réduit le risque d’erreurs pour les soignants.
 
-First, run the development server:
+## PediaGo en bref
+
+- **Mission** : guider les équipes d’urgence pédiatrique (SMUR, réa, SAU) sur les bons gestes, médicaments et dosages en temps réel.
+- **Stack** : Next.js (App Router) + Tailwind CSS pour le front, Supabase (Auth + Postgres) pour les données et l’authentification.
+- **Cible** : médecins, infirmiers et internes qui ont besoin d’algorithmes fiables sans calcul mental.
+
+## Installation & développement
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+L’interface est disponible sur [http://localhost:3000](http://localhost:3000). Configurez au minimum :
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Abonnement Stripe (PediaGo+)
 
-## Learn More
+1. **Produit Stripe** : créez le produit « PediaGo+ Premium » dans Stripe et récupérez l’identifiant du prix (`STRIPE_PRICE_PREMIUM_ID`). Le code s’attend à un plan logique `premium-monthly` (surchargé via `STRIPE_PREMIUM_PLAN_CODE`).
+2. **Variables d’environnement** :
+   - `STRIPE_SECRET_KEY`
+   - `STRIPE_PRICE_PREMIUM_ID`
+   - `STRIPE_WEBHOOK_SECRET` (signing secret envoyé par Stripe)
+   - `STRIPE_PREMIUM_PLAN_CODE` *(optionnel)*
+   - `SUPABASE_SERVICE_ROLE_KEY` (utilisé exclusivement par le webhook)
+   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+3. **Base Supabase** : lancez `supabase db push` pour créer `public.profiles`, `public.subscriptions` et la vue `public.user_entitlements`. La table `subscriptions` conserve `profile_id` (user_id), `status`, `current_period_end`, `metadata` Stripe.
+4. **Checkout** : la page `/subscribe` propose le bouton « Passer Premium ». Elle appelle `POST /api/stripe/create-checkout-session`, qui crée la session via l’API Stripe (REST) puis redirige l’utilisateur.
+5. **Webhook** : Stripe doit appeler `POST /api/stripe/webhook`. Le handler vérifie la signature (`verifyStripeSignature`), récupère l’abonnement et synchronise Supabase (`subscriptions` + `profiles.subscription_status / subscription_tier / expires_at`).
+6. **Rafraîchissement des droits** : le hook `useUserEntitlements` interroge la vue `user_entitlements` et écoute en temps réel les mises à jour sur `profiles`. Les fiches premium et les redirections (ex : `/protocols/[slug]`) se mettent donc à jour automatiquement après paiement.
 
-To learn more about Next.js, take a look at the following resources:
+> ℹ️ Lors de la création du checkout, on envoie `metadata.supabase_user_id` et `metadata.plan_code` (ainsi que dans `subscription_data`). Le webhook s’appuie sur ces métadonnées pour rattacher les événements Stripe au bon utilisateur Supabase.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Pages clés
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `/subscribe` : parcours d’abonnement (Stripe Checkout) + FAQ + messages de succès/annulation.
+- `/mon-compte` : zone d’information (CTA vers Premium + rappel des raisons de redirection).
+- `/api/stripe/create-checkout-session` : API route authentifiée (Supabase) qui crée une session Stripe.
+- `/api/stripe/webhook` : webhook sécurisé qui met à jour Supabase.
 
-## Deploy on Vercel
+## Scripts utiles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `npm run dev` — serveur Next.js en mode développement.
+- `npm run build` — compilation production.
+- `npm run start` — serveur Next.js production.
+- `npm run lint` — vérification ESLint.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Déploiement
 
-## Git push procedure
-git status
-git add .
-git commit -m "Description claire de la mise à jour"
-git push
+Projet compatible Vercel. Pensez à définir toutes les variables Stripe/Supabase sur Vercel (Production + Preview). Stripe doit pouvoir contacter `https://<domaine>/api/stripe/webhook`.

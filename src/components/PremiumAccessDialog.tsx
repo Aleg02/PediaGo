@@ -59,11 +59,11 @@ export default function PremiumAccessDialog({ open, onClose, title }: PremiumAcc
               Se connecter
             </Link>
             <Link
-              href="/mon-compte"
+              href="/subscribe"
               className="flex-1 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
               onClick={onClose}
             >
-              Découvrir les formules
+              Passer Premium
             </Link>
           </div>
         </div>

@@ -130,12 +130,21 @@ export default function UserMenu() {
           {error && <p className="mt-2 rounded-lg bg-rose-50 px-3 py-1 text-xs text-rose-600">{error}</p>}
           {loadingProfile && <p className="mt-2 text-xs text-slate-500">Chargement du profil...</p>}
           <div className="mt-4 flex flex-col gap-2">
+            {profile?.subscription_tier !== "premium" && (
+              <Link
+                href="/subscribe"
+                onClick={() => setOpen(false)}
+                className="rounded-lg border border-slate-900/10 bg-slate-900 text-white px-3 py-2 text-center text-xs font-semibold transition hover:bg-slate-800"
+              >
+                Passer Premium
+              </Link>
+            )}
             <Link
               href="/mon-compte"
               onClick={() => setOpen(false)}
               className="rounded-lg border border-slate-200 px-3 py-2 text-center text-xs font-semibold text-slate-700 transition hover:border-slate-300"
             >
-              Gérer mon abonnement
+              Mon compte
             </Link>
             <button
               type="button"
