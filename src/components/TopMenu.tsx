@@ -2,28 +2,39 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import { useSession } from "@supabase/auth-helpers-react";
 import UserMenu from "./UserMenu";
 
-const MENU_ITEMS = [
+// Menu pour utilisateur non connecté
+const MENU_ITEMS_LOGGED_OUT = [
   {
-    label: "Passer Premium",
-    description: "Accéder aux fiches PediaGo+",
-    href: "/subscribe",
+    label: "Passer Premium PediaGo+",
+    description: "Débloquez l’ensemble des contenus et fonctionnalités PediaGo+",
+    href: "/subscribe", // ⇦ adapte si ta route d’abonnement est différente (ex : "/subscribe")
+  },
+  {
+    label: "Se connecter / Créer un compte",
+    description: "Accéder à votre espace personnel PediaGo",
+    href: "/login",
   },
   {
     label: "À propos de PediaGo",
-    description: "Présentation, objectifs et conditions d'utilisation",
+    description: "Présentation, objectifs, conditions d’utilisation, contact",
     href: "/a-propos",
   },
+];
+
+// Menu pour utilisateur connecté
+const MENU_ITEMS_LOGGED_IN = [
   {
     label: "Mon compte / Abonnement",
     description: "Gestion de l'accès et des formules",
     href: "/mon-compte",
   },
   {
-    label: "Support / Contact",
-    description: "Signaler un problème ou poser une question",
-    href: "/support-contact",
+    label: "À propos de PediaGo",
+    description: "Présentation, objectifs, conditions d’utilisation, contact",
+    href: "/a-propos",
   },
 ];
 
@@ -33,6 +44,12 @@ export default function TopMenu() {
   const buttonId = "global-menu-button";
   const panelId = "global-menu-panel";
 
+  // État d’authentification via Supabase
+  const session = useSession();
+
+  // On choisit les items en fonction de la présence d’une session
+  const menuItems = session ? MENU_ITEMS_LOGGED_IN : MENU_ITEMS_LOGGED_OUT;
+
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -41,9 +58,7 @@ export default function TopMenu() {
     };
 
     const handleClick = (event: MouseEvent) => {
-      if (!isOpen) {
-        return;
-      }
+      if (!isOpen) return;
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
@@ -61,8 +76,10 @@ export default function TopMenu() {
   return (
     <div className="pointer-events-none fixed right-4 top-4 z-40 flex items-start gap-3 sm:right-6 sm:top-6">
       <div className="pointer-events-auto">
+        {/* UserMenu : avatar / menu utilisateur quand session présente */}
         <UserMenu />
       </div>
+
       <div ref={menuRef} className="pointer-events-auto">
         <button
           id={buttonId}
@@ -86,6 +103,7 @@ export default function TopMenu() {
             <path d="M5 7h14M5 12h14M5 17h14" />
           </svg>
         </button>
+
         {isOpen && (
           <div
             id={panelId}
@@ -97,15 +115,19 @@ export default function TopMenu() {
               Menu
             </p>
             <ul className="space-y-1">
-              {MENU_ITEMS.map((item) => (
+              {menuItems.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     className="flex flex-col rounded-xl px-3 py-2 transition hover:bg-slate-50"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="text-sm font-semibold text-slate-900">{item.label}</span>
-                    <span className="text-xs text-slate-500">{item.description}</span>
+                    <span className="text-sm font-semibold text-slate-900">
+                      {item.label}
+                    </span>
+                    <span className="text-xs text-slate-500">
+                      {item.description}
+                    </span>
                   </Link>
                 </li>
               ))}

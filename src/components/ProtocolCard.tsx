@@ -51,6 +51,7 @@ export default function ProtocolCard({
     [item.accentColor]
   );
 
+  // Libellé de la pastille d'accès
   const badgeLabel = useMemo(() => {
     if (isLocked) {
       return "🔒 Premium";
@@ -64,6 +65,7 @@ export default function ProtocolCard({
     return null;
   }, [isLocked, item.accessLevel]);
 
+  // Style de la pastille d'accès
   const badgeClassName = useMemo(() => {
     if (isLocked) {
       return "border border-rose-200/80 bg-white/80 text-rose-600";
@@ -87,24 +89,30 @@ export default function ProtocolCard({
         )} 0%, ${withAlpha(item.accentColor, "05")} 100%)`,
       }}
     >
+      {/* voile léger quand la fiche est verrouillée */}
       {isLocked && (
         <div
           className="pointer-events-none absolute inset-0 rounded-3xl bg-white/5 backdrop-blur-[1px]"
           aria-hidden
         />
       )}
+
+      {/* Pastille Premium / Gratuit : plus petite, un peu plus bas, en haut à droite */}
       {badgeLabel && (
         <span
-          className={`pointer-events-none absolute right-4 top-4 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide shadow-sm ${badgeClassName}`}
+          className={`pointer-events-none absolute right-4 top-11 rounded-full px-2.5 py-[2px] text-[9px] font-semibold uppercase tracking-wide shadow-sm ${badgeClassName}`}
         >
           {badgeLabel}
         </span>
       )}
+
+      {/* Bloc principal : icône + titre + version */}
       <div
         className={`flex items-start gap-3 transition-all duration-500 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
+        {/* Icône à gauche */}
         <div
           className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl shadow-[0_12px_20px_rgba(15,23,42,0.14)] transition-transform duration-500 group-hover:scale-105"
           style={{
@@ -118,6 +126,7 @@ export default function ProtocolCard({
           {item.icon}
         </div>
 
+        {/* Titre + version */}
         <div className="flex flex-1 flex-col gap-2">
           <div className="flex items-start justify-between gap-3">
             <div className="text-base font-semibold leading-tight text-slate-900">
@@ -129,24 +138,30 @@ export default function ProtocolCard({
               </span>
             )}
           </div>
-
-          {item.tags && item.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {item.tags.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-slate-600"
-                  style={{
-                    backgroundColor: tagBackground,
-                  }}
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
       </div>
+
+      {/* Pastilles de pathologie (RESPIRATOIRE, REA, etc.) :
+          ligne dédiée, alignée à gauche sous le bloc principal */}
+      {item.tags && item.tags.length > 0 && (
+        <div
+          className={`mt-3 flex flex-wrap gap-2 transition-all duration-500 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          {item.tags.map((t) => (
+            <span
+              key={t}
+              className="rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-slate-600"
+              style={{
+                backgroundColor: tagBackground,
+              }}
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      )}
     </button>
   );
 }

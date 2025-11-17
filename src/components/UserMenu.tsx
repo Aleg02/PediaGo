@@ -7,6 +7,7 @@ import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import type { Database } from "@/types/database";
 import { logoutAction } from "@/app/actions/auth";
 
+// Mapping of subscription statuses to user-friendly labels.
 const statusLabels: Record<string, string> = {
   active: "Actif",
   trialing: "Essai",
@@ -14,6 +15,11 @@ const statusLabels: Record<string, string> = {
   past_due: "À régulariser",
 };
 
+/**
+ * Utility to format the subscription status label. If the status is undefined
+ * or null, we fall back to a generic label. Otherwise we map the status to
+ * its French representation defined above.
+ */
 function formatStatus(status?: string | null) {
   if (!status) {
     return "Indisponible";
@@ -22,6 +28,8 @@ function formatStatus(status?: string | null) {
 }
 
 export default function UserMenu() {
+  // Grab the current session from Supabase. When `session` is null the user
+  // is not authenticated. We'll use this to determine what to render.
   const session = useSession();
   const router = useRouter();
   const supabase = useSupabaseClient<Database>();
@@ -32,6 +40,8 @@ export default function UserMenu() {
   const [isPending, startTransition] = useTransition();
   const menuRef = useRef<HTMLDivElement | null>(null);
 
+  // Fetch the user's profile when a session exists. This populates subscription
+  // information for the menu. If there's no session we reset the profile to null.
   useEffect(() => {
     let isMounted = true;
 
@@ -69,6 +79,7 @@ export default function UserMenu() {
     };
   }, [session, supabase]);
 
+  // Close the dropdown when clicking outside of it.
   useEffect(() => {
     function handleClick(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -85,6 +96,7 @@ export default function UserMenu() {
     };
   }, [open]);
 
+  // Trigger a logout via a server action and refresh the page once complete.
   const handleLogout = () => {
     startTransition(async () => {
       await logoutAction();
@@ -93,17 +105,14 @@ export default function UserMenu() {
     });
   };
 
+  // If there's no authenticated session we intentionally render nothing.
+  // The login link previously displayed here has been removed because the
+  // navigation menu now provides a dedicated entry for authentication.
   if (!session) {
-    return (
-      <Link
-        href="/login"
-        className="inline-flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-indigo-600 shadow-md shadow-slate-900/5 transition hover:text-indigo-500"
-      >
-        Se connecter
-      </Link>
-    );
+    return null;
   }
 
+  // When authenticated, render the user avatar button and the dropdown menu.
   return (
     <div className="relative" ref={menuRef}>
       <button

@@ -6,25 +6,48 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useUserEntitlements } from "@/hooks/useUserEntitlements";
 
-const PREMIUM_PLAN = {
-  name: "PediaGo+ Premium",
-  description: "Accès illimité aux fiches critiques, calculs automatiques et mises à jour validées par l’équipe médicale.",
-  price: "49 € HT / mois",
-  planCode: "Premium mensuel",
-  perks: [
-    "Toutes les fiches premium (ACR, anaphylaxie, hypoglycémie, etc.)",
-    "Calculs automatiques poids/âge sans erreur",
-    "Accès anticipé aux nouvelles fiches validées",
-    "Support prioritaire par l’équipe médicale",
-  ],
-};
+type PlanId = "monthly" | "yearly";
+
+const PREMIUM_PLANS: {
+  id: PlanId;
+  name: string;
+  badge: string;
+  price: string;
+  priceDetail: string;
+}[] = [
+  {
+    id: "monthly",
+    name: "Premium mensuel",
+    badge: "Le plus flexible",
+    price: "6,90 € TTC / mois",
+    priceDetail: "Sans engagement, renouvelé automatiquement.",
+  },
+  {
+    id: "yearly",
+    name: "Premium annuel",
+    badge: "Le plus économique",
+    price: "29,90 € TTC / an",
+    priceDetail: "Soit ~2,49 € TTC / mois, payé en une fois.",
+  },
+];
+
+const PREMIUM_PERKS = [
+  "Accès illimité à tous les protocoles",
+  "Calculs automatiques poids/âge pour limiter les erreurs de posologie",
+  "Accès anticipé aux nouvelles fiches validées par l’équipe médicale",
+  "Export PDF des protocoles pour archivage ou partage sécurisé",
+  "Assistant IA à venir (Aide au diagnostique, recherche avancée)",
+];
 
 export default function SubscribePage() {
   const session = useSession();
   const searchParams = useSearchParams();
-  const { canViewPremium, subscriptionStatus, loading, refreshEntitlements } = useUserEntitlements();
+  const { canViewPremium, subscriptionStatus, loading, refreshEntitlements } =
+    useUserEntitlements();
+
   const [creatingCheckout, setCreatingCheckout] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const statusParam = searchParams.get("status");
   const reason = searchParams.get("reason");
   const blockedSlug = searchParams.get("slug");
@@ -37,18 +60,29 @@ export default function SubscribePage() {
     }
   }, [successMessage, refreshEntitlements]);
 
-  const ctaLabel = useMemo(() => {
+  const baseCtaLabel = useMemo(() => {
     if (!session) {
       return "Connectez-vous pour souscrire";
     }
     if (canViewPremium) {
       return "Vous êtes déjà Premium";
     }
-    return creatingCheckout ? "Redirection vers Stripe..." : "Passer Premium";
+    if (creatingCheckout) {
+      return "Redirection vers Stripe...";
+    }
+    return null; // on spécialise ensuite par formule
   }, [session, canViewPremium, creatingCheckout]);
 
-  const handleCheckout = async () => {
+  const getPlanCtaLabel = (planId: PlanId): string => {
+    if (baseCtaLabel) return baseCtaLabel;
+    return planId === "monthly"
+      ? "Choisir l’abonnement mensuel"
+      : "Choisir l’abonnement annuel";
+  };
+
+  const handleCheckout = async (plan: PlanId) => {
     if (!session) {
+      // Pas connecté : on ne lance pas Stripe
       return;
     }
 
@@ -59,6 +93,10 @@ export default function SubscribePage() {
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ plan }), // "monthly" ou "yearly"
       });
 
       if (!response.ok) {
@@ -75,25 +113,39 @@ export default function SubscribePage() {
       throw new Error("Réponse Stripe inattendue.");
     } catch (checkoutError) {
       console.error(checkoutError);
-      setError(checkoutError instanceof Error ? checkoutError.message : "Erreur inconnue.");
+      setError(
+        checkoutError instanceof Error
+          ? checkoutError.message
+          : "Erreur inconnue."
+      );
       setCreatingCheckout(false);
     }
   };
 
-  const showCheckoutButton = Boolean(session) && !canViewPremium;
+  const showCheckoutButtons = Boolean(session) && !canViewPremium;
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
       <div className="h-1 w-full bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#22c55e]" />
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-6 py-12">
-        <Link href="/" className="text-sm font-medium text-[#2563eb] underline">
+        <Link
+          href="/"
+          className="text-sm font-medium text-[#2563eb] underline"
+        >
           ← Retour à l’accueil
         </Link>
+
         <header className="space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Abonnement</p>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900">Passer en Premium</h1>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+            Abonnement
+          </p>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900">
+            Passer en Premium
+          </h1>
           <p className="text-base text-slate-600">
-            Débloquez l’ensemble des fiches critiques PediaGo+ et laissez l’application calculer toutes les posologies pour vous.
+            Débloquez l’ensemble des fiches critiques PediaGo+ et laissez
+            l’application calculer les posologies pour vous, avec des outils
+            avancés adaptés à l’urgence pédiatrique.
           </p>
         </header>
 
@@ -115,10 +167,14 @@ export default function SubscribePage() {
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm text-slate-600">
             <p className="font-semibold text-slate-900">Compte requis</p>
             <p className="mt-1">
-              Créez un compte ou connectez-vous avant de lancer le paiement Stripe afin de rattacher l’abonnement à vos fiches.
+              Créez un compte ou connectez-vous avant de lancer le paiement
+              Stripe afin de rattacher l’abonnement à votre profil.
             </p>
             <div className="mt-3 flex flex-wrap gap-3 text-sm font-semibold">
-              <Link className="rounded-full border border-slate-200 px-4 py-2" href="/login">
+              <Link
+                className="rounded-full border border-slate-200 px-4 py-2"
+                href="/login"
+              >
                 Se connecter / créer un compte
               </Link>
             </div>
@@ -136,23 +192,69 @@ export default function SubscribePage() {
           </div>
         )}
 
+        {/* Cartes d’abonnement */}
         <section className="rounded-3xl border border-slate-200 bg-slate-50/60 p-6 shadow-inner shadow-slate-200/50">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-sm uppercase tracking-[0.2em] text-slate-500">{PREMIUM_PLAN.planCode}</p>
-              <h2 className="text-2xl font-semibold text-slate-900">{PREMIUM_PLAN.name}</h2>
-              <p className="mt-2 text-sm text-slate-600">{PREMIUM_PLAN.description}</p>
-            </div>
-            <div className="text-right">
-              <p className="text-3xl font-bold text-slate-900">{PREMIUM_PLAN.price}</p>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Sans engagement</p>
-            </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {PREMIUM_PLANS.map((plan) => (
+              <div
+                key={plan.id}
+                className="flex h-full flex-col justify-between rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm"
+              >
+                <div className="space-y-2">
+                  <p className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    {plan.badge}
+                  </p>
+                  <h2 className="text-xl font-semibold text-slate-900">
+                    {plan.name}
+                  </h2>
+                  <p className="text-2xl font-bold text-slate-900">
+                    {plan.price}
+                  </p>
+                  <p className="text-xs text-slate-500">{plan.priceDetail}</p>
+                </div>
+
+                <div className="mt-4">
+                  {showCheckoutButtons ? (
+                    <button
+                      type="button"
+                      onClick={() => handleCheckout(plan.id)}
+                      disabled={creatingCheckout || loading}
+                      className="w-full rounded-full bg-slate-900 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      {getPlanCtaLabel(plan.id)}
+                    </button>
+                  ) : (
+                    <div className="w-full rounded-full border border-slate-200 px-4 py-2.5 text-center text-sm font-semibold text-slate-500">
+                      {getPlanCtaLabel(plan.id)}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
 
-          <ul className="mt-6 grid gap-3">
-            {PREMIUM_PLAN.perks.map((perk) => (
-              <li key={perk} className="flex items-start gap-3 text-sm text-slate-700">
-                <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+          {canViewPremium && (
+            <p className="mt-4 text-center text-sm text-emerald-700">
+              Votre abonnement est actif (statut :{" "}
+              {subscriptionStatus ?? "active"}).
+            </p>
+          )}
+          {error && (
+            <p className="mt-3 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
+              {error}
+            </p>
+          )}
+        </section>
+
+        {/* Avantages détaillés */}
+        <section className="rounded-3xl border border-dashed border-slate-200/80 bg-white/70 p-6 text-sm text-slate-600">
+          <p className="font-semibold text-slate-900">
+            Ce que vous débloquez avec PediaGo+ Premium
+          </p>
+          <ul className="mt-3 space-y-2">
+            {PREMIUM_PERKS.map((perk) => (
+              <li key={perk} className="flex gap-2">
+                <span className="mt-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-emerald-100 text-[10px] leading-none text-emerald-700">
                   ✓
                 </span>
                 <span>{perk}</span>
@@ -160,40 +262,29 @@ export default function SubscribePage() {
             ))}
           </ul>
 
-          <div className="mt-8 flex flex-col gap-3">
-            {showCheckoutButton ? (
-              <button
-                type="button"
-                onClick={handleCheckout}
-                disabled={creatingCheckout || loading}
-                className="rounded-full bg-slate-900 px-6 py-3 text-center text-base font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {ctaLabel}
-              </button>
-            ) : (
-              <div className="rounded-full border border-slate-200 px-6 py-3 text-center text-base font-semibold text-slate-500">
-                {ctaLabel}
-              </div>
-            )}
-            {canViewPremium && (
-              <p className="text-center text-sm text-emerald-700">
-                Votre abonnement est actif (statut : {subscriptionStatus ?? "active"}).
-              </p>
-            )}
-            {error && <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</p>}
-          </div>
-        </section>
+          <hr className="my-5 border-dashed border-slate-200" />
 
-        <section className="rounded-3xl border border-dashed border-slate-200/80 bg-white/70 p-6 text-sm text-slate-600">
           <p className="font-semibold text-slate-900">Comment ça marche ?</p>
           <ol className="mt-3 space-y-2 list-decimal pl-5">
-            <li>Sélectionnez « Passer Premium » pour ouvrir le checkout Stripe sécurisé.</li>
-            <li>Stripe confirme le paiement et renvoie l’évènement à PediaGo via un webhook.</li>
-            <li>Supabase met à jour votre profil et l’accès premium est disponible instantanément.</li>
+            <li>
+              Sélectionnez la formule mensuelle ou annuelle pour ouvrir le
+              checkout Stripe sécurisé.
+            </li>
+            <li>
+              Stripe confirme le paiement et renvoie l’évènement à PediaGo via
+              un webhook.
+            </li>
+            <li>
+              Supabase met à jour votre profil et l’accès Premium est disponible
+              instantanément.
+            </li>
           </ol>
           <p className="mt-3">
-            Besoin d’aide ? Contactez {" "}
-            <a className="font-semibold text-[#2563eb]" href="mailto:contact@pediago.app">
+            Besoin d’aide ? Contactez{" "}
+            <a
+              className="font-semibold text-[#2563eb]"
+              href="mailto:contact@pediago.app"
+            >
               contact@pediago.app
             </a>
             .
