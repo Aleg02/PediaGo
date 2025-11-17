@@ -6,6 +6,11 @@ import UserMenu from "./UserMenu";
 
 const MENU_ITEMS = [
   {
+    label: "Passer Premium",
+    description: "Accéder aux fiches PediaGo+",
+    href: "/subscribe",
+  },
+  {
     label: "À propos de PediaGo",
     description: "Présentation, objectifs et conditions d'utilisation",
     href: "/a-propos",

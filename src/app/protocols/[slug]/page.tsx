@@ -119,7 +119,7 @@ export default function ProtocolPage() {
     if (!canViewPremium) {
       setRedirecting(true);
       const target = protocolTitle ?? slug;
-      router.replace(`/mon-compte?reason=premium&slug=${encodeURIComponent(target)}`);
+      router.replace(`/subscribe?reason=premium&slug=${encodeURIComponent(target)}`);
     }
   }, [requiresPremium, entitlementLoading, canViewPremium, router, slug, protocolTitle]);
 
