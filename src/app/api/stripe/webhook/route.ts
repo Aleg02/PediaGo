@@ -5,6 +5,7 @@ import {
 } from "@/lib/stripeServer";
 import { verifyStripeSignature } from "@/lib/stripeWebhook";
 import { getSupabaseAdminClient } from "@/lib/supabaseAdmin";
+import type { Database } from "@/types/database";
 
 const PREMIUM_PLAN_CODE =
   process.env.STRIPE_PREMIUM_PLAN_CODE ?? "premium-monthly";
@@ -66,35 +67,38 @@ async function persistSubscription(
   const currentPeriodEnd = secondsToIso(subscription.current_period_end);
   const cancelAt = secondsToIso(subscription.cancel_at);
   const { status, tier } = normalizeStatus(subscription.status);
-  const supabase = getSupabaseAdminClient();
+  const supabase = getSupabaseAdminClient() as unknown as {
+    from: (table: string) => any;
+  };
+  type SubscriptionInsert = Database["public"]["Tables"]["subscriptions"]["Insert"];
+  const subscriptionPayload: SubscriptionInsert = {
+    profile_id: userId,
+    provider: "stripe",
+    provider_customer_id: subscription.customer ?? null,
+    plan_code: planCode,
+    status,
+    current_period_end: currentPeriodEnd,
+    cancel_at: cancelAt,
+    metadata,
+  };
 
   const { error: subscriptionError } = await supabase
     .from("subscriptions")
-    .upsert(
-      {
-        profile_id: userId,
-        provider: "stripe",
-        provider_customer_id: subscription.customer ?? null,
-        plan_code: planCode,
-        status,
-        current_period_end: currentPeriodEnd,
-        cancel_at: cancelAt,
-        metadata,
-      },
-      { onConflict: "profile_id,provider,plan_code" },
-    );
+    .upsert(subscriptionPayload, { onConflict: "profile_id,provider,plan_code" });
 
   if (subscriptionError) {
     console.error("Erreur Supabase subscriptions", subscriptionError);
   }
 
+  type ProfileUpdate = Database["public"]["Tables"]["profiles"]["Update"];
+  const profilePayload: ProfileUpdate = {
+    subscription_status: status,
+    subscription_tier: tier === "premium" ? "premium" : "free",
+    expires_at: currentPeriodEnd,
+  };
   const { error: profileError } = await supabase
     .from("profiles")
-    .update({
-      subscription_status: status,
-      subscription_tier: tier === "premium" ? "premium" : "free",
-      expires_at: currentPeriodEnd,
-    })
+    .update(profilePayload)
     .eq("id", userId);
 
   if (profileError) {

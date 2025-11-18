@@ -2,7 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import type SupabaseClient from "@supabase/supabase-js/dist/module/SupabaseClient";
 import type { Database } from "@/types/database";
+
+type UserEntitlementsRow = Database["public"]["Views"]["user_entitlements"]["Row"];
 
 type EntitlementsState = {
   loading: boolean;
@@ -22,11 +25,13 @@ const initialState: EntitlementsState = {
 
 export function useUserEntitlements() {
   const session = useSession();
-  const supabase = useSupabaseClient<Database>();
+  const sessionUser = (session as { user?: { id?: string } } | null)?.user;
+  const userId = sessionUser?.id ?? null;
+  const supabase = useSupabaseClient() as unknown as SupabaseClient<Database>;
   const [state, setState] = useState<EntitlementsState>(initialState);
 
   const fetchEntitlements = useCallback(async () => {
-    if (!session) {
+    if (!userId) {
       setState({ ...initialState });
       return;
     }
@@ -35,8 +40,8 @@ export function useUserEntitlements() {
     const { data, error } = await supabase
       .from("user_entitlements")
       .select("can_view_premium, subscription_status, subscription_tier")
-      .eq("user_id", session.user.id)
-      .single();
+      .eq("user_id", userId)
+      .maybeSingle<UserEntitlementsRow>();
 
     if (error || !data) {
       setState({
@@ -56,31 +61,31 @@ export function useUserEntitlements() {
       subscriptionTier: data.subscription_tier ?? null,
       error: null,
     });
-  }, [session, supabase]);
+  }, [userId, supabase]);
 
   useEffect(() => {
-    if (!session) {
+    if (!userId) {
       setState({ ...initialState });
       return;
     }
 
     fetchEntitlements();
-  }, [session, fetchEntitlements]);
+  }, [userId, fetchEntitlements]);
 
   useEffect(() => {
-    if (!session) {
+    if (!userId) {
       return;
     }
 
     const channel = supabase
-      .channel(`entitlements-${session.user.id}`)
+      .channel(`entitlements-${userId}`)
       .on(
         "postgres_changes",
         {
           event: "UPDATE",
           schema: "public",
           table: "profiles",
-          filter: `id=eq.${session.user.id}`,
+          filter: `id=eq.${userId}`,
         },
         () => {
           fetchEntitlements();
@@ -91,7 +96,7 @@ export function useUserEntitlements() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [session, supabase, fetchEntitlements]);
+  }, [userId, supabase, fetchEntitlements]);
 
   return {
     loading: state.loading,
@@ -99,7 +104,7 @@ export function useUserEntitlements() {
     subscriptionStatus: state.subscriptionStatus,
     subscriptionTier: state.subscriptionTier,
     error: state.error,
-    hasSession: Boolean(session),
+    hasSession: Boolean(userId),
     refreshEntitlements: fetchEntitlements,
   };
 }

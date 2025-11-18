@@ -1,6 +1,5 @@
 // src/app/layout.tsx
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import type { Session } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
@@ -13,8 +12,6 @@ export const metadata: Metadata = {
   title: 'PediaGo',
   description: 'Le bon geste, maintenant !',
 };
-
-const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 // Remplace createServerComponentClient(...)
 async function getInitialSession(): Promise<Session | null> {
@@ -34,7 +31,7 @@ export default async function RootLayout({
 
   return (
     <html lang="fr">
-      <body className={`${inter.className} bg-neutral-100 text-slate-900`}>
+      <body className="font-sans bg-neutral-100 text-slate-900">
         <SupabaseProvider initialSession={session}>
           <TopMenu />
           {children}

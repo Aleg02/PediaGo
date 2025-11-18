@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 
-import AgeWeightPicker from "@/components/AgeWeightPicker";
-import { estimateAgeFromWeight } from "@/lib/ageWeightModels";
+import AgeWeightPicker, { estimateAgeFromWeight } from "@/components/AgeWeightPicker";
 import { formatMg } from "@/lib/units";
 import { useAppStore } from "@/store/useAppStore";
 

@@ -8,7 +8,7 @@ type Props = {
   autoFocus?: boolean;
   value?: string;
   className?: string;
-  inputRef?: RefObject<HTMLInputElement>;
+  inputRef?: RefObject<HTMLInputElement | null>;
 };
 
 export default function SearchBar({

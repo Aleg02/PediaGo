@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import type SupabaseClient from "@supabase/supabase-js/dist/module/SupabaseClient";
 import type { Database } from "@/types/database";
 import { logoutAction } from "@/app/actions/auth";
 
@@ -31,8 +32,9 @@ export default function UserMenu() {
   // Grab the current session from Supabase. When `session` is null the user
   // is not authenticated. We'll use this to determine what to render.
   const session = useSession();
+  const sessionUser = (session as { user?: { id?: string; email?: string | null } } | null)?.user;
   const router = useRouter();
-  const supabase = useSupabaseClient<Database>();
+  const supabase = useSupabaseClient() as unknown as SupabaseClient<Database>;
   const [profile, setProfile] = useState<Database["public"]["Tables"]["profiles"]["Row"] | null>(null);
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,7 +48,8 @@ export default function UserMenu() {
     let isMounted = true;
 
     async function fetchProfile() {
-      if (!session) {
+      const userId = sessionUser?.id ?? null;
+      if (!userId) {
         setProfile(null);
         return;
       }
@@ -56,7 +59,7 @@ export default function UserMenu() {
       const { data, error: queryError } = await supabase
         .from("profiles")
         .select("id, subscription_tier, subscription_status, expires_at")
-        .eq("id", session.user.id)
+        .eq("id", userId)
         .single();
 
       if (!isMounted) {
@@ -108,7 +111,7 @@ export default function UserMenu() {
   // If there's no authenticated session we intentionally render nothing.
   // The login link previously displayed here has been removed because the
   // navigation menu now provides a dedicated entry for authentication.
-  if (!session) {
+  if (!sessionUser) {
     return null;
   }
 
@@ -121,11 +124,11 @@ export default function UserMenu() {
         className="flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-3 py-1.5 text-sm font-semibold text-slate-800 shadow-md shadow-slate-900/5 hover:border-slate-300"
       >
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-white">
-          {session.user.email?.[0]?.toUpperCase() ?? "U"}
+          {sessionUser.email?.[0]?.toUpperCase() ?? "U"}
         </span>
         <span className="hidden text-left sm:block">
           <span className="block text-xs font-medium text-slate-500">Compte</span>
-          <span className="block leading-tight">{session.user.email}</span>
+          <span className="block leading-tight">{sessionUser.email}</span>
         </span>
       </button>
       {open && (
