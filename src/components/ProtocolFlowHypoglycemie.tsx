@@ -2,9 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import AgeWeightPicker from "@/components/AgeWeightPicker";
+import AgeWeightPicker, { estimateAgeFromWeight } from "@/components/AgeWeightPicker";
 import { useAppStore } from "@/store/useAppStore";
-import { estimateAgeFromWeight } from "@/lib/ageWeightModels";
 import { formatMg } from "@/lib/units";
 
 const MIN_W = 3;

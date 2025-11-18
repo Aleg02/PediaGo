@@ -107,8 +107,14 @@ export default function ProtocolFlowAAG() {
   const solumedrolMg = useMemo(() => {
     if (!Number.isFinite(effWeight)) return undefined;
     try {
-      const computed = computeDose?.(DOSING_RULES, "methylprednisolone_iv", effWeight as number);
-      if (computed?.valueMg) return Math.round(computed.valueMg);
+      const computed = computeDose(
+        effWeight as number,
+        DOSING_RULES["solumedrol"],
+        WEIGHT_OVERRIDES["solumedrol"]
+      );
+      if (Number.isFinite(computed?.doseMg)) {
+        return Math.round(computed.doseMg as number);
+      }
     } catch {}
     return Math.round((effWeight as number) * 2);
   }, [effWeight]);

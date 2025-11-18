@@ -1,9 +1,8 @@
 // src/app/signup/actions.ts
 "use server";
 
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 
 export type SignupActionState =
@@ -12,10 +11,6 @@ export type SignupActionState =
   | { status: "error"; message: string };
 
 export const initialSignupState: SignupActionState = { status: "idle" };
-
-function getSupabaseServerClient() {
-  return createServerActionClient<Database>({ cookies });
-}
 
 export async function signupAction(
   _prevState: SignupActionState,
@@ -36,7 +31,7 @@ export async function signupAction(
     return { status: "error", message: "Les mots de passe ne correspondent pas." };
   }
 
-  const supabase = getSupabaseServerClient();
+  const supabase = await createServerSupabaseClient();
   // Crée l’utilisateur Supabase
   const { data, error } = await supabase.auth.signUp({ email, password });
   if (error || !data?.user) {
@@ -44,13 +39,19 @@ export async function signupAction(
   }
 
   // Insère le profil (RLS doit permettre à l’utilisateur d’insérer son profil)
-  const { error: profileError } = await supabase.from("profiles").insert({
+  type ProfileInsert = Database["public"]["Tables"]["profiles"]["Insert"];
+  const newProfile: ProfileInsert = {
     id: data.user.id,
     subscription_tier: "free",
     subscription_status: "active",
     full_name: null,
     expires_at: null,
-  });
+  };
+  const { error: profileError } = await (supabase as unknown as {
+    from: (table: string) => { insert: (values: ProfileInsert) => Promise<{ error: { message?: string } | null }> };
+  })
+    .from("profiles")
+    .insert(newProfile);
 
   if (profileError) {
     return { status: "error", message: profileError.message ?? "Erreur de création du profil." };

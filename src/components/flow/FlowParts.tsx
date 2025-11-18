@@ -9,7 +9,7 @@ export function FlowBlock({
 }: {
   title: string;
   subtitle?: string;
-  items?: string[];
+  items?: Array<string | React.ReactNode>;
   bg?: string;
 }) {
   return (

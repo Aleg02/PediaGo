@@ -8,7 +8,7 @@ const isClient = typeof window !== "undefined";
 
 type AppState = {
   weightKg: number | null;
-  setWeightKg: (v: number) => void;
+  setWeightKg: (v: number | null) => void;
 
   ageLabel: string | null;
   setAgeLabel: (v: string) => void;

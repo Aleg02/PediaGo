@@ -1,12 +1,11 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import AgeWeightPicker from "@/components/AgeWeightPicker";
+import AgeWeightPicker, { estimateAgeFromWeight } from "@/components/AgeWeightPicker";
 import { useAppStore } from "@/store/useAppStore";
 import { computeDose } from "@/lib/dosing";
 import { DOSING_RULES, WEIGHT_OVERRIDES } from "@/data/drugs";
 import { formatMg } from "@/lib/units";
-import { estimateAgeFromWeight } from "@/lib/ageWeightModels";
 
 type Branch = "cv" | "resp";
 

@@ -40,6 +40,9 @@ export type PosologyWeightEntry = {
 
   // bloc brut original (pour retrouver les champs non mappés)
   data?: any;
+
+  // autorise l’accès dynamique à d’autres clés éventuelles
+  [sectionKey: string]: unknown;
 };
 
 export type PosologyFile = {
