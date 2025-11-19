@@ -12,9 +12,7 @@ type PreviewLoginPageProps = {
 };
 
 // ----- Server action d'authentification -----
-export async function authenticatePreview(
-  formData: FormData
-): Promise<never> {
+export async function authenticatePreview(formData: FormData) {
   "use server";
 
   const password = formData.get("password");
@@ -22,25 +20,27 @@ export async function authenticatePreview(
 
   const expectedPassword = process.env.PREVIEW_PASSWORD;
 
+  // Si la variable n'est pas configurée, on laisse passer (évite de tout casser en dev)
   if (!expectedPassword) {
-    // Si la variable n'est pas configurée, on laisse passer (évite de tout casser)
-    cookies().set("pediago_preview_auth", "1", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 30,
-    });
-    redirect(from);
-  }
-
-  if (password === expectedPassword) {
-    cookies().set("pediago_preview_auth", "1", {
+    const cookieStore = await cookies();
+    cookieStore.set("pediago_preview_auth", "1", {
       httpOnly: true,
       secure: true,
       sameSite: "strict",
       path: "/",
       maxAge: 60 * 60 * 24 * 30, // 30 jours
+    });
+    redirect(from);
+  }
+
+  if (password === expectedPassword) {
+    const cookieStore = await cookies();
+    cookieStore.set("pediago_preview_auth", "1", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
     });
     redirect(from);
   }
@@ -81,8 +81,8 @@ export default function PreviewLoginPage({ searchParams }: PreviewLoginPageProps
             <li className="flex gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
               <span>
-                Protocoles d&apos;urgence pédiatrique structurés (ACR, anaphylaxie,
-                asthme aigu grave, sepsis, etc.).
+                Protocoles d&apos;urgence pédiatrique structurés (ACR,
+                anaphylaxie, asthme aigu grave, sepsis, etc.).
               </span>
             </li>
             <li className="flex gap-2">
@@ -95,8 +95,8 @@ export default function PreviewLoginPage({ searchParams }: PreviewLoginPageProps
             <li className="flex gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
               <span>
-                Interface pensée pour les urgences&nbsp;: claire, rapide, adaptée
-                au terrain.
+                Interface pensée pour les urgences&nbsp;: claire, rapide,
+                adaptée au terrain.
               </span>
             </li>
           </ul>
