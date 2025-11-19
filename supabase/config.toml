@@ -1,113 +1,103 @@
-# ============================
-# Supabase Cloud – Projet PediaGo
-# ============================
-# Ce fichier est optimisé pour :
-# - utiliser Supabase Cloud comme base distante
-# - lancer `supabase db push` depuis ta machine ou GitHub Actions
-#
-# Il n’est PAS prévu pour lancer un stack Supabase complet en local
-# (supabase start). On pourra faire un deuxième fichier si besoin.
-
-# Identifiant interne du projet CLI (local)
+# For detailed configuration reference documentation, visit:
+# https://supabase.com/docs/guides/local-development/cli/config
+# A string used to distinguish different Supabase projects on the same host. Defaults to the
+# working directory name when running `supabase init`.
 project_id = "pediago"
 
-# ----------------------------
-# Projet distant Supabase
-# ----------------------------
-[project]
-# À remplacer par ton ref réel (ex: jhynhvocvvwgggqqpkeb)
-ref = "env(SUPABASE_REF)"
-api_url = "env(SUPABASE_URL)"
-studio_url = "env(SUPABASE_URL)"
-
-# On lit les clés depuis les variables d’environnement pour éviter
-# de les versionner en clair dans le repo.
-anon_key = "env(NEXT_PUBLIC_SUPABASE_ANON_KEY)"
-service_role_key = "env(SUPABASE_SERVICE_ROLE_KEY)"
-
-# ----------------------------
-# Base de données DISTANTE
-# ----------------------------
-[db]
-# Host du pooler Supabase pour ta région (vu dans tes logs)
-host = "aws-1-eu-west-1.pooler.supabase.com"
-port = 5432
-user = "postgres"
-dbname = "postgres"
-
-# IMPORTANT : on ne met PAS le mot de passe en clair.
-# Tu dois définir SUPABASE_DB_PASSWORD en local et dans GitHub Secrets.
-password = "env(SUPABASE_DB_PASSWORD)"
-
-# Version majeure de Postgres (à aligner avec ta DB Supabase).
-# Tu peux vérifier dans Supabase → Database → Settings.
-major_version = 17
-
-# Port utilisé pour le shadow DB lors des diffs (local uniquement)
-shadow_port = 54320
-
-# ----------------------------
-# API locale (optionnelle)
-# ----------------------------
 [api]
 enabled = true
+# Port to use for the API URL.
 port = 54321
+# Schemas to expose in your API. Tables, views and stored procedures in this schema will get API
+# endpoints. `public` and `graphql_public` schemas are included by default.
 schemas = ["public", "graphql_public"]
+# Extra schemas to add to the search_path of every request.
 extra_search_path = ["public", "extensions"]
+# The maximum number of rows returns from a view, table, or stored procedure. Limits payload size
+# for accidental or malicious requests.
 max_rows = 1000
 
 [api.tls]
+# Enable HTTPS endpoints locally using a self-signed certificate.
 enabled = false
+# Paths to self-signed certificate pair.
 # cert_path = "../certs/my-cert.pem"
 # key_path = "../certs/my-key.pem"
 
-# ----------------------------
-# Pooler local (non utilisé pour le cloud)
-# ----------------------------
+[db]
+# Port to use for the local database URL.
+port = 54322
+# Port used by db diff command to initialize the shadow database.
+shadow_port = 54320
+# The database major version to use. This has to be the same as your remote database's. Run `SHOW
+# server_version;` on the remote database to check.
+major_version = 17
+
 [db.pooler]
 enabled = false
+# Port to use for the local connection pooler.
 port = 54329
+# Specifies when a server connection can be reused by other clients.
+# Configure one of the supported pooler modes: `transaction`, `session`.
 pool_mode = "transaction"
+# How many server connections to allow per user/database pair.
 default_pool_size = 20
+# Maximum number of client connections allowed.
 max_client_conn = 100
 
+# [db.vault]
+# secret_key = "env(SECRET_VALUE)"
+
 [db.migrations]
+# If disabled, migrations will be skipped during a db push or reset.
 enabled = true
+# Specifies an ordered list of schema files that describe your database.
+# Supports glob patterns relative to supabase directory: "./schemas/*.sql"
 schema_paths = []
 
 [db.seed]
+# If enabled, seeds the database after migrations during a db reset.
 enabled = true
+# Specifies an ordered list of seed files to load during db reset.
+# Supports glob patterns relative to supabase directory: "./seeds/*.sql"
 sql_paths = ["./seed.sql"]
 
 [db.network_restrictions]
+# Enable management of network restrictions.
 enabled = false
+# List of IPv4 CIDR blocks allowed to connect to the database.
+# Defaults to allow all IPv4 connections. Set empty array to block all IPs.
 allowed_cidrs = ["0.0.0.0/0"]
+# List of IPv6 CIDR blocks allowed to connect to the database.
+# Defaults to allow all IPv6 connections. Set empty array to block all IPs.
 allowed_cidrs_v6 = ["::/0"]
 
-# ----------------------------
-# Realtime / Studio / Storage
-# (utile surtout en local)
-# ----------------------------
 [realtime]
 enabled = true
+# Bind realtime via either IPv4 or IPv6. (default: IPv4)
+# ip_version = "IPv6"
+# The maximum length in bytes of HTTP request headers. (default: 4096)
+# max_header_length = 4096
 
 [studio]
 enabled = true
+# Port to use for Supabase Studio.
 port = 54323
+# External URL of the API server that frontend connects to.
 api_url = "http://127.0.0.1"
+# OpenAI API Key to use for Supabase AI in the Supabase Studio.
 openai_api_key = "env(OPENAI_API_KEY)"
 
 [inbucket]
 enabled = true
+# Port to use for the email testing server web interface.
 port = 54324
 
 [storage]
 enabled = true
+# The maximum file size allowed (e.g. "5MB", "500KB").
 file_size_limit = "50MiB"
 
-# ----------------------------
-# Auth (config locale, indépendante du cloud)
-# ----------------------------
 [auth]
 enabled = true
 site_url = "http://127.0.0.1:3000"
@@ -194,9 +184,6 @@ enabled = false
 authorization_url_path = "/oauth/consent"
 allow_dynamic_registration = false
 
-# ----------------------------
-# Edge runtime / Analytics / Experimental
-# ----------------------------
 [edge_runtime]
 enabled = true
 policy = "per_worker"
