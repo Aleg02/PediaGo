@@ -1,4 +1,3 @@
-
 name: Supabase Migrations
 
 on:
@@ -24,10 +23,7 @@ jobs:
           echo "${{ secrets.SUPABASE_ACCESS_TOKEN }}" | supabase login
 
       - name: Link Supabase project
-        run: supabase link --project-ref $SUPABASE_REF --password $SUPABASE_DB_PASSWORD
-        env:
-          SUPABASE_REF: ${{ secrets.SUPABASE_REF }}
-          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-      
+        run: supabase link --project-ref ${{ secrets.SUPABASE_REF }}
+
       - name: Push database migrations
         run: supabase db push
