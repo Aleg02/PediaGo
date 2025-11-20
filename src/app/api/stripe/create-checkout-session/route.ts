@@ -32,9 +32,8 @@ async function createStripeCheckoutSession(
     );
   }
 
-  const stripe = new Stripe(stripeSecretKey, {
-    apiVersion: "2024-06-20",
-  });
+  // Let the Stripe SDK use its pinned API version to avoid type/version mismatch at build time.
+  const stripe = new Stripe(stripeSecretKey);
 
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
