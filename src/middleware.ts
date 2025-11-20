@@ -6,16 +6,16 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // 1. Le webhook Stripe doit TOUJOURS être laissé passer
-  if (pathname === "/api/stripe/webhook") {
+  //    (aucune redirection, aucun contrôle de cookie)
+  if (
+    pathname === "/api/stripe/webhook" ||
+    pathname.startsWith("/api/stripe/webhook")
+  ) {
     return NextResponse.next();
   }
 
   // 2. Routes publiques autorisées sans authentification
-  const publicPaths = [
-    "/preview-login",
-    "/robots.txt",
-    "/favicon.ico",
-  ];
+  const publicPaths = ["/preview-login", "/robots.txt", "/favicon.ico"];
 
   const isPublic =
     publicPaths.includes(pathname) ||
@@ -45,5 +45,8 @@ export function middleware(req: NextRequest) {
 
 // On applique le middleware sur toutes les routes applicatives
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    // On exclut explicitement le webhook Stripe du middleware
+    "/((?!_next/static|_next/image|favicon.ico|api/stripe/webhook).*)",
+  ],
 };
