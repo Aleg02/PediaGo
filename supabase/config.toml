@@ -3,14 +3,6 @@
 
 project_id = "pediago"
 
-[project]
-# Read remote project settings from environment variables in CI.
-ref = "env(SUPABASE_REF)"
-api_url = "env(SUPABASE_URL)"
-studio_url = "env(SUPABASE_URL)"
-anon_key = "env(NEXT_PUBLIC_SUPABASE_ANON_KEY)"
-service_role_key = "env(SUPABASE_SERVICE_ROLE_KEY)"
-
 [db]
 port = 54322
 shadow_port = 54320
