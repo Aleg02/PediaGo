@@ -7,15 +7,16 @@ export const metadata: Metadata = {
 };
 
 type AccountPageProps = {
-  searchParams?: {
+  searchParams: Promise<{
     reason?: string;
     slug?: string;
-  };
+  }>;
 };
 
-export default function AccountPage({ searchParams }: AccountPageProps) {
-  const reason = searchParams?.reason;
-  const redirectedSlug = searchParams?.slug;
+export default async function AccountPage({ searchParams }: AccountPageProps) {
+  const resolvedParams = await searchParams;
+  const reason = resolvedParams?.reason;
+  const redirectedSlug = resolvedParams?.slug;
   const showPremiumNotice = reason === "premium";
 
   return (

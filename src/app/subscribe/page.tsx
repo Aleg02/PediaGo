@@ -96,7 +96,7 @@ export default function SubscribePage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ plan }), // "monthly" ou "yearly"
+        body: JSON.stringify({ billingPeriod: plan, plan }), // "monthly" ou "yearly"
       });
 
       if (!response.ok) {

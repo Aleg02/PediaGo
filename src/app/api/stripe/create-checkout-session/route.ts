@@ -1,12 +1,16 @@
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+// src/app/api/stripe/create-checkout-session/route.ts
+import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
-// Plan par défaut (tu adapteras quand ta logique d'abonnement sera en place)
-const DEFAULT_PLAN_CODE = "premium";
+// Optionnel, juste pour tracer côté Stripe
+const DEFAULT_PLAN_CODE_MONTHLY =
+  process.env.STRIPE_PREMIUM_PLAN_CODE ?? "premium-monthly";
+const DEFAULT_PLAN_CODE_YEARLY = "premium-yearly";
+
+type BillingPeriod = "monthly" | "yearly";
 
 type CreateStripeCheckoutSessionArgs = {
   userId: string;
@@ -28,10 +32,12 @@ async function createStripeCheckoutSession(
     );
   }
 
-  const stripe = new Stripe(stripeSecretKey);
+  const stripe = new Stripe(stripeSecretKey, {
+    apiVersion: "2024-06-20",
+  });
 
   const session = await stripe.checkout.sessions.create({
-    mode: "subscription", // ou "payment" selon ton modèle
+    mode: "subscription",
     customer_email: args.email,
     line_items: [
       {
@@ -50,52 +56,79 @@ async function createStripeCheckoutSession(
   return { url: session.url };
 }
 
-export async function POST(request: Request) {
-  // Cast explicite pour contourner le type 'unknown' retourné par createRouteHandlerClient
-  const supabase = createRouteHandlerClient({ cookies }) as any;
-
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
-
-  if (authError) {
-    console.error("Erreur Supabase auth.getUser :", authError);
-  }
-
-  if (!user) {
-    return NextResponse.json(
-      { error: "Authentification requise." },
-      { status: 401 },
-    );
-  }
-
-  const priceId = process.env.STRIPE_PRICE_PREMIUM_ID;
-  const secretKey = process.env.STRIPE_SECRET_KEY;
-
-  if (!priceId || !secretKey) {
-    return NextResponse.json(
-      {
-        error:
-          "Stripe n'est pas configuré (STRIPE_PRICE_PREMIUM_ID / STRIPE_SECRET_KEY).",
-      },
-      { status: 500 },
-    );
-  }
-
-  const origin = request.headers.get("origin") ?? new URL(request.url).origin;
-  const successUrl =
-    `${origin}/subscribe?status=success&session_id={CHECKOUT_SESSION_ID}`;
-  const cancelUrl = `${origin}/subscribe?status=cancel`;
-
+export async function POST(request: NextRequest) {
   try {
+    // 1) Auth Supabase en SSR
+    const supabase = await createServerSupabaseClient();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError) {
+      console.error("Erreur Supabase auth.getUser :", authError);
+      return NextResponse.json(
+        { error: "Erreur d'authentification." },
+        { status: 401 },
+      );
+    }
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Authentification requise." },
+        { status: 401 },
+      );
+    }
+
+    // 2) Lecture du body pour savoir quel plan est demandé
+    let billingPeriod: BillingPeriod = "monthly"; // défaut = mensuel
+
+    if (request.headers.get("content-type")?.includes("application/json")) {
+      const body = (await request.json().catch(() => null)) as
+        | { billingPeriod?: BillingPeriod; plan?: BillingPeriod }
+        | null;
+      const requested = body?.billingPeriod ?? body?.plan;
+      if (requested === "yearly" || requested === "monthly") {
+        billingPeriod = requested;
+      }
+    }
+
+    // 3) Choix du priceId en fonction du plan
+    const monthlyPriceId = process.env.STRIPE_PRICE_PREMIUM_MONTHLY_ID;
+    const yearlyPriceId = process.env.STRIPE_PRICE_PREMIUM_YEARLY_ID;
+
+    const priceId =
+      billingPeriod === "yearly" ? yearlyPriceId : monthlyPriceId;
+
+    if (!priceId) {
+      return NextResponse.json(
+        {
+          error:
+            "Stripe n'est pas configuré correctement (STRIPE_PRICE_PREMIUM_MONTHLY_ID / STRIPE_PRICE_PREMIUM_YEARLY_ID).",
+        },
+        { status: 500 },
+      );
+    }
+
+    const planCode =
+      billingPeriod === "yearly"
+        ? DEFAULT_PLAN_CODE_YEARLY
+        : DEFAULT_PLAN_CODE_MONTHLY;
+
+    const origin = request.nextUrl.origin;
+    const successUrl =
+      `${origin}/subscribe?status=success&session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${origin}/subscribe?status=cancel`;
+
+    // 4) Création de la session Stripe
     const session = await createStripeCheckoutSession({
       userId: user.id,
       email: user.email ?? undefined,
       successUrl,
       cancelUrl,
       priceId,
-      planCode: DEFAULT_PLAN_CODE,
+      planCode,
     });
 
     if (!session.url) {
