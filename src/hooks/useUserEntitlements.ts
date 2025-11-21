@@ -16,7 +16,7 @@ type EntitlementsState = {
 };
 
 const initialState: EntitlementsState = {
-  loading: false,
+  loading: true,
   canViewPremium: false,
   subscriptionStatus: null,
   subscriptionTier: null,
@@ -32,7 +32,7 @@ export function useUserEntitlements() {
 
   const fetchEntitlements = useCallback(async () => {
     if (!userId) {
-      setState({ ...initialState });
+      setState({ ...initialState, loading: false });
       return;
     }
 
@@ -65,7 +65,7 @@ export function useUserEntitlements() {
 
   useEffect(() => {
     if (!userId) {
-      setState({ ...initialState });
+      setState({ ...initialState, loading: false });
       return;
     }
 

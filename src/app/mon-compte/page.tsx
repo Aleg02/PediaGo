@@ -1,23 +1,89 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { PlanCheckoutButton } from "@/components/PlanCheckoutButton";
+
 export const metadata: Metadata = {
   title: "Mon compte / Abonnement",
-  description: "Informations à venir concernant l'abonnement PediaGo",
+  description: "Gérez votre abonnement PediaGo+ et vos accès premium",
 };
 
 type AccountPageProps = {
-  searchParams: Promise<{
-    reason?: string;
-    slug?: string;
-  }>;
+  searchParams?:
+    | Promise<{
+        reason?: string;
+        slug?: string;
+      }>
+    | {
+        reason?: string;
+        slug?: string;
+      };
 };
 
+const statusLabels: Record<string, string> = {
+  active: "Actif",
+  trialing: "Essai",
+  inactive: "Inactif",
+  past_due: "À régulariser",
+};
+
+function formatStatus(status?: string | null) {
+  if (!status) return "Indisponible";
+  return statusLabels[status] ?? status;
+}
+
+function formatDate(value?: string | null) {
+  if (!value) return "Non renseigné";
+  return new Date(value).toLocaleDateString("fr-FR");
+}
+
 export default async function AccountPage({ searchParams }: AccountPageProps) {
-  const resolvedParams = await searchParams;
+  const resolvedParams = await Promise.resolve(searchParams ?? {});
   const reason = resolvedParams?.reason;
   const redirectedSlug = resolvedParams?.slug;
   const showPremiumNotice = reason === "premium";
+
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const userId = session?.user?.id;
+  const userEmail = session?.user?.email;
+
+  const [profileResult, entitlementsResult, subscriptionResult] = userId
+    ? await Promise.all([
+        supabase
+          .from("profiles")
+          .select("subscription_status, subscription_tier, expires_at")
+          .eq("id", userId)
+          .maybeSingle(),
+        supabase
+          .from("user_entitlements")
+          .select("can_view_premium, subscription_status, subscription_tier, expires_at")
+          .maybeSingle(),
+        supabase
+          .from("subscriptions")
+          .select("plan_code, status")
+          .eq("profile_id", userId)
+          .order("updated_at", { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+      ])
+    : [null, null, null];
+
+  const entitlements = entitlementsResult?.data ?? null;
+  const profile = profileResult?.data ?? null;
+  const subscription = subscriptionResult?.data ?? null;
+  const hasSession = Boolean(session);
+
+  const canViewPremium = Boolean(entitlements?.can_view_premium);
+  const subscriptionStatus = entitlements?.subscription_status ?? profile?.subscription_status;
+  const subscriptionTier = entitlements?.subscription_tier ?? profile?.subscription_tier ?? "free";
+  const expiresAt = entitlements?.expires_at ?? profile?.expires_at ?? null;
+  const planCode = subscription?.plan_code ?? null;
+  const isMonthlyPlan = Boolean(planCode && planCode.includes("monthly"));
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
@@ -34,43 +100,97 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
           </p>
         </header>
 
-        <div className="mt-8 rounded-3xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-          <p className="text-sm text-slate-600">
-            Prêt à débloquer toutes les fiches critiques ?
-          </p>
-          <Link
-            href="/subscribe"
-            className="mt-3 inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-slate-800"
-          >
-            Passer à PediaGo+ Premium
-          </Link>
-        </div>
-
         {showPremiumNotice && (
           <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-900">
-            <p className="font-semibold">Abonnement requis pour cette fiche premium.</p>
+            <p className="font-semibold">Accès réservé aux membres Premium.</p>
             <p className="mt-1">
-              {redirectedSlug
-                ? `Pour consulter la fiche « ${redirectedSlug} », connectez-vous avec un compte abonné ou souscrivez à PediaGo+.`
-                : "Connectez-vous avec un compte abonné ou souscrivez à PediaGo+ pour débloquer les fiches premium."}
+              {canViewPremium
+                ? "Votre abonnement est actif. Vous pouvez rouvrir la fiche demandée."
+                : redirectedSlug
+                  ? `Pour consulter la fiche « ${redirectedSlug} », connectez-vous avec un compte abonné ou souscrivez à PediaGo+.`
+                  : "Connectez-vous avec un compte abonné ou souscrivez à PediaGo+ pour débloquer les fiches premium."}
             </p>
           </div>
         )}
 
-        <section className="mt-10 rounded-3xl border border-dashed border-slate-200 bg-slate-50/60 p-6 text-center text-slate-600">
-          <p className="text-sm uppercase tracking-[0.2em] text-slate-400">Bientôt disponible</p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900">Espace abonnement</h2>
-          <p className="mt-4 text-sm leading-6">
-            Les détails sur les formules, la gestion des licences, la facturation et les renouvellements seront publiés ici.
-            L’équipe travaille actuellement sur les parcours d’inscription et de souscription.
-          </p>
-          <p className="mt-4 text-sm">
-            Une question ? Contactez-nous sur {" "}
-            <a className="font-semibold text-[#2563eb]" href="mailto:contact@pediago.app">
-              contact@pediago.app
-            </a>
-            .
-          </p>
+        <section className="mt-8 space-y-4 rounded-3xl border border-slate-200 bg-white px-5 py-6 shadow-sm">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Statut</p>
+              <p className="mt-1 text-2xl font-bold text-slate-900">{formatStatus(subscriptionStatus)}</p>
+              <p className="text-sm text-slate-600">Formule {subscriptionTier}</p>
+            </div>
+            {hasSession && (
+              <div className="rounded-full bg-indigo-50 px-4 py-2 text-xs font-semibold text-indigo-700">
+                {userEmail ?? "Compte connecté"}
+              </div>
+            )}
+          </div>
+
+          {!hasSession && (
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+              <p>Connectez-vous pour consulter vos informations d’abonnement.</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link
+                  href="/login?redirect=/mon-compte"
+                  className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-slate-800"
+                >
+                  Se connecter
+                </Link>
+                <Link
+                  href="/subscribe"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:border-slate-400"
+                >
+                  Découvrir PediaGo+
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {hasSession && (
+            <div className="grid gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-4 text-sm text-slate-700">
+              <div className="flex items-start justify-between">
+                <p className="font-semibold text-slate-900">Renouvellement</p>
+                <p>{formatDate(expiresAt)}</p>
+              </div>
+              <div className="flex items-start justify-between">
+                <p className="font-semibold text-slate-900">Plan Stripe</p>
+                <p>{planCode ?? "Non renseigné"}</p>
+              </div>
+              <div className="flex items-start justify-between">
+                <p className="font-semibold text-slate-900">Droits Premium</p>
+                <p>{canViewPremium ? "Actifs" : "Non actifs"}</p>
+              </div>
+            </div>
+          )}
+
+          {hasSession && (
+            <div className="flex flex-wrap gap-2">
+              {!canViewPremium && (
+                <Link
+                  href="/subscribe"
+                  className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-slate-800"
+                >
+                  Passer à PediaGo+ Premium
+                </Link>
+              )}
+
+              {canViewPremium && isMonthlyPlan && (
+                <PlanCheckoutButton
+                  plan="yearly"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:border-slate-400 disabled:cursor-not-allowed disabled:opacity-70"
+                  label="Basculer sur l’offre annuelle"
+                />
+              )}
+
+              <Link
+                href="mailto:contact@pediago.app"
+                className="inline-flex items-center justify-center rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:border-slate-400"
+              >
+                Besoin d’aide ?
+              </Link>
+            </div>
+          )}
         </section>
       </div>
     </main>
