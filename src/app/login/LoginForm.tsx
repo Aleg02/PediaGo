@@ -182,7 +182,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (passwordState.status === "success") {
-      router.push("/mon-compte");
+      router.push("/");
       router.refresh();
     }
   }, [passwordState.status, router]);

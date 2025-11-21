@@ -107,6 +107,7 @@ export default function UserMenu() {
       await supabase.auth.signOut();
       await logoutAction();
       setOpen(false);
+      router.push("/");
       router.refresh();
     });
   };
