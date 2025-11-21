@@ -1,18 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import type SupabaseClient from "@supabase/supabase-js/dist/module/SupabaseClient";
 import { useUserEntitlements } from "@/hooks/useUserEntitlements";
 import { logoutAction } from "@/app/actions/auth";
+import type { Database } from "@/types/database";
 
 // Menu pour utilisateur non connecté
 const MENU_ITEMS_LOGGED_OUT = [
   {
     label: "Passer Premium PediaGo+",
-    description: "Débloquez l’ensemble des contenus et fonctionnalités PediaGo+",
-    href: "/subscribe", // ⇦ adapte si ta route d’abonnement est différente (ex : "/subscribe")
+    description: "Débloquez l'ensemble des contenus et fonctionnalités PediaGo+",
+    href: "/subscribe",
   },
   {
     label: "Se connecter / Créer un compte",
@@ -21,21 +23,16 @@ const MENU_ITEMS_LOGGED_OUT = [
   },
   {
     label: "À propos de PediaGo",
-    description: "Présentation, objectifs, conditions d’utilisation, contact",
+    description: "Présentation, objectifs, conditions d'utilisation, contact",
     href: "/a-propos",
   },
 ];
 
-// Menu pour utilisateur connecté
+// Menu pour utilisateur connecté (la carte supérieure propose déjà Mon compte)
 const MENU_ITEMS_LOGGED_IN = [
   {
-    label: "Mon compte / Abonnement",
-    description: "Gestion de l'accès et des formules",
-    href: "/mon-compte",
-  },
-  {
     label: "À propos de PediaGo",
-    description: "Présentation, objectifs, conditions d’utilisation, contact",
+    description: "Présentation, objectifs, conditions d'utilisation, contact",
     href: "/a-propos",
   },
 ];
@@ -58,15 +55,15 @@ export default function TopMenu() {
   const buttonId = "global-menu-button";
   const panelId = "global-menu-panel";
 
-  // État d’authentification via Supabase
+  // État d'authentification via Supabase
   const session = useSession();
   const sessionUser = (session as { user?: { id?: string; email?: string | null } } | null)?.user;
-  const { canViewPremium, subscriptionStatus, subscriptionTier, loading: entitlementLoading } =
-    useUserEntitlements();
+  const { canViewPremium, subscriptionStatus, subscriptionTier, loading: entitlementLoading } = useUserEntitlements();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const supabase = useSupabaseClient() as unknown as SupabaseClient<Database>;
 
-  // On choisit les items en fonction de la présence d’une session
+  // On choisit les items en fonction de la présence d'une session
   const menuItems = session ? MENU_ITEMS_LOGGED_IN : MENU_ITEMS_LOGGED_OUT;
 
   useEffect(() => {
@@ -94,6 +91,7 @@ export default function TopMenu() {
 
   const handleLogout = () => {
     startTransition(async () => {
+      await supabase.auth.signOut();
       await logoutAction();
       setIsOpen(false);
       router.refresh();
@@ -145,7 +143,7 @@ export default function TopMenu() {
                   </div>
                 </div>
                 <p className="mt-2 text-xs text-slate-500">
-                  Statut : {entitlementLoading ? "Vérification..." : formatStatus(subscriptionStatus)} · Formule {subscriptionTier ?? "free"}
+                  Statut : {entitlementLoading ? "Vérification..." : formatStatus(subscriptionStatus)} - Formule {subscriptionTier ?? "free"}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {!canViewPremium && (
@@ -157,13 +155,6 @@ export default function TopMenu() {
                       Passer Premium
                     </Link>
                   )}
-                  <Link
-                    href="/mon-compte"
-                    onClick={() => setIsOpen(false)}
-                    className="inline-flex flex-1 items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-center text-xs font-semibold text-slate-700 transition hover:border-slate-300"
-                  >
-                    Mon compte
-                  </Link>
                   <button
                     type="button"
                     onClick={handleLogout}
@@ -196,9 +187,6 @@ export default function TopMenu() {
                 </div>
               </div>
             )}
-            <p className="px-2 pb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Menu
-            </p>
             <ul className="space-y-1">
               {menuItems.map((item) => (
                 <li key={item.href}>
@@ -207,12 +195,8 @@ export default function TopMenu() {
                     className="flex flex-col rounded-xl px-3 py-2 transition hover:bg-slate-50"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="text-sm font-semibold text-slate-900">
-                      {item.label}
-                    </span>
-                    <span className="text-xs text-slate-500">
-                      {item.description}
-                    </span>
+                    <span className="text-sm font-semibold text-slate-900">{item.label}</span>
+                    <span className="text-xs text-slate-500">{item.description}</span>
                   </Link>
                 </li>
               ))}

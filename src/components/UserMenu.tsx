@@ -104,6 +104,7 @@ export default function UserMenu() {
   // Trigger a logout via a server action and refresh the page once complete.
   const handleLogout = () => {
     startTransition(async () => {
+      await supabase.auth.signOut();
       await logoutAction();
       setOpen(false);
       router.refresh();
