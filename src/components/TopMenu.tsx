@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { useSession } from "@supabase/auth-helpers-react";
-import UserMenu from "./UserMenu";
+import { useUserEntitlements } from "@/hooks/useUserEntitlements";
+import { logoutAction } from "@/app/actions/auth";
 
 // Menu pour utilisateur non connecté
 const MENU_ITEMS_LOGGED_OUT = [
@@ -38,6 +40,18 @@ const MENU_ITEMS_LOGGED_IN = [
   },
 ];
 
+const statusLabels: Record<string, string> = {
+  active: "Actif",
+  trialing: "Essai",
+  inactive: "Inactif",
+  past_due: "À régulariser",
+};
+
+function formatStatus(status?: string | null) {
+  if (!status) return "Indisponible";
+  return statusLabels[status] ?? status;
+}
+
 export default function TopMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -46,6 +60,11 @@ export default function TopMenu() {
 
   // État d’authentification via Supabase
   const session = useSession();
+  const sessionUser = (session as { user?: { id?: string; email?: string | null } } | null)?.user;
+  const { canViewPremium, subscriptionStatus, subscriptionTier, loading: entitlementLoading } =
+    useUserEntitlements();
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   // On choisit les items en fonction de la présence d’une session
   const menuItems = session ? MENU_ITEMS_LOGGED_IN : MENU_ITEMS_LOGGED_OUT;
@@ -73,13 +92,16 @@ export default function TopMenu() {
     };
   }, [isOpen]);
 
+  const handleLogout = () => {
+    startTransition(async () => {
+      await logoutAction();
+      setIsOpen(false);
+      router.refresh();
+    });
+  };
+
   return (
     <div className="pointer-events-none fixed right-4 top-4 z-40 flex items-start gap-3 sm:right-6 sm:top-6">
-      <div className="pointer-events-auto">
-        {/* UserMenu : avatar / menu utilisateur quand session présente */}
-        <UserMenu />
-      </div>
-
       <div ref={menuRef} className="pointer-events-auto">
         <button
           id={buttonId}
@@ -111,6 +133,69 @@ export default function TopMenu() {
             aria-labelledby={buttonId}
             className="absolute right-0 mt-3 w-72 rounded-2xl border border-slate-200/80 bg-white/95 p-3 text-left shadow-xl shadow-slate-900/10 backdrop-blur"
           >
+            {sessionUser ? (
+              <div className="mb-3 rounded-xl border border-slate-200 bg-slate-50/80 p-3 text-sm text-slate-700">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-sm font-semibold text-white">
+                    {sessionUser.email?.[0]?.toUpperCase() ?? "U"}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Compte</p>
+                    <p className="truncate text-sm font-semibold text-slate-900">{sessionUser.email}</p>
+                  </div>
+                </div>
+                <p className="mt-2 text-xs text-slate-500">
+                  Statut : {entitlementLoading ? "Vérification..." : formatStatus(subscriptionStatus)} · Formule {subscriptionTier ?? "free"}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {!canViewPremium && (
+                    <Link
+                      href="/subscribe"
+                      onClick={() => setIsOpen(false)}
+                      className="inline-flex flex-1 items-center justify-center rounded-lg bg-slate-900 px-3 py-2 text-center text-xs font-semibold text-white transition hover:bg-slate-800"
+                    >
+                      Passer Premium
+                    </Link>
+                  )}
+                  <Link
+                    href="/mon-compte"
+                    onClick={() => setIsOpen(false)}
+                    className="inline-flex flex-1 items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-center text-xs font-semibold text-slate-700 transition hover:border-slate-300"
+                  >
+                    Mon compte
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    disabled={isPending}
+                    className="inline-flex flex-1 items-center justify-center rounded-lg bg-slate-900 px-3 py-2 text-center text-xs font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {isPending ? "Déconnexion..." : "Se déconnecter"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="mb-3 rounded-xl border border-slate-200 bg-slate-50/80 p-3 text-sm text-slate-700">
+                <p className="font-semibold text-slate-900">Bienvenue sur PediaGo</p>
+                <p className="mt-1 text-xs text-slate-600">Connectez-vous pour retrouver vos protocoles et votre abonnement.</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Link
+                    href="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="inline-flex flex-1 items-center justify-center rounded-lg bg-slate-900 px-3 py-2 text-center text-xs font-semibold text-white transition hover:bg-slate-800"
+                  >
+                    Se connecter
+                  </Link>
+                  <Link
+                    href="/subscribe"
+                    onClick={() => setIsOpen(false)}
+                    className="inline-flex flex-1 items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-center text-xs font-semibold text-slate-700 transition hover:border-slate-300"
+                  >
+                    Découvrir Premium
+                  </Link>
+                </div>
+              </div>
+            )}
             <p className="px-2 pb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
               Menu
             </p>
