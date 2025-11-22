@@ -84,6 +84,21 @@ export const PROTOCOLS: Protocol[] = [
     ],
   },
   {
+    slug: "deshydratation-aigue-severe",
+    title: "Déshydratation aiguë sévère (gastro-entérite)",
+    version: "V0.1",
+    tags: ["hydratation", "urgence"],
+    icon: "💧",
+    accentColor: "#10b981",
+    accessLevel: "free",
+    sources: [
+      { label: "HAS – Gastro-entérite aiguë de l'enfant (2014)", url: "https://www.has-sante.fr" },
+      { label: "ESPGHAN Guidelines (2021)", url: "https://www.espghan.org" },
+      { label: "NICE – Diarrhoea and vomiting under 5", url: "https://www.nice.org.uk/guidance/cg84" },
+      { label: "AAP – Management of Dehydration (2020)", url: "https://publications.aap.org" },
+    ],
+  },
+  {
     slug: "acidocetose-diabetique",
     title: "Acidocétose diabétique de l'enfant",
     version: "V1.0",

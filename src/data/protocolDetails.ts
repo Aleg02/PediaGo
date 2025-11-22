@@ -1225,4 +1225,44 @@ export const PROTOCOL_DETAILS: Record<string, ProtocolSection[]> = {
       ],
     },
   ],
+  "deshydratation-aigue-severe": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Prise en charge immédiate et standardisée d’une déshydratation aiguë sévère chez nourrisson/enfant.",
+        "Sécuriser l’évaluation, le remplissage et les calculs de réhydratation IV adaptés au poids.",
+      ],
+    },
+    {
+      title: "Définition / critères",
+      bullets: [
+        "Perte hydrique menaçant le pronostic vital : léthargie, TRC > 3 s, marbrures, extrémités froides, hypotension tardive.",
+        "Pli cutané très lent, yeux cernés, oligurie/anurie, perte pondérale > 10 %, refus de boire.",
+      ],
+    },
+    {
+      title: "Mesures immédiates",
+      bullets: [
+        "ABCDE rapide, O₂ titré si SpO₂ < 94 % (MHC si choc).",
+        "VVP ou IO, glycémie systématique et correction si < 3 mmol/L (G10 % 2 mL/kg).",
+        "Isolation digestive, surveillance continue (TA, TRC, diurèse).",
+      ],
+    },
+    {
+      title: "Réhydratation",
+      bullets: [
+        "Choc/hypoperfusion : bolus NaCl 0,9 % ou RL 20 mL/kg en 15–30 min, à répéter une fois si besoin.",
+        "Déficit = poids × % déshydratation × 10 ; corriger 50 % en 4 h avec NaCl 0,9 % ou RL (jamais G5 % seul).",
+        "Après 4 h : besoins 4-2-1 + déficit restant sur 24 h ; ajout de KCl 0,5–1 mEq/kg/j dès reprise diurèse.",
+      ],
+    },
+    {
+      title: "Traitements associés / orientation",
+      bullets: [
+        "Ondansétron ≥ 2 ans 0,15 mg/kg (max 8 mg), probiotiques (Lactobacillus GG, S. boulardii), zinc < 5 ans.",
+        "Pas de lopéramide ni d’AINS en contexte de déshydratation ; antibiotiques uniquement si suspicion bactérienne.",
+        "Hospitalisation si déshydratation sévère, âge < 3 mois, vomissements incoercibles, troubles neuro ou comorbidités ; sortie si réhydratation clinique, tolérance orale et parents informés (contrôle 24–48 h).",
+      ],
+    },
+  ],
 };
