@@ -925,4 +925,37 @@ export const PROTOCOL_DETAILS: Record<string, ProtocolSection[]> = {
       ],
     },
   ],
+  "brulures-chimiques-pediatriques": [
+    {
+      title: "Objectif",
+      bullets: [
+        "PEC immédiate d’une brûlure chimique cutanée ou oculaire chez l’enfant, avec décontamination précoce et décision d’orientation.",
+        "Garantir les calculs pondérés d’antalgiques et rappeler les critères de gravité (localisation, surface, agent toxique).",
+      ],
+    },
+    {
+      title: "Évaluation initiale et gravité",
+      bullets: [
+        "ABCDE + identification de l’agent (acide/base/solvant), conserver l’emballage et appeler le centre antipoison si besoin.",
+        "Signes de gravité : visage/œil, mains/pieds/articulations/périnée, inhalation ou ingestion chimique, agent hautement corrosif, surface même faible mais profonde.",
+      ],
+    },
+    {
+      title: "Mesures immédiates et traitement",
+      bullets: [
+        "Sécuriser le soignant, retirer vêtements/bijoux contaminés, couvrir ensuite par pansement stérile non adhérent.",
+        "Rinçage abondant à l’eau tiède ou NaCl 0,9 % pendant au moins 15–30 min (oculaire idem, paupières maintenues ouvertes) ; solution amphotère type Diphoterine® si disponible.",
+        "Acide fluorhydrique : après début du rinçage, gel de gluconate de calcium 2,5 % appliqué précocement, renouvelable toutes ~2 h, surveiller Ca2+/K+/ECG.",
+        "Antalgie : paracétamol 10–15 mg/kg toutes 6 h (max 60 mg/kg/j), morphine IV 0,05–0,1 mg/kg lente puis bolus 0,01 mg/kg toutes 5–7 min selon douleur et tolérance.",
+        "Éviter eau glacée, neutralisation empirique acide/base, graisses ou pommades non validées (Biafine®, huiles…).",
+      ],
+    },
+    {
+      title: "Hospitalisation / sortie",
+      bullets: [
+        "Hospitaliser/CTB si brûlure chimique étendue (> 10 % SCB enfant ou > 5 % nourrisson), localisation critique, agent toxique, inhalation/ingestion ou signe systémique.",
+        "Sortie uniquement si brûlure limitée superficielle, non critique, sans agent toxique, douleur contrôlée et suivi organisé.",
+      ],
+    },
+  ],
 };
