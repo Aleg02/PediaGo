@@ -27,7 +27,7 @@ const PREMIUM_PLANS: {
     name: "Premium annuel",
     badge: "Le plus économique",
     price: "29,90 € TTC / an",
-    priceDetail: "Soit ~2,49 € TTC / mois, payé en une fois.",
+    priceDetail: "Sans engagement, résilier à tout moment.",
   },
 ];
 
@@ -199,12 +199,14 @@ export default function SubscribePage() {
         {/* Cartes d’abonnement */}
         <section className="rounded-3xl border border-slate-200 bg-slate-50/60 p-6 shadow-inner shadow-slate-200/50">
           {/* Bandeau Offre de lancement */}
-          <div className="mb-6 flex justify-center">
+          <div className="mb-6 flex flex-col items-center gap-2">
             <div className="rounded-full bg-emerald-600 px-10 py-2.5 text-sm md:text-base font-semibold uppercase tracking-[0.32em] text-white shadow-lg">
               Offre de lancement
             </div>
+            <p className="text-xs md:text-sm text-slate-600 text-center">
+              30 jours d’essai gratuit, sans engagement.
+            </p>
           </div>
-
           <div className="grid gap-4 sm:grid-cols-2">
             {PREMIUM_PLANS.map((plan) => {
               const isMonthly = plan.id === "monthly";
@@ -227,7 +229,7 @@ export default function SubscribePage() {
                     </div>
                   ) : (
                     <div className="pointer-events-none absolute -right-10 top-6 w-[170px] rotate-45 bg-emerald-500 py-1 text-center text-[0.55rem] font-semibold uppercase tracking-[0.14em] text-white shadow-md">
-                      Promo spéciale
+                      1 mois offert
                     </div>
                   )}
 
@@ -268,12 +270,12 @@ export default function SubscribePage() {
                             19,90 €
                           </span>
                           <span className="ml-3 text-sm text-slate-500">
-                            la première année
+                            
                           </span>
                         </p>
 
                         <p className="text-sm text-slate-500">
-                          Puis 29,90 € TTC / an
+                          Soit ~1,66 € TTC / ans, payé en une fois.
                         </p>
                         <p className="mt-1 text-xs text-slate-500">
                           {plan.priceDetail}
