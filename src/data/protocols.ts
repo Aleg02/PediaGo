@@ -207,6 +207,23 @@ export const PROTOCOLS: Protocol[] = [
     ],
   },
   {
+    slug: "fievre-nourrisson-moins-3-mois",
+    title: "Fièvre du nourrisson < 3 mois",
+    version: "V0.1",
+    tags: ["infectieux", "urgence"],
+    icon: "🍼",
+    accentColor: "#6d28d9",
+    accessLevel: "free",
+    sources: [
+      { label: "HAS – Infections néonatales et nourrisson fébrile", url: "https://www.has-sante.fr" },
+      { label: "AAP Clinical Practice Guideline 2021", url: "https://publications.aap.org" },
+      { label: "NICE Fever Under 5s (2021)", url: "https://www.nice.org.uk/guidance/ng143" },
+      { label: "HAS – Infections néonatales précoces (2020)", url: "https://www.has-sante.fr/jcms/p_3237281/fr/infections-neonatales-bacteriennes" },
+      { label: "Société Française de Pédiatrie / Néonatalogie", url: "https://www.societe-neonatalogie.fr" },
+      { label: "CDC Neonatal Sepsis", url: "https://www.cdc.gov/sepsis" },
+    ],
+  },
+  {
     slug: "fievre-sepsis-purpura",
     title: "Fièvre sévère / Sepsis / Purpura fulminans",
     version: "V0.1",
