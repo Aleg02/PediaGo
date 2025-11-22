@@ -38,6 +38,7 @@ import ProtocolFlowBruluresChimiques from "@/components/ProtocolFlowBruluresChim
 import ProtocolFlowInhalationCO from "@/components/ProtocolFlowInhalationCO";
 import ProtocolFlowTraumatismeThoracique from "@/components/ProtocolFlowTraumatismeThoracique";
 import ProtocolFlowPlaiePenetranteThoracoAbdominale from "@/components/ProtocolFlowPlaiePenetranteThoracoAbdominale";
+import ProtocolFlowTraumatismeRachisCervical from "@/components/ProtocolFlowTraumatismeRachisCervical";
 
 // Sections posologie (NOUVEAU rendu V2 depuis le JSON)
 import PosologySections from "@/components/PosologySections";
@@ -117,6 +118,7 @@ export default function ProtocolPage() {
     "inhalation-fumees-co": ProtocolFlowInhalationCO,
     "traumatisme-thoracique-pediatrique": ProtocolFlowTraumatismeThoracique,
     "plaie-penetrante-thoraco-abdominale": ProtocolFlowPlaiePenetranteThoracoAbdominale,
+    "traumatisme-rachis-cervical": ProtocolFlowTraumatismeRachisCervical,
   };
   const Flow = FlowBySlug[slug];
   const requiresPremium = protocol?.accessLevel === "premium";
