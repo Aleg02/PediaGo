@@ -118,6 +118,16 @@ const SECTION_MAP: Record<string, string[]> = {
     "purpura_fulminans",
   ],
 
+  // Brûlures thermiques étendues
+  "brulures-thermiques-etendues": [
+    "constantes",
+    "iot",
+    "isr",
+    "perfusion_transfusion",
+    "sedation",
+    "etat_de_choc",
+  ],
+
   // Traumatisme crânien
   "traumatisme-cranien": [
     "constantes",

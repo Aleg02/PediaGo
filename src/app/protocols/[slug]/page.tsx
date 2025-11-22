@@ -33,6 +33,7 @@ import ProtocolFlowTSV from "@/components/ProtocolFlowTSV";
 import ProtocolFlowFAST from "@/components/ProtocolFlowFAST";
 import ProtocolFlowPolytrauma from "@/components/ProtocolFlowPolytrauma";
 import ProtocolFlowNoyade from "@/components/ProtocolFlowNoyade";
+import ProtocolFlowBrulures from "@/components/ProtocolFlowBrulures";
 
 // Sections posologie (NOUVEAU rendu V2 depuis le JSON)
 import PosologySections from "@/components/PosologySections";
@@ -107,6 +108,7 @@ export default function ProtocolPage() {
     "traumatisme-thoraco-abdominal-fast": ProtocolFlowFAST,
     "polytraumatisme-pediatrique": ProtocolFlowPolytrauma,
     "noyade-submersion": ProtocolFlowNoyade,
+    "brulures-thermiques-etendues": ProtocolFlowBrulures,
   };
   const Flow = FlowBySlug[slug];
   const requiresPremium = protocol?.accessLevel === "premium";

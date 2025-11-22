@@ -881,4 +881,48 @@ export const PROTOCOL_DETAILS: Record<string, ProtocolSection[]> = {
       ],
     },
   ],
+  "brulures-thermiques-etendues": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Brûlures thermiques ≥ 10 % SCB (≥ 5 % nourrisson) hors 1er degré : standardiser la stabilisation préhospitalière/SAU selon GFRUP, SFAR/SFMU/CTB.",
+        "Sécuriser les calculs de remplissage RL et l’analgésie pondérée en prévenant l’hypothermie.",
+      ],
+    },
+    {
+      title: "Évaluation initiale",
+      bullets: [
+        "ABCDE complet + estimation SCB (Lund & Browder pédiatrique ou règle de la paume ~1 %).",
+        "IOT précoce si brûlure cervico-faciale avec suspicion inhalation, voix rauque/stridor/tirage, GCS < 9, détresse respiratoire ou choc.",
+      ],
+    },
+    {
+      title: "Mesures immédiates",
+      bullets: [
+        "Arrêt du processus thermique, retrait vêtements/bijoux ; cooling 15–20 min à 15–20 °C si < 20 % SCB et < 15 min après brûlure, stopper si hypothermie/instabilité.",
+        "Prévention hypothermie (couverture isotherme, réchauffer ambulance/salle), O₂ MHC si inhalation suspectée, analgésie (paracétamol, morphine titrée ± kétamine, MEOPA).",
+      ],
+    },
+    {
+      title: "Remplissage RL",
+      bullets: [
+        "Indication : ≥ 10 % SCB enfant ou ≥ 5 % nourrisson, ou tout signe de choc.",
+        "0–2 h : 20 mL/kg puis 10 mL/kg RL ; 2–24 h : Parkland 4 mL × poids × %SCB (50 % sur 8 h depuis l’accident, 50 % sur 16 h) en soustrayant ce qui a déjà été perfusé ; ajouter besoins 4-2-1 G5 % + électrolytes ; cible diurèse ≥ 1 mL/kg/h (≥ 0,5 mL/kg/h).",
+      ],
+    },
+    {
+      title: "Orientation / transfert",
+      bullets: [
+        "Hospitalisation au minimum : nourrisson 5–10 %, enfant 10–20 %, ou brûlure < 10 % avec localisation fonctionnelle, 3ᵉ degré, lésions associées ou suspicion maltraitance.",
+        "Transfert CTB/réanimation : nourrisson > 10 %, enfant > 20 %, face/mains/pieds/périnée/articulations ou brûlures circulaires, inhalation de fumées ou défaillance vitale ; sortie domicile non recommandée si ≥ 10 %.",
+      ],
+    },
+    {
+      title: "À éviter",
+      bullets: [
+        "Pas d’antibioprophylaxie systémique ni de corticoïdes de routine pour la brûlure cutanée isolée.",
+        "Pas de cooling prolongé/eau glacée ; pas de topiques gras type Biafine® ou tulle gras sur grandes surfaces ; pas d’infiltration lidocaïne étendue ; prudence avec les AINS.",
+      ],
+    },
+  ],
 };

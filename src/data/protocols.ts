@@ -447,4 +447,35 @@ export const PROTOCOLS: Protocol[] = [
       { label: "NICE Trauma Guidelines", url: "https://www.nice.org.uk" },
     ],
   },
+  {
+    slug: "brulures-thermiques-etendues",
+    title: "Brûlures thermiques étendues (≥ 10 % SCB) – enfant",
+    version: "V1.0",
+    tags: ["trauma", "urgence"],
+    icon: "🔥",
+    accentColor: "#f97316",
+    accessLevel: "free",
+    sources: [
+      {
+        label: "GFRUP / Société Française de Pédiatrie – Brûlure de l'enfant : prise en charge préhospitalière (2014)",
+        url: "https://gfrup.sfpediatrie.com",
+      },
+      {
+        label: "SFAR / SFMU / CTB – Prise en charge du brûlé grave (2019)",
+        url: "https://www.sfmu.org",
+      },
+      {
+        label: "Fiches CTB – Urgences-lecongrès.org (2023)",
+        url: "https://urgences-lecongres.org",
+      },
+      {
+        label: "Hôpitaux Universitaires de Genève – Prise en charge des brûlures (2024)",
+        url: "https://www.hug.ch",
+      },
+      {
+        label: "HAS – Prise en charge de la douleur chez l'enfant (2016)",
+        url: "https://www.has-sante.fr",
+      },
+    ],
+  },
 ];
