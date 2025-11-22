@@ -52,7 +52,6 @@ type InvoiceSummary = {
   hosted_invoice_url?: string | null;
   invoice_pdf?: string | null;
   amount_paid: number;
-  amount_due: number;
   currency: string;
   created: number;
   period_end: number;
@@ -149,7 +148,6 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
         hosted_invoice_url: invoice.hosted_invoice_url,
         invoice_pdf: invoice.invoice_pdf,
         amount_paid: invoice.amount_paid,
-        amount_due: invoice.amount_due,
         currency: invoice.currency,
         created: invoice.created,
         period_end: invoice.period_end,

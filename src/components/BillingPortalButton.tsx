@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 
-import { PlanCheckoutButton } from "./PlanCheckoutButton";
+import clsx from "clsx";
 
-function mergeClasses(base: string, extra?: string) {
-  return extra ? `${base} ${extra}` : base;
-}
+import { PlanCheckoutButton } from "./PlanCheckoutButton";
 
 type BillingPortalButtonProps = {
   className?: string;
@@ -62,7 +60,7 @@ export function BillingPortalButton({
           type="button"
           onClick={openPortal}
           disabled={loading}
-          className={mergeClasses(
+          className={clsx(
             "inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70",
             className,
           )}
@@ -92,7 +90,7 @@ export function BillingPortalButton({
         type="button"
         onClick={openPortal}
         disabled={loading}
-        className={mergeClasses(
+        className={clsx(
           "inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70",
           className,
         )}
