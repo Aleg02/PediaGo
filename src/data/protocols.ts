@@ -478,4 +478,19 @@ export const PROTOCOLS: Protocol[] = [
       },
     ],
   },
+  {
+    slug: "brulures-chimiques-pediatriques",
+    title: "Brûlures chimiques pédiatriques – urgence cutanée/oculaire",
+    version: "V1.0",
+    tags: ["trauma", "urgence"],
+    icon: "🧪",
+    accentColor: "#10b981",
+    accessLevel: "free",
+    sources: [
+      { label: "ameli.fr – Brûlures de la peau (2025)", url: "https://www.ameli.fr" },
+      { label: "MSD Manuals – Brûlures chimiques (2024)", url: "https://www.msdmanuals.com" },
+      { label: "Securimed – Décontamination des brûlures chimiques (2025)", url: "https://www.securimed.fr" },
+      { label: "SFAR/SFMU – Prise en charge du brûlé grave (2019)", url: "https://www.sfmu.org" },
+    ],
+  },
 ];

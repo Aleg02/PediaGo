@@ -127,6 +127,15 @@ const SECTION_MAP: Record<string, string[]> = {
     "sedation",
     "etat_de_choc",
   ],
+  // Brûlures chimiques
+  "brulures-chimiques-pediatriques": [
+    "constantes",
+    "iot",
+    "isr",
+    "perfusion_transfusion",
+    "sedation",
+    "etat_de_choc",
+  ],
 
   // Traumatisme crânien
   "traumatisme-cranien": [
