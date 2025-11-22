@@ -29,6 +29,7 @@ import ProtocolFlowFievreNourrisson from "@/components/ProtocolFlowFievreNourris
 import ProtocolFlowTCC from "@/components/ProtocolFlowTCC";
 import ProtocolFlowLaryngite from "@/components/ProtocolFlowLaryngite";
 import ProtocolFlowPCB from "@/components/ProtocolFlowPCB";
+import ProtocolFlowDeshydratation from "@/components/ProtocolFlowDeshydratation";
 import ProtocolFlowPneumopathieMyco from "@/components/ProtocolFlowPneumopathieMyco";
 import ProtocolFlowMeningite from "@/components/ProtocolFlowMeningite";
 import ProtocolFlowMEA from "@/components/ProtocolFlowMEA";
@@ -102,6 +103,7 @@ export default function ProtocolPage() {
     eme: ProtocolFlowEME,
     "convulsion-febrile-simple": ProtocolFlowCFS,
     hypoglycemie: ProtocolFlowHypoglycemie,
+    "deshydratation-aigue-severe": ProtocolFlowDeshydratation,
     "acidocetose-diabetique": ProtocolFlowAcidocetose,
     antalgiques: ProtocolFlowAntalgiques,
     bronchiolite: ProtocolFlowBronchiolite,
