@@ -656,6 +656,53 @@ export const PROTOCOL_DETAILS: Record<string, ProtocolSection[]> = {
       ],
     },
   ],
+  "fievre-nourrisson-moins-3-mois": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Standardiser l'évaluation d'un nourrisson fébrile < 90 jours pour détecter IBS et décider bilan/ATB/hospitalisation.",
+        "Assurer un calcul automatique des posologies IV/PO selon le poids.",
+      ],
+    },
+    {
+      title: "Critères de gravité immédiate",
+      bullets: [
+        "Altération de conscience, hypotonie, gémissements persistants, TRC > 3 s, marbrures, détresse respi, convulsions.",
+        "< 28 jours fébrile = haut risque automatique → ATB IV + hospitalisation sans délai.",
+      ],
+    },
+    {
+      title: "Conduite selon l'âge",
+      bullets: [
+        "< 21 j : bilan complet (hémoc, BU/ECBU, CRP/PCT, iono, GDS, LCR obligatoire) + ATB systématiques + hospitalisation.",
+        "22–28 j : bilan complet incluant LCR ; ATB si CRP/PCT élevées, anomalies FNS/EFRI ou clinique douteuse ; hospitalisation quasi systématique.",
+        "29–60 j : bilan orienté (ECBU systématique, CRP ± PCT, FNS, ± LCR) ; ATB si haut risque, surveillance si bas risque.",
+      ],
+    },
+    {
+      title: "Antibiothérapie empirique",
+      bullets: [
+        "< 28 j ou sepsis sévère : Ampicilline 100 mg/kg/8 h + Céfotaxime 50 mg/kg/8 h.",
+        "29–60 j à risque : Ceftriaxone 50 mg/kg/j (max 2 g) ; éviter si ictère < 1 mois (préférer Céfotaxime).",
+        "Suspicion méningite : Ampicilline + Céfotaxime ± Acyclovir 20 mg/kg/8 h.",
+      ],
+    },
+    {
+      title: "Risque AAP 2021",
+      bullets: [
+        "Haut risque : < 21 j ou < 28 j symptomatique, CRP/PCT élevées, FNS/LCR anormaux, signes de gravité → ATB + hospitalisation.",
+        "Risque intermédiaire : 22–60 j, examen rassurant mais CRP modérée ou BU anormale stable → examens ciblés ± ATB.",
+        "Bas risque : ≥ 29 j, examen normal, CRP < 20, PCT < 0,5, leucocytes 5–15 G/L, BU normale, famille fiable → surveillance 48 h sans ATB.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation systématique si < 28 j, sepsis probable/confirmé, bilan anormal, famille incertaine ou suspicion méningite.",
+        "Sortie uniquement si ≥ 29 j, groupe bas risque, examens normaux, famille fiable et surveillance médicale < 12 h.",
+      ],
+    },
+  ],
   "fievre-sepsis-purpura": [
     { title: "Objectif", bullets: [
       "Reconnaître très tôt les sepsis/purpuras fulminans, déclencher l'ATB IV sans délai",
