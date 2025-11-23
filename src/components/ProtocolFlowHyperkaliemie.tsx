@@ -57,7 +57,7 @@ export default function ProtocolFlowHyperkaliemie() {
           <AgeWeightPicker
             ageLabel={ageLabel ?? ""}
             setAgeLabel={(v) => setAgeLabel(v)}
-            weightKg={typeof weightFromStore === "number" ? weightFromStore : null}
+            weightKg={weightKg}
             setWeightKg={(v) => setWeightKg(clampWeight(v ?? weightKg))}
           />
         </div>

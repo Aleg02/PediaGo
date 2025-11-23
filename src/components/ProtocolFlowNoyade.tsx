@@ -189,7 +189,7 @@ export default function ProtocolFlowNoyade() {
           <AgeWeightPicker
             ageLabel={ageLabel ?? ""}
             setAgeLabel={(v) => setAgeLabel(v)}
-            weightKg={typeof weightFromStore === "number" ? weightFromStore : null}
+            weightKg={weightKg}
             setWeightKg={(v) => setWeightKg(clampWeight(v ?? weightKg))}
           />
         </div>
@@ -208,11 +208,10 @@ export default function ProtocolFlowNoyade() {
           <div className="mt-2 grid grid-cols-2 gap-2">
             <button
               type="button"
-              className={`${toggleBase} ${
-                scenario === "acr"
+              className={`${toggleBase} ${scenario === "acr"
                   ? "border-slate-900 bg-slate-900 text-white shadow"
                   : "border-slate-200 bg-white text-slate-700 hover:border-slate-400"
-              }`}
+                }`}
               onClick={() => setScenario("acr")}
             >
               ACR / apnée
@@ -222,11 +221,10 @@ export default function ProtocolFlowNoyade() {
             </button>
             <button
               type="button"
-              className={`${toggleBase} ${
-                scenario === "severe"
+              className={`${toggleBase} ${scenario === "severe"
                   ? "border-slate-900 bg-slate-900 text-white shadow"
                   : "border-slate-200 bg-white text-slate-700 hover:border-slate-400"
-              }`}
+                }`}
               onClick={() => setScenario("severe")}
             >
               Détresse sévère
@@ -236,11 +234,10 @@ export default function ProtocolFlowNoyade() {
             </button>
             <button
               type="button"
-              className={`${toggleBase} ${
-                scenario === "resp"
+              className={`${toggleBase} ${scenario === "resp"
                   ? "border-slate-900 bg-slate-900 text-white shadow"
                   : "border-slate-200 bg-white text-slate-700 hover:border-slate-400"
-              }`}
+                }`}
               onClick={() => setScenario("resp")}
             >
               Symptômes respi
@@ -250,11 +247,10 @@ export default function ProtocolFlowNoyade() {
             </button>
             <button
               type="button"
-              className={`${toggleBase} ${
-                scenario === "light"
+              className={`${toggleBase} ${scenario === "light"
                   ? "border-slate-900 bg-slate-900 text-white shadow"
                   : "border-slate-200 bg-white text-slate-700 hover:border-slate-400"
-              }`}
+                }`}
               onClick={() => setScenario("light")}
             >
               Forme légère

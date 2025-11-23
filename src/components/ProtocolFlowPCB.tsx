@@ -123,11 +123,10 @@ function ToggleGroup<T extends string>({
             <button
               type="button"
               key={opt.value}
-              className={`${pillBase} ${
-                active
+              className={`${pillBase} ${active
                   ? "border-slate-900 bg-slate-900 text-white shadow"
                   : "border-slate-200 bg-white text-slate-700 hover:border-slate-400"
-              }`}
+                }`}
               onClick={() => onChange(opt.value)}
             >
               <span className="font-semibold">{opt.label}</span>
@@ -213,7 +212,7 @@ export default function ProtocolFlowPCB() {
 
   const hospitalTriggers = useMemo(
     () => [
-      "SpO₂ < 94 % malgré O₂", 
+      "SpO₂ < 94 % malgré O₂",
       "détresse respi / tirage sévère",
       "âge < 3 mois ou comorbidités cardio-respi",
       "incapacité à s'alimenter / déshydratation",
@@ -235,7 +234,7 @@ export default function ProtocolFlowPCB() {
           <AgeWeightPicker
             ageLabel={ageLabel ?? ""}
             setAgeLabel={(v) => setAgeLabel(v)}
-            weightKg={typeof weightFromStore === "number" ? weightFromStore : null}
+            weightKg={safeWeight}
             setWeightKg={(v) => setWeightKg(clampWeight(v ?? safeWeight))}
           />
         </div>

@@ -102,7 +102,7 @@ export default function ProtocolFlowHypothermie() {
           <AgeWeightPicker
             ageLabel={ageLabel ?? ""}
             setAgeLabel={(v) => setAgeLabel(v)}
-            weightKg={typeof weightFromStore === "number" ? weightFromStore : null}
+            weightKg={weightKg}
             setWeightKg={(v) => setWeightKg(clampWeight(v ?? weightKg))}
           />
         </div>
@@ -162,11 +162,10 @@ export default function ProtocolFlowHypothermie() {
                     key={key}
                     type="button"
                     onClick={() => setClassif(key)}
-                    className={`flex flex-col rounded-2xl border px-3 py-2 text-left text-sm font-semibold transition ${
-                      active
+                    className={`flex flex-col rounded-2xl border px-3 py-2 text-left text-sm font-semibold transition ${active
                         ? "border-slate-900 bg-slate-900 text-white shadow"
                         : "border-slate-200 bg-white text-slate-700 hover:border-slate-400"
-                    }`}
+                      }`}
                   >
                     <span>{meta.label}</span>
                     <span className={active ? "text-white/80 text-xs" : "text-slate-500 text-xs"}>

@@ -103,7 +103,7 @@ export default function ProtocolFlowInhalationCO() {
           <AgeWeightPicker
             ageLabel={ageLabel ?? ""}
             setAgeLabel={(v) => setAgeLabel(v)}
-            weightKg={typeof weightFromStore === "number" ? weightFromStore : null}
+            weightKg={weightKg}
             setWeightKg={(v) => setWeightKg(clampWeight(v ?? weightKg))}
           />
         </div>
@@ -117,9 +117,8 @@ export default function ProtocolFlowInhalationCO() {
                   key={level}
                   type="button"
                   onClick={() => setSeverity(level as typeof severity)}
-                  className={`${toggleBase} border-white/40 bg-white/90 text-slate-900 hover:bg-white focus-visible:ring-white/70 ${
-                    severity === level ? "ring-2 ring-white" : ""
-                  }`}
+                  className={`${toggleBase} border-white/40 bg-white/90 text-slate-900 hover:bg-white focus-visible:ring-white/70 ${severity === level ? "ring-2 ring-white" : ""
+                    }`}
                 >
                   {level === "critique"
                     ? "Détresse vitale"

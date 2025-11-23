@@ -89,6 +89,25 @@ with upsert as (
       true
     ),
     (
+      'inhalation-fumees-co',
+      'inhalation-fumees-co',
+      'Inhalation de fumées / intoxication CO',
+      'V0.1',
+      array['respiratoire','toxicologie','urgence'],
+      '🔥',
+      '#f97316',
+      jsonb_build_array(
+        jsonb_build_object('label', 'Ministère de la Santé – Intoxication au CO', 'url', 'https://solidarites-sante.gouv.fr/sante-et-environnement/intoxications-au-monoxyde-de-carbone/'),
+        jsonb_build_object('label', 'SFAR–SFMU – Recommandations brûlés (2019)', 'url', 'https://www.sfmu.org/upload/consensus/rpp_brule_2019.pdf'),
+        jsonb_build_object('label', 'HAS – Cyanures (2017)', 'url', 'https://www.has-sante.fr/upload/docs/application/pdf/2017-07/fiche_diagnostic_cyanure.pdf'),
+        jsonb_build_object('label', 'CDC – Carbon Monoxide Poisoning (2024)', 'url', 'https://www.cdc.gov/co'),
+        jsonb_build_object('label', 'AAP – Pediatric CO Poisoning (2023)', 'url', 'https://www.aap.org/en/patient-care/environmental-health/'),
+        jsonb_build_object('label', 'SPLF – Fiches inhalation fumées / CO', 'url', 'https://splf.fr')
+      ),
+      jsonb_build_object('summary', 'Oxygène 100 % immédiat, dépistage cyanures et hyperbarie.'),
+      false
+    ),
+    (
       'hypoglycemie',
       'hypoglycemie',
       'Hypoglycémie aiguë',
@@ -191,5 +210,24 @@ from (
     ('Évaluation initiale', jsonb_build_object('bullets', jsonb_build_array('Glycémie capillaire immédiate', 'Recherche signe neuro', 'Accès veineux ou IO')), 0),
     ('Bolus rapide', jsonb_build_object('bullets', jsonb_build_array('Glucose 10% : 2 ml/kg IV lent', 'Contrôle glycémie 5 min', 'Préparer perfusion continue')), 1),
     ('Stabilisation', jsonb_build_object('bullets', jsonb_build_array('Perf 10% à 5-8 mg/kg/min', 'Apport per os dès que possible', 'Investiguer cause métabolique')), 2)
+  ) as rows(title, content, position)
+) as data;
+
+-- Inhalation CO sections
+with card_ref as (
+  select id from public.cards where slug = 'inhalation-fumees-co'
+)
+delete from public.card_sections where card_id = (select id from card_ref);
+
+insert into public.card_sections (card_id, title, content, position)
+select card_id, title, content, position
+from (
+  select
+    (select id from public.cards where slug = 'inhalation-fumees-co') as card_id,
+    *
+  from (values
+    ('Orientation rapide', jsonb_build_object('bullets', jsonb_build_array('Détresse vitale : O₂ 100 % + intubation', 'Intoxication sévère : COHb ≥ 20 % ou signes neuro/cardio', 'Forme modérée : symptômes simples, COHb intermédiaire')), 0),
+    ('Traitement', jsonb_build_object('bullets', jsonb_build_array('Oxygène 100 % masque haute concentration', 'Hydroxocobalamine si suspicion cyanures', 'Hyperbarie si critères de gravité')), 1),
+    ('Surveillance', jsonb_build_object('bullets', jsonb_build_array('ECG, COHb, Lactates', 'Vigilance œdème VAS', 'Hospitalisation systématique si symptômes')), 2)
   ) as rows(title, content, position)
 ) as data;
