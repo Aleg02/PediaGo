@@ -12,13 +12,13 @@ import AgeWeightPicker from "@/components/AgeWeightPicker";
 /* ---------- Couleurs ---------- */
 const ACCENT = {
   yellow: { header: "bg-[#F9A825]", body: "bg-[#FFF8E1]", border: "border-[#F9A825]" },
-  gray:   { header: "bg-[#455A64]", body: "bg-[#ECEFF1]", border: "border-[#455A64]" },
-  blue:   { header: "bg-[#1E88E5]", body: "bg-[#E3F2FD]", border: "border-[#1E88E5]" },
-  green:  { header: "bg-[#43A047]", body: "bg-[#E8F5E9]", border: "border-[#43A047]" },
-  teal:   { header: "bg-[#00897B]", body: "bg-[#E0F2F1]", border: "border-[#00897B]" },
+  gray: { header: "bg-[#455A64]", body: "bg-[#ECEFF1]", border: "border-[#455A64]" },
+  blue: { header: "bg-[#1E88E5]", body: "bg-[#E3F2FD]", border: "border-[#1E88E5]" },
+  green: { header: "bg-[#43A047]", body: "bg-[#E8F5E9]", border: "border-[#43A047]" },
+  teal: { header: "bg-[#00897B]", body: "bg-[#E0F2F1]", border: "border-[#00897B]" },
   orange: { header: "bg-[#EF6C00]", body: "bg-[#FFF3E0]", border: "border-[#EF6C00]" },
-  red:    { header: "bg-[#E53935]", body: "bg-[#FFEBEE]", border: "border-[#E53935]" },
-  dark:   { header: "bg-[#263238]", body: "bg-[#ECEFF1]", border: "border-[#263238]" },
+  red: { header: "bg-[#E53935]", body: "bg-[#FFEBEE]", border: "border-[#E53935]" },
+  dark: { header: "bg-[#263238]", body: "bg-[#ECEFF1]", border: "border-[#263238]" },
 } as const;
 
 /* ---------- UI helpers ---------- */
@@ -115,28 +115,28 @@ export default function ProtocolFlowAAG() {
       if (Number.isFinite(computed?.doseMg)) {
         return Math.round(computed.doseMg as number);
       }
-    } catch {}
+    } catch { }
     return Math.round((effWeight as number) * 2);
   }, [effWeight]);
 
   const mgso4BolusMg = useMemo(() => {
     if (!Number.isFinite(effWeight)) return undefined;
-    return Math.round((effWeight as number) * 20);
+    return Math.min(Math.round((effWeight as number) * 20), 2000);
   }, [effWeight]);
   const mgso4PerfMgPerHour = useMemo(() => {
     if (!Number.isFinite(effWeight)) return undefined;
-    return Math.round((effWeight as number) * 10);
+    return Math.min(Math.round((effWeight as number) * 10), 2000);
   }, [effWeight]);
 
   const m421 = useMemo(() => maintenance421(effWeight), [effWeight]);
   const vtRange = useMemo(() => {
-  if (!Number.isFinite(effWeight)) return undefined;
-  const w = effWeight as number;
-  return {
-    min: Math.round(w * 6), // mL
-    max: Math.round(w * 8), // mL
-  };
-}, [effWeight]);
+    if (!Number.isFinite(effWeight)) return undefined;
+    const w = effWeight as number;
+    return {
+      min: Math.round(w * 6), // mL
+      max: Math.round(w * 8), // mL
+    };
+  }, [effWeight]);
 
   /* ---------- Rendu ---------- */
   return (

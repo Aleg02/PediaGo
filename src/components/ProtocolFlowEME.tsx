@@ -6,13 +6,13 @@ import AgeWeightPicker from "@/components/AgeWeightPicker";
 import { useAppStore } from "@/store/useAppStore";
 
 const ACCENT = {
-  slate:  { header: "bg-[#546E7A]", body: "bg-[#ECEFF1]", border: "border-[#546E7A]" },
-  amber:  { header: "bg-[#F9A825]", body: "bg-[#FFF8E1]", border: "border-[#F9A825]" },
-  blue:   { header: "bg-[#1E88E5]", body: "bg-[#E3F2FD]", border: "border-[#1E88E5]" },
-  magenta:{ header: "bg-[#D81B60]", body: "bg-[#FCE4EC]", border: "border-[#D81B60]" },
+  slate: { header: "bg-[#546E7A]", body: "bg-[#ECEFF1]", border: "border-[#546E7A]" },
+  amber: { header: "bg-[#F9A825]", body: "bg-[#FFF8E1]", border: "border-[#F9A825]" },
+  blue: { header: "bg-[#1E88E5]", body: "bg-[#E3F2FD]", border: "border-[#1E88E5]" },
+  magenta: { header: "bg-[#D81B60]", body: "bg-[#FCE4EC]", border: "border-[#D81B60]" },
   orange: { header: "bg-[#FB8C00]", body: "bg-[#FFF3E0]", border: "border-[#FB8C00]" },
-  teal:   { header: "bg-[#00897B]", body: "bg-[#E0F2F1]", border: "border-[#00897B]" },
-  red:    { header: "bg-[#C62828]", body: "bg-[#FFEBEE]", border: "border-[#C62828]" },
+  teal: { header: "bg-[#00897B]", body: "bg-[#E0F2F1]", border: "border-[#00897B]" },
+  red: { header: "bg-[#C62828]", body: "bg-[#FFEBEE]", border: "border-[#C62828]" },
   purple: { header: "bg-[#6A1B9A]", body: "bg-[#F3E5F5]", border: "border-[#6A1B9A]" },
 } as const;
 
@@ -57,10 +57,7 @@ function pickEffectiveWeight(w?: number | null) {
   return Number((w as number).toFixed(1));
 }
 
-function roundTo(value: number, step: number) {
-  if (!step) return value;
-  return Math.round(value / step) * step;
-}
+import { roundToStep } from "@/lib/dosing";
 
 function computeDose(
   weight: number | undefined,
@@ -70,7 +67,7 @@ function computeDose(
   if (!Number.isFinite(weight)) return undefined;
   let value = (weight as number) * mgPerKg;
   if (options.max) value = Math.min(value, options.max);
-  if (options.round) value = roundTo(value, options.round);
+  if (options.round) value = roundToStep(value, options.round);
   return value;
 }
 

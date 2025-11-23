@@ -20,7 +20,10 @@ export type WeightOverride = {
 
 export function roundToStep(value: number, step = 0) {
   if (!step || step <= 0) return value;
-  return Math.round(value / step) * step;
+  const rounded = Math.round(value / step) * step;
+  // Sécurité : ne jamais arrondir à 0 une dose non nulle
+  if (value > 0 && rounded === 0) return step;
+  return rounded;
 }
 
 export function computeDose(

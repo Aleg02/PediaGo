@@ -41,8 +41,8 @@ export default function ProtocolFlowFievreNourrisson() {
   const bolus10 = weightKg * 10;
   const dextrose = weightKg * 2;
 
-  const ampiDose = weightKg * 100;
-  const ampiDay = weightKg * 300;
+  const ampiDose = weightKg * 50;
+  const ampiDay = weightKg * 150;
   const cefotaximeDose = weightKg * 50;
   const cefotaximeDay = weightKg * 150;
   const ceftriaxoneDose = Math.min(weightKg * 50, 2000);
@@ -204,7 +204,7 @@ export default function ProtocolFlowFievreNourrisson() {
             title="< 28 j ou sepsis sévère tout âge"
             items={[
               <span key="ampi">
-                Ampicilline IV <strong>{formatMg(ampiDose)}</strong> toutes les 8 h (100 mg/kg/dose, {formatMg(ampiDay)}\/j).
+                Ampicilline IV <strong>{formatMg(ampiDose)}</strong> toutes les 8 h (50 mg/kg/dose, {formatMg(ampiDay)}\/j).
               </span>,
               <span key="cefotaxime">
                 Cefotaxime IV <strong>{formatMg(cefotaximeDose)}</strong> toutes les 8 h (50 mg/kg/dose, {formatMg(cefotaximeDay)}\/j).
