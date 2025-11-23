@@ -2,7 +2,9 @@
 
 import type { ReactNode } from "react";
 
-import AgeWeightPicker from "@/components/AgeWeightPicker";
+import AgeWeightPicker, {
+  estimateAgeFromWeight,
+} from "@/components/AgeWeightPicker";
 import { useAppStore } from "@/store/useAppStore";
 import { formatMg } from "@/lib/units";
 
@@ -94,7 +96,24 @@ export default function ProtocolFlowSepsisPurpura() {
   const bolus40 = weightKg * 40;
   const bolus60 = weightKg * 60;
 
-  const ceftriaxoneMg = Math.min(weightKg * 100, weightKg < 12 ? 1000 : 2000);
+  const ceftriaxoneMax = (() => {
+    const ageForCap = ageLabel ?? estimateAgeFromWeight(weightKg);
+
+    if (!ageForCap) {
+      return weightKg < 12 ? 1000 : 2000;
+    }
+
+    const matchYears = ageForCap.match(/(\d+)\s*an(s)?/i);
+    if (matchYears) {
+      const years = Number(matchYears[1]);
+      return years >= 12 ? 2000 : 1000;
+    }
+
+    // Labels with months or birth default to the pediatric cap
+    return 1000;
+  })();
+
+  const ceftriaxoneMg = Math.min(weightKg * 100, ceftriaxoneMax);
   const cefotaximeDay = weightKg * 150;
   const cefotaximeDose = cefotaximeDay / 3; // 3 perfusions/jour
 
