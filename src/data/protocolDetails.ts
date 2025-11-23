@@ -1265,4 +1265,714 @@ export const PROTOCOL_DETAILS: Record<string, ProtocolSection[]> = {
       ],
     },
   ],
+  "deshydratation-aigue-sans-choc": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Standardiser la PEC d’une déshydratation modérée (hypovolémie sans choc) due à vomissements/diarrhées.",
+        "Prévenir l’évolution vers le choc hypovolémique, sécuriser les calculs de réhydratation orale ou IV et l’orientation.",
+      ],
+    },
+    {
+      title: "Évaluation initiale",
+      bullets: [
+        "ABCDE complet, TA normale, TRC < 3 s, conscience préservée = pas de choc franc.",
+        "Signes de déshydratation modérée : soif, muqueuses sèches, pli cutané lent, tachycardie modérée, oligurie.",
+      ],
+    },
+    {
+      title: "Réhydratation orale (si possible)",
+      bullets: [
+        "SRO OMS/ESPGHAN 50–100 mL/kg sur 4 h, en petites prises régulières.",
+        "Ondansétron ≥ 2 ans 0,15 mg/kg (max 8 mg) si vomissements ; éviter métoclopramide, AINS, lopéramide.",
+      ],
+    },
+    {
+      title: "Réhydratation IV (si incapacité à boire)",
+      bullets: [
+        "NaCl 0,9 % ou Ringer Lactate.",
+        "Déficit = poids × % × 10 ; corriger 50 % en 4 h puis besoins 4-2-1 ; KCl 0,5–1 mEq/kg/j après diurèse.",
+        "G10 % 2 mL/kg si glycémie < 3 mmol/L.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : incapacité à boire, vomissements incoercibles, ionogramme perturbé, âge < 3 mois, pathologie sévère, environnement incertain ou déshydratation sévère.",
+        "Sortie : hydratation clinique normale, diurèse reprise, tolérance orale, ionogramme normal, parents fiables, contrôle < 24–48 h.",
+      ],
+    },
+  ],
+  "coup-de-chaleur": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Identifier un coup de chaleur (hyperthermie ≥ 40 °C + atteinte neurologique) et initier un refroidissement immédiat < 30 min.",
+        "Prévenir les défaillances multiviscérales et déterminer l’orientation (hospitalisation / réanimation).",
+      ],
+    },
+    {
+      title: "Évaluation initiale",
+      bullets: [
+        "ABCDE, température centrale rectale; TA normale vs hypotension tardive, TRC > 3 s = gravité.",
+        "Atteinte neuro (confusion, convulsions, coma) impose activation immédiate du protocole.",
+      ],
+    },
+    {
+      title: "Refroidissement",
+      bullets: [
+        "Immersion eau glacée 1–15 °C 10–20 min sous surveillance, arrêt à 39 °C.",
+        "Ou méthode évaporative + ventilation ; poches de glace aisselles/aine/cou/flancs.",
+        "Pas d’antipyrétiques/AINS, pas d’alcool cutané, prudence immersion nourrisson < 1 an.",
+      ],
+    },
+    {
+      title: "Traitements associés",
+      bullets: [
+        "Hydratation si hypovolémie : NaCl 0,9 % 10–20 mL/kg; éviter G5 % d’emblée.",
+        "Convulsions : midazolam 0,1–0,2 mg/kg IV/IN ou clonazépam 0,05 mg/kg IV.",
+        "Hypoglycémie : G10 % 2 mL/kg; surveiller électrolytes, fonction rénale/hépatique, CPK.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : T ≥ 40 °C, trouble neuro, rhabdomyolyse (CPK > 1000), déshydratation sévère, troubles ioniques, nourrisson < 1 an, suspicion coup de chaleur d’effort.",
+        "Réanimation si coma/convulsions, échec refroidissement, acidose sévère, IRA, instabilité hémodynamique; sortie rare seulement si T < 38 °C stable 6–8 h, examen neuro normal, iono/CPK normaux et famille fiable.",
+      ],
+    },
+  ],
+  "hypothermie-accidentelle": [
+    {
+      title: "Objectif",
+      bullets: [
+        "PEC immédiate de l’hypothermie accidentelle pédiatrique : classer (32–35 / 28–32 / < 28 °C), réchauffer sans traumatisme et orienter (hospitalisation/réanimation).",
+        "Prévenir FV, corriger hypoglycémie et adapter les bolus IV chauffés selon la perfusion.",
+      ],
+    },
+    {
+      title: "Évaluation initiale",
+      bullets: [
+        "ABCDE, mesure T° centrale rectale/sonde/œsophagienne (pas tympanique). Manipulation minimale (risque FV).",
+        "Bradypnée, bradycardie physiologique, TRC prolongé, conscience altérée possible.",
+      ],
+    },
+    {
+      title: "Réchauffement selon sévérité",
+      bullets: [
+        "Légère 32–35 °C : réchauffement externe passif/actif léger (couvertures, air chaud), boissons chaudes si conscience.",
+        "Modérée 28–32 °C : réchauffement externe actif + perfusions chauffées 38–42 °C (NaCl/RL), bolus 10 mL/kg si hypovolémie modérée, 20 mL/kg si hypoperfusion.",
+        "Sévère < 28 °C : réchauffement interne actif (lavages chauds, air chaud humidifié), ECMO/CEC si arrêt cardiaque/instabilité.",
+      ],
+    },
+    {
+      title: "Gestes associés",
+      bullets: [
+        "O₂ titré 94–98 %, monitorage ECG (QT long), TA, SpO₂, T° centrale continue.",
+        "Hypoglycémie fréquente : G10 % 2 mL/kg IV. Convulsions : midazolam 0,1–0,2 mg/kg ou clonazépam 0,05 mg/kg.",
+        "Hyperkaliémie fréquente en hypothermie sévère : corriger après réchauffement sauf menace vitale.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : T° < 32 °C, troubles neuro ou cardiaques, hypoglycémie persistante, vulnérabilité/maltraitance, submersion.",
+        "Réanimation : < 28 °C, coma, arythmies sévères, instabilité hémodynamique, besoin de réchauffement interne actif.",
+        "Sortie seulement si T° ≥ 36 °C stabilisée 2–3 h, examen neuro normal, iono/glycémie normaux, cause corrigée, environnement fiable (reconsultation 24–48 h).",
+      ],
+    },
+  ],
+  "intoxication-paracetamol": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Standardiser la prise en charge de l’intoxication au paracétamol : évaluation, nomogramme, NAC IV pondérée, hospitalisation/réa.",
+        "Ne pas retarder la NAC si dose toxique, paracétamolémie toxique ou dose inconnue suspecte.",
+      ],
+    },
+    {
+      title: "Évaluation initiale",
+      bullets: [
+        "ABCDE ; dose ingérée (mg/kg), heure exacte, forme (LP ?), co-intoxications.",
+        "Paracétamolémie à H4 (et H8 si LP) + bilan hépatique (ASAT/ALAT, TP/INR, bilirubine), ionogramme, glycémie, créatinine, lactate.",
+      ],
+    },
+    {
+      title: "Seuils décisionnels",
+      bullets: [
+        "Aiguë : > 150 mg/kg = NAC immédiate ; > 200 mg/kg très toxique ; dose inconnue → prudence.",
+        "Répétée : > 90 mg/kg/j ou cytolyse/vomissements → NAC ; nomogramme valable seulement en aiguë.",
+      ],
+    },
+    {
+      title: "NAC IV (21 h)",
+      bullets: [
+        "150 mg/kg/1 h (charge) ; 50 mg/kg/4 h ; 100 mg/kg/16 h. Alternative 12 h sur avis centre antipoison.",
+        "Vomissements : ralentir la perfusion, ondansétron ≥ 2 ans 0,15 mg/kg.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : NAC démarrée, paracétamolémie toxique, cytolyse, co-intoxications, vomissements persistants, adolescent.",
+        "Réanimation : TP < 50 %, hypoglycémie persistante, encéphalopathie hépatique, lactates élevés, IRA.",
+        "Sortie si bilan hépatique normal, paracétamolémie < 10 mg/L, pas de vomissements, conscience normale, suivi 48–72 h, contexte social fiable.",
+      ],
+    },
+  ],
+  "intoxication-benzodiazepines": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Identifier rapidement une intoxication aux benzodiazépines, traiter la dépression respiratoire, encadrer l’usage du flumazénil et orienter.",
+      ],
+    },
+    {
+      title: "Signes de gravité",
+      bullets: [
+        "FR < 10/min, SpO₂ < 92 % malgré O₂, GCS < 12, hypotension, co-ingestion dangereuse (tricycliques, opioïdes, alcool).",
+        "Convulsions, âge < 2 ans symptomatique, BZD LP, tentative de suicide.",
+      ],
+    },
+    {
+      title: "Symptomatique",
+      bullets: [
+        "O₂ titré 94–98 %, ventilation assistée si hypoventilation/SpO₂ < 90 % ou épuisement.",
+        "VVP/IO si conscience altérée ; NaCl 0,9 % 10 mL/kg si hypotension (rare).",
+      ],
+    },
+    {
+      title: "Flumazénil",
+      bullets: [
+        "Indications strictes : ingestion accidentelle isolée sans épilepsie ni co-ingestion pro-convulsivante ni sevrage.",
+        "Contre-indications : tricycliques, épilepsie/anticonvulsivants, sevrage BZD, doute de co-ingestion, tentative de suicide.",
+        "< 5 ans : 0,01 mg/kg (max 0,2 mg) puis 0,01 mg/kg/min (max 0,05 mg/kg ou 1 mg). ≥ 5 ans : 0,1 mg répété (max 1 mg).",
+        "Risque de re-sédation, surveillance ≥ 2 h post-réveil.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : dépression respi, âge < 2 ans symptomatique, co-ingestion, BZD LP, flumazénil, coma, suicide.",
+        "Réanimation : intubation/ventilation, hypoventilation sévère, acidose respiratoire, instabilité hémodynamique.",
+        "Sortie : enfant réveillé, paramètres normaux, tolérance alimentaire, pas de BZD LP, surveillance post-flumazénil ≥ 2–3 h, famille fiable.",
+      ],
+    },
+  ],
+  "intoxication-opioides": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Standardiser la prise en charge des intoxications opioïdes pédiatriques : ventilation prioritaire, naloxone titrée, surveillance prolongée des formes LP/tramadol.",
+      ],
+    },
+    {
+      title: "Signes / examens",
+      bullets: [
+        "Triade opioïde : dépression respiratoire + myosis serré + coma ; bradycardie/hypotension possibles.",
+        "Bilans si modéré/sévère : glycémie, GDS, ionogramme, NFS, fonction rénale, ECG (tramadol/méthadone).",
+      ],
+    },
+    {
+      title: "Ventilation / perfusion",
+      bullets: [
+        "O₂ 94–98 %, ventilation assistée si SpO₂ < 92 %, FR très basse ou apnées.",
+        "VVP/IO ; NaCl 0,9 % 10 mL/kg si hypotension (rare).",
+      ],
+    },
+    {
+      title: "Naloxone",
+      bullets: [
+        "Indications : dépression respi, SpO₂ < 94 % malgré O₂, hypoventilation/apnée, coma opioïde, intoxication accidentelle.",
+        "Titration IV : 0,01 mg/kg puis 0,02 mg/kg, puis 0,1 mg/kg si besoin ; max 2 mg cumulés.",
+        "Re-sédation : perfusion = 2/3 de la dose efficace cumulée/h ; voies IM/IN 0,1 mg/kg si IV impossible (surveillance longue).",
+      ],
+    },
+    {
+      title: "Tramadol",
+      bullets: [
+        "Naloxone si dépression respi sévère ; convulsions → midazolam 0,1–0,2 mg/kg.",
+        "ECG systématique (QT long), surveillance prolongée si forme LP.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : naloxone administrée, dépression respi, opioïde LP (méthadone/oxycodone), coma, co-ingestion, contexte douteux ou volontaire.",
+        "Réanimation : intubation/ventilation, naloxone en perfusion, hypotension persistante, convulsions récurrentes.",
+        "Sortie : réveil complet, FR/SpO₂ normales sans O₂, pas de naloxone depuis ≥ 6 h, pas d’opioïde LP, famille fiable, prévention/ suivi 24–48 h.",
+      ],
+    },
+  ],
+  "ingestion-caustiques": [
+    {
+      title: "Objectif",
+      bullets: [
+        "PEC sécurisée d’une ingestion de caustique (acides/bases fortes) chez l’enfant : protéger VAS, éviter tout geste aggravant, planifier endoscopie 12–24 h et orienter.",
+      ],
+    },
+    {
+      title: "Mesures immédiates",
+      bullets: [
+        "Appel CAPTV immédiat, retirer vêtements souillés, irrigation peau/yeux si projection.",
+        "Rien par la bouche, O₂ 94–98 %, VVP, antalgiques (paracétamol/morphine) et hydratation prudente.",
+      ],
+    },
+    {
+      title: "Interdits",
+      bullets: [
+        "Pas de vomissements provoqués, pas de boisson ni neutralisation, pas de charbon activé, pas de sondage NG préhospitalier, pas de lavage gastrique.",
+      ],
+    },
+    {
+      title: "Examens / endoscopie",
+      bullets: [
+        "Biologie : NFS, CRP, ionogramme, fonction rénale, bilan hépatique, gaz sanguin.",
+        "Imagerie (TDM thoraco-abdo) si suspicion perforation ; OGD 12–24 h si symptomatique, ingestion base > 5 %/acide concentré/intentionnelle, non recommandée après 48 h.",
+      ],
+    },
+    {
+      title: "Traitement médical",
+      bullets: [
+        "IPP chez symptomatiques (oméprazole IV 1 mg/kg/j).",
+        "NaCl 0,9 % 10–20 mL/kg si déshydratation ; surveillance glycémie.",
+        "Corticoïdes seulement si œdème laryngé menaçant (méthylpred 1–2 mg/kg). Antibiotiques seulement si perforation/fièvre/inhalation/médiastinite.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : tout symptôme, ingestion forte, douleur thoracique/abdo, vomissements, hypersialorrhée, lésions buccales, anomalies radio, ingestion volontaire, < 3 ans.",
+        "Réanimation : détresse respi, suspicion perforation, acidose métabolique, instabilité hémodynamique, stades 2b–3.",
+        "Sortie : asymptomatique > 6 h, ingestion mineure < 5 %, pas de signes ORL/vomissements ni lésions buccales, pas d’indication endoscopie, famille fiable + prévention accidents.",
+      ],
+    },
+  ],
+  "ingestion-pile-bouton": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Urger la prise en charge des piles boutons : neutraliser pH (miel/sucralfate), localiser par radios, extraire en < 2 h si œsophage, prévenir les complications (fistule aorto-œsophagienne).",
+      ],
+    },
+    {
+      title: "Mesures immédiates",
+      bullets: [
+        "Ne pas faire vomir/boire, pas de charbon ni sondage ; miel 10 mL/10 min ≤ 6 doses si > 12 mois, sucralfate 10 mL (tous âges) si dispo.",
+        "Radios face + profil cou/thorax/abdomen d’emblée pour localiser et vérifier double contour.",
+      ],
+    },
+    {
+      title: "Localisation",
+      bullets: [
+        "Œsophage : endoscopie < 2 h, O₂, VVP, IPP IV, hospitalisation.",
+        "Gastrique : < 6 ans + ≥ 20 mm → endoscopie 24–48 h ; symptômes → endoscopie ; asymptomatique → radio 48 h, endoscopie si non évacuée.",
+        "Post-pylorique : surveillance clinique + radio 48–72 h, endoscopie/TDM si symptômes.",
+      ],
+    },
+    {
+      title: "Traitements associés",
+      bullets: [
+        "Antalgiques (paracétamol 15 mg/kg, morphine 0,05–0,1 mg/kg).",
+        "IPP si lésions œsophagiennes (oméprazole IV 1 mg/kg/j).",
+        "Antibiotiques seulement si fièvre/perforation/inhalation/médiastinite ; NaCl 0,9 % 20 mL/kg si choc.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : pile œsophagienne, symptômes, pile ≥ 20 mm, < 6 ans avec pile gastrique, co-ingestion, famille peu fiable, ingestion volontaire.",
+        "Réanimation : détresse respi, perforation suspecte, hématémèse, instabilité hémodynamique.",
+        "Sortie : pile gastrique < 15 mm chez > 6 ans, asymptomatique, radio satisfaisante, parents fiables + consignes retour immédiat (fièvre, vomissements, douleur thoracique, hématémèse, hypersialorrhée).",
+      ],
+    },
+  ],
+  "intoxication-bb-ic": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Prise en charge urgente des intoxications BB/IC : bradycardie/hypotension, corriger glycémie, antidotes (glucagon/calcium), insuline haute dose, vasopresseurs, HIET, orientation réa.",
+      ],
+    },
+    {
+      title: "Signes / examens",
+      bullets: [
+        "Bradycardie, hypotension, troubles conductifs, hypo (BB) ou hyperglycémie (IC), convulsions (propranolol).",
+        "Biologie : glycémie, iono, Ca/Mg, gaz, lactate, fonction rénale ; ECG (BAV/blocs/QRS/QT).",
+      ],
+    },
+    {
+      title: "Traitements BB",
+      bullets: [
+        "O₂, 2 VVP, remplissage 10–20 mL/kg.",
+        "Glucagon : bolus 50 µg/kg (max 5 mg) → perf 50 µg/kg/h (1–5 mg/h).",
+        "Insuline haute dose (HIET) : bolus 1 U/kg (si glycémie > 6 mmol/L), perf 0,5–1 U/kg/h (max 10) + glucose (G30 %) et cible glycémie 6–10 mmol/L, K+ 3,5–4,5.",
+      ],
+    },
+    {
+      title: "Traitements IC",
+      bullets: [
+        "Calcium : CaCl2 10 % 20 mg/kg (0,2 mL/kg) central, répétable ; gluconate 10 % 50 mg/kg (0,5 mL/kg) périphérique, répétable puis perf 50 mg/kg/h.",
+        "HIET = première ligne IC sévère.",
+        "Vasopresseurs : adrénaline/noradrénaline 0,05–1 µg/kg/min.",
+        "Intralipides : bolus 1,5 mL/kg 20 %, perf 0,25 mL/kg/min 30–60 min (max 10 mL/kg) si choc réfractaire (propranolol, vérapamil, diltiazem).",
+      ],
+    },
+    {
+      title: "Autres / orientation",
+      bullets: [
+        "Atropine 0,02 mg/kg (efficacité limitée), charbon si < 1 h et conscient.",
+        "Formes LP : surveillance ≥ 24–36 h ; nourrisson < 2 ans : risque hypoglycémie ; ado : évaluation psy.",
+        "Hospitalisation si brady/hypotension, ECG anormal, LP, besoin antidotes IV, ingestion volontaire/co-intox ; réa si HIET/vasopresseurs/ventilation ou choc.",
+        "Sortie : FC/PA normales sans support, ECG normal, glycémie stable, asymptomatique ≥ 12 h (24 h si LP), suivi psy si besoin, parents fiables.",
+      ],
+    },
+  ],
+  "corps-etranger-inhale": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Reconnaître obstruction totale/partielle, appliquer les manœuvres adaptées à l’âge, organiser l’endoscopie et l’hospitalisation.",
+      ],
+    },
+    {
+      title: "Gravité",
+      bullets: [
+        "Obstruction partielle : toux efficace, entrée d’air conservée ; obstruction totale : silence respiratoire, incapacité parler/pleurer, cyanose, tirage extrême, perte de conscience rapide.",
+        "Ne pas faire de manœuvres si toux efficace.",
+      ],
+    },
+    {
+      title: "Conduite immédiate",
+      bullets: [
+        "< 1 an : 5 claques + 5 compressions thoraciques (2 doigts), alterner.",
+        "≥ 1 an : 5 claques dorsales + 5 compressions abdominales (Heimlich), alterner.",
+        "Enfant inconscient : appel secours, RCP 30 compressions, visualisation CE si visible, 2 insufflations, poursuivre jusqu’aux secours.",
+      ],
+    },
+    {
+      title: "Post-extraction",
+      bullets: [
+        "O₂ titré 94–98 %, rechercher stridor/dyspnée, hémoptysie, pneumothorax (manœuvres intenses).",
+        "Radiographie thorax PA + profil systématique.",
+        "Endoscopie rigide si suspicion persistante même radios normales, CE végétal/arachide, symptômes persistants.",
+      ],
+    },
+    {
+      title: "Traitements",
+      bullets: [
+        "Bronchodilatateurs non recommandés (obstruction mécanique).",
+        "Corticothérapie seulement si œdème laryngé post-manœuvres : dexaméthasone 0,15–0,6 mg/kg.",
+        "Antibiotiques uniquement si pneumopathie secondaire ; antalgiques (paracétamol 15 mg/kg), éviter morphiniques si FR altérée.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : extraction endoscopique, symptômes persistants, radio anormale, suspicion persistante, CE végétal, comorbidité respi, post-manœuvres traumatiques.",
+        "Réanimation : intubation/ventilation, hypoxie persistante, ACR initial, œdème laryngé sévère, pneumothorax sous tension.",
+        "Sortie : clinique et radio normales, asymptomatique ≥ 4 h, famille fiable + prévention (éducation CE).",
+      ],
+    },
+  ],
+  "corps-etranger-oesophagien": [
+    {
+      title: "Objectif",
+      bullets: [
+        "PEC d’un corps étranger œsophagien (hors pile) : identifier gravité, typer le CE (pointu/aimants/aliments/objet arrondi), prioriser l’endoscopie et orienter.",
+      ],
+    },
+    {
+      title: "Signes de gravité",
+      bullets: [
+        "Hypersialorrhée, incapacité à avaler salive, douleur thoracique, vomissements incoercibles, dyspnée/toux, fièvre/suspicion perforation, CE pointu/aimants multiples.",
+      ],
+    },
+    {
+      title: "Examens",
+      bullets: [
+        "Radiographie face+profil cou-thorax-abdomen pour tout CE ; rechercher localisation, forme, pneumomédiastin, niveaux.",
+        "CE non radio-opaque : endoscopie si symptômes persistants ; TDM si suspicion perforation (emphysème médiastinal, douleur, fièvre, dyspnée, CRP élevée).",
+      ],
+    },
+    {
+      title: "Conduite",
+      bullets: [
+        "Pointu/tranchant : endoscopie < 2 h ; ne pas faire avaler pain/eau.",
+        "Aimants : un aimant < 12–24 h ; multiples ou aimant+ métal → urgence < 2 h.",
+        "Aliment bloqué : extraction < 12 h, pas de vomissements induits ni boissons ; objet arrondi : extraction < 24 h si œsophage ; objet long (>5–6 cm) : extraction.",
+        "Objet passé estomac : surveillance + contrôle.",
+      ],
+    },
+    {
+      title: "Traitements",
+      bullets: [
+        "O₂ titré 94–98 % ; antalgiques (paracétamol 15 mg/kg, morphine 0,05–0,1 mg/kg).",
+        "Corticoïdes seulement si œdème laryngé/détresse respi (dexaméthasone 0,15–0,6 mg/kg).",
+        "ATB si perforation/fièvre/mediastinite/pneumopathie d’inhalation ; interdits : boissons, vomissements provoqués, gestes externes.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation : CE pointu/aimants, symptômes, extraction endoscopique, comorbidité respi, suspicion perforation, douleur/fièvre, < 3 ans, problème social.",
+        "Réanimation : instabilité hémodynamique, détresse respi, perforation/mediastinite, post-anesthésie complexe.",
+        "Sortie : examen/radio normaux ou CE évacué, asymptomatique ≥ 4–6 h, parents fiables + consignes retour.",
+      ],
+    },
+  ],
+  "malaise-grave-nourrisson": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Identifier un BRUE faible risque versus ALTE haut risque, sécuriser ABCDE et éliminer les causes graves, définir hospitalisation vs sortie.",
+      ],
+    },
+    {
+      title: "Critères haut risque",
+      bullets: [
+        "Âge < 60 j, prématurité < 32 SA (ou âge corrigé < 45 SA), événement > 1 min, récidive, ventilation nécessaire, hypotonie persistante, suspicion maltraitance, signes vitaux anormaux, nourrisson malade (fièvre, vomissements bilieux), terrain à risque.",
+      ],
+    },
+    {
+      title: "BRUE faible risque",
+      bullets: [
+        "Événement résolu unique, aucun critère haut risque.",
+        "Observation 1–2 h, monitorage SpO₂/FR, pas d’examens ni imagerie, pas de traitements respiratoires, sortie avec éducation parents si tout est normal.",
+      ],
+    },
+    {
+      title: "ALTE / haut risque",
+      bullets: [
+        "Hospitalisation systématique.",
+        "Bilans selon clinique : glycémie, iono, gaz si malaise important, ECG, monitorage 24 h, NFS/CRP/PCT, ECBU, PCR virales (coqueluche/VRS) selon contexte, Rx thorax si signes respi, avis neuro/social si besoin.",
+      ],
+    },
+    {
+      title: "Traitements",
+      bullets: [
+        "O₂ 94–98 %, glucose IV si glycémie < 3 mmol/L (G10 % 2 mL/kg), midazolam 0,1–0,2 mg/kg si convulsion, paracétamol 15 mg/kg si fièvre/douleur.",
+        "Pas d’antiémétiques systématiques < 6 mois, caféine uniquement en service spécialisé (prématurés).",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation dès un critère haut risque, anomalies persistantes, comorbidités, suspicion coqueluche/intoxication/maltraitance, épisode réanimé.",
+        "Sortie (BRUE faible risque) si asymptomatique ≥ 1–2 h, examen normal, parents rassurés/formés, accès urgent facilité, document d’alerte remis.",
+      ],
+    },
+  ],
+  "troubles-rythme-ventriculaire": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Prendre en charge les TV/FV/torsades pédiatriques : défibrillation 4 J/kg, cardioversion si TV instable, MgSO4 torsades, antiarythmiques adaptés, orientation réanimation.",
+      ],
+    },
+    {
+      title: "Rythme choquable (pVT/FV)",
+      bullets: [
+        "RCP + O₂ + défibrillateur : 4 J/kg biphasique (2–4 J/kg autorisé). Chocs successifs avec RCP 2 min.",
+        "Après 3ᵉ choc : adrénaline 0,01 mg/kg toutes 3–5 min + amiodarone 5 mg/kg (ou lidocaïne 1 mg/kg).",
+        "Chocs ultérieurs jusqu’à ~8–10 J/kg max selon appareil.",
+      ],
+    },
+    {
+      title: "TV avec pouls",
+      bullets: [
+        "Instable : cardioversion synchronisée 1 J/kg puis 2 J/kg (jusqu’à 4 J/kg), + amiodarone 5 mg/kg si persistance, avis cardio.",
+        "Stable : O₂, monitorage, bilan ionique, amiodarone 5 mg/kg sur 20–60 min (jusqu’à 15 mg/kg/j selon avis spécialisé).",
+      ],
+    },
+    {
+      title: "Torsades de pointes (QT long)",
+      bullets: [
+        "Magnésium 25–50 mg/kg IV (max 2 g) perf 15–20 min si pouls, bolus IV/IO en RCP si sans pouls.",
+        "Corriger K+/Ca2+, arrêter médicaments allongeant le QT ; pacing/isoprénaline si récidives.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation réa/USC/cardiologie après FV, TV sans pouls, TV soutenue ou torsades : monitorage continu, bilan étiologique complet, plan secondaire (β-bloquants, DAI…).",
+        "Éviter vasopressine de routine, défibrillation > 10 J/kg hors protocole expert, antiarythmiques non validés sans avis spécialisé.",
+      ],
+    },
+  ],
+  "bradycardie-extreme": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Gérer une bradycardie pédiatrique grave avec signes de choc : ventilation/oxygénation, RCP + adrénaline si FC < 60/min, atropine ciblée, pacing si réfractaire, orientation réanimation.",
+      ],
+    },
+    {
+      title: "Signes de gravité",
+      bullets: [
+        "FC très basse (< 60/min ou < 5e centile) malgré ventilation, hypotension, altération de conscience, TRC > 3 s, marbrures, oligurie.",
+        "Risque arrêt cardiorespiratoire imminent.",
+      ],
+    },
+    {
+      title: "Mesures initiales",
+      bullets: [
+        "O₂ haut débit, ventilation assistée si besoin ; corriger 4 H/4 T (hypoxie, hypovolémie, hypo/hyperkaliémie, hypothermie, tamponnade, pneumothorax, thrombose, toxiques).",
+        "Monitorage ECG, TA, SpO₂ ; accès IV/IO, glycémie, gaz/iono.",
+      ],
+    },
+    {
+      title: "Traitement actif",
+      bullets: [
+        "FC < 60/min + choc malgré ventilation → RCP + adrénaline 0,01 mg/kg IV/IO toutes 3–5 min (0,1 mL/kg 1:10 000).",
+        "Atropine 0,02 mg/kg (min 0,1 mg, max 0,5 mg/bolus) si cause vagale/bloc AV, peut répéter une fois.",
+        "Pacing externe/transveineux si réfractaire (avis cardio).",
+      ],
+    },
+    {
+      title: "Bradycardie avec pouls (choc modéré)",
+      bullets: [
+        "O₂, IV/IO, monitorage, correction causes ; atropine si cause vagale/bloc AV, préparer pacing si détérioration.",
+        "Avis cardiologie, transfert en unité spécialisée.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation USC/réanimation pédiatrique obligatoire, monitorage continu, bilan étiologique (ECG, écho, iono, métabolique), avis cardio.",
+        "Stabilisation aiguë : FC adaptée, pas de récidive, causes corrigées/planifiées, suivi cardio en place.",
+      ],
+    },
+  ],
+  "hyperkaliemie-severe": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Reconnaître et traiter rapidement une hyperkaliémie sévère pédiatrique (K⁺ élevé + signes ECG/clinique) : protection cardiaque, translocation du K⁺, élimination et préparation dialyse.",
+      ],
+    },
+    {
+      title: "Signes de gravité",
+      bullets: [
+        "K⁺ ≥ ~6–6,5 mmol/L ou signes ECG : ondes T pointues, QRS élargi, absence P, rythme sinusoïdal.",
+        "Clinique : faiblesse, arythmies, bradycardie, hypotension, risque arrêt.",
+      ],
+    },
+    {
+      title: "Mesures initiales",
+      bullets: [
+        "O₂ haut débit, monitorage ECG continu, accès IV/IO, TA, bilans (iono, gaz, créat/urée, CK…).",
+        "Corriger causes (hypoxie, hypovolémie, acidose, rhabdomyolyse), arrêter médicaments hyperkaliémiants.",
+      ],
+    },
+    {
+      title: "Traitement aigu",
+      bullets: [
+        "Protection cardiaque : gluconate de calcium 10 % 0,2 mL/kg IV (min 1 mL, cap protocole local).",
+        "Translocation : insuline 0,1 U/kg + glucose 50 % 2 mL/kg; bicarbonate 1–2 mEq/kg si acidose; salbutamol néb 0,15 mg/kg (2,5–5 mg, max 10).",
+        "Élimination : arrêter apports, diurétiques si possible, résines rarement en urgence, dialyse/épuration si anurie/IRA ou hyperK persistante.",
+      ],
+    },
+    {
+      title: "Situations particulières",
+      bullets: [
+        "Nouveau-né/prématuré : plages normales plus hautes (≤ 6 mmol/L), volumes adaptés, avis néonat/néphro.",
+        "IRA/anurie : indication agressive, dialyse rapide.",
+        "Rhabdomyolyse/lyse/intoxication : surveillance K⁺ 15–30 min initialement, bilan spécifique.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation soins intensifs/réa : monitorage continu, bilans répétés, préparation épuration.",
+        "Stabilisation : K⁺ < 5,5–6 mmol/L, ECG/clinique normalisés, pas de récidive 12–24 h, cause corrigée/planifiée, suivi néphro-cardio.",
+      ],
+    },
+  ],
+  "hyponatremie-severe": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Prise en charge urgente de l’hyponatrémie aiguë sévère : bolus NaCl 3 % pour stopper l’œdème cérébral, puis correction lente et étiologique.",
+      ],
+    },
+    {
+      title: "Gravité",
+      bullets: [
+        "Na⁺ < 125 mmol/L ou hyponatrémie aiguë (< 48 h) avec symptômes neurologiques (convulsions, troubles conscience, HTIC, arrêt respi).",
+      ],
+    },
+    {
+      title: "Traitement d’attaque",
+      bullets: [
+        "NaCl 3 % 2 mL/kg sur 10 min (max 100 mL), répéter jusqu’à 3 fois si absence d’amélioration ; contrôle Na⁺ 15–30 min après chaque bolus.",
+        "Objectif court terme : +4 à +6 mmol/L.",
+      ],
+    },
+    {
+      title: "Correction lente",
+      bullets: [
+        "Cible +6 à +8 mmol/L/24 h, jamais > 10 mmol/L/24 h.",
+        "Adapter à la cause : restriction hydrique SIADH, NaCl 0,9 % si pertes digestives/rénales/déshydratation, avis néphro/cardio pour IC/IR.",
+        "Surveillance Na⁺ q2h, neuro rapprochée, TA/FC/Sat, diurèse.",
+      ],
+    },
+    {
+      title: "À éviter",
+      bullets: [
+        "Surcorrection rapide, perfusions hypotoniques, diurétiques sans indication, vaptans en urgence pédiatrique.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation (USC/réa) pour toute hyponatrémie sévère/symptomatique ou aiguë, besoin NaCl 3 %, ou contexte SIADH/IRA/intox.",
+        "Stabilisation phase aiguë : Na⁺ > 125–130 mmol/L, correction ≤ 8 mmol/L/24 h, symptômes résolus, cause prise en charge, plan de surveillance établi.",
+      ],
+    },
+  ],
+  "kawasaki-choc": [
+    {
+      title: "Objectif",
+      bullets: [
+        "PEC Kawasaki aigu et KDSS : détecter le choc, IVIG + AAS, gérer la myocardite/vasoplégie, prévenir coronarites, plan de suivi cardio.",
+      ],
+    },
+    {
+      title: "Signes de choc",
+      bullets: [
+        "Hypotension (âge), TRC > 3 s, marbrures, tachycardie, pouls filants, lactates > 2, oligurie, altération conscience.",
+      ],
+    },
+    {
+      title: "Mesures immédiates",
+      bullets: [
+        "O₂ 94–98 %, écho cardiaque urgente, remplissage prudent NaCl 0,9 % 10 mL/kg (x1 si besoin, surveiller œdème pulmonaire/myocardite).",
+        "Vasoactifs : vasoplégie → noradrénaline 0,05–0,5 µg/kg/min ; cardiogénique → dobutamine 5–10 µg/kg/min ou épinéphrine 0,05–0,3 µg/kg/min ; milrinone 0,25–0,75 µg/kg/min si PAS ok.",
+      ],
+    },
+    {
+      title: "Traitement étiologique",
+      bullets: [
+        "IVIG 2 g/kg sur 10–12 h ; AAS 30–50 mg/kg/j en 4–6 prises puis 3–5 mg/kg/j après apyrexie 48–72 h.",
+        "Corticothérapie formes sévères/choc : Méthylpred 2 mg/kg/j ou pulses 30 mg/kg/j ×1–3 j (avis sénior).",
+        "Anticoagulation si coronaires Z ≥ 10 : héparine/HBPM selon cardio.",
+      ],
+    },
+    {
+      title: "Situations particulières",
+      bullets: [
+        "Nourrisson < 1 an : risque coronarites ++, IVIG précoce même formes incomplètes.",
+        "Myocardite sévère : pas de sur-remplissage ; catécholamines cardiosélectives, milrinone CI si PAS basse.",
+        "COVID/PIMS : immunomodulation renforcée (cortico systématique, 2ᵉ IVIG possible), anticoagulation fréquente.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation systématique ; réanimation si choc, myocardite, vasoactifs.",
+        "Transfert hors réa si stable sans vasopresseurs, perfusion correcte, écho rassurante/stable, apyrexie > 48 h, inflammation décroissante, AAS anti-agrégante relayée, suivi cardio programmé (J7, J14, J30, 6 mois).",
+      ],
+    },
+  ],
 };

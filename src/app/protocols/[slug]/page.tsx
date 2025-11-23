@@ -43,6 +43,23 @@ import ProtocolFlowInhalationCO from "@/components/ProtocolFlowInhalationCO";
 import ProtocolFlowTraumatismeThoracique from "@/components/ProtocolFlowTraumatismeThoracique";
 import ProtocolFlowPlaiePenetranteThoracoAbdominale from "@/components/ProtocolFlowPlaiePenetranteThoracoAbdominale";
 import ProtocolFlowTraumatismeRachisCervical from "@/components/ProtocolFlowTraumatismeRachisCervical";
+import ProtocolFlowCoupDeChaleur from "@/components/ProtocolFlowCoupDeChaleur";
+import ProtocolFlowHypothermie from "@/components/ProtocolFlowHypothermie";
+import ProtocolFlowIntoxParacetamol from "@/components/ProtocolFlowIntoxParacetamol";
+import ProtocolFlowIntoxBZD from "@/components/ProtocolFlowIntoxBZD";
+import ProtocolFlowIntoxOpioides from "@/components/ProtocolFlowIntoxOpioides";
+import ProtocolFlowCaustiques from "@/components/ProtocolFlowCaustiques";
+import ProtocolFlowPileBouton from "@/components/ProtocolFlowPileBouton";
+import ProtocolFlowIntoxBBIC from "@/components/ProtocolFlowIntoxBBIC";
+import ProtocolFlowCorpsEtrangerInhale from "@/components/ProtocolFlowCorpsEtrangerInhale";
+import ProtocolFlowCorpsEtrangerOeso from "@/components/ProtocolFlowCorpsEtrangerOeso";
+import ProtocolFlowBRUE from "@/components/ProtocolFlowBRUE";
+import ProtocolFlowTVFV from "@/components/ProtocolFlowTVFV";
+import ProtocolFlowBradycardie from "@/components/ProtocolFlowBradycardie";
+import ProtocolFlowHyperkaliemie from "@/components/ProtocolFlowHyperkaliemie";
+import ProtocolFlowHyponatremie from "@/components/ProtocolFlowHyponatremie";
+import ProtocolFlowKawasakiChoc from "@/components/ProtocolFlowKawasakiChoc";
+import ProtocolFlowDeshydratationSansChoc from "@/components/ProtocolFlowDeshydratationSansChoc";
 
 // Sections posologie (NOUVEAU rendu V2 depuis le JSON)
 import PosologySections from "@/components/PosologySections";
@@ -104,6 +121,7 @@ export default function ProtocolPage() {
     "convulsion-febrile-simple": ProtocolFlowCFS,
     hypoglycemie: ProtocolFlowHypoglycemie,
     "deshydratation-aigue-severe": ProtocolFlowDeshydratation,
+    "deshydratation-aigue-sans-choc": ProtocolFlowDeshydratationSansChoc,
     "acidocetose-diabetique": ProtocolFlowAcidocetose,
     antalgiques: ProtocolFlowAntalgiques,
     bronchiolite: ProtocolFlowBronchiolite,
@@ -127,6 +145,22 @@ export default function ProtocolPage() {
     "traumatisme-thoracique-pediatrique": ProtocolFlowTraumatismeThoracique,
     "plaie-penetrante-thoraco-abdominale": ProtocolFlowPlaiePenetranteThoracoAbdominale,
     "traumatisme-rachis-cervical": ProtocolFlowTraumatismeRachisCervical,
+    "coup-de-chaleur": ProtocolFlowCoupDeChaleur,
+    "hypothermie-accidentelle": ProtocolFlowHypothermie,
+    "intoxication-paracetamol": ProtocolFlowIntoxParacetamol,
+    "intoxication-benzodiazepines": ProtocolFlowIntoxBZD,
+    "intoxication-opioides": ProtocolFlowIntoxOpioides,
+    "ingestion-caustiques": ProtocolFlowCaustiques,
+    "ingestion-pile-bouton": ProtocolFlowPileBouton,
+    "intoxication-bb-ic": ProtocolFlowIntoxBBIC,
+    "corps-etranger-inhale": ProtocolFlowCorpsEtrangerInhale,
+    "corps-etranger-oesophagien": ProtocolFlowCorpsEtrangerOeso,
+    "malaise-grave-nourrisson": ProtocolFlowBRUE,
+    "troubles-rythme-ventriculaire": ProtocolFlowTVFV,
+    "bradycardie-extreme": ProtocolFlowBradycardie,
+    "hyperkaliemie-severe": ProtocolFlowHyperkaliemie,
+    "hyponatremie-severe": ProtocolFlowHyponatremie,
+    "kawasaki-choc": ProtocolFlowKawasakiChoc,
   };
   const Flow = FlowBySlug[slug];
   const requiresPremium = protocol?.accessLevel === "premium";
