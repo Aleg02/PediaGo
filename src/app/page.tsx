@@ -72,6 +72,33 @@ export default function HomePage() {
     }
   }, [searchMode]);
 
+  // Scroll-to-search : bascule automatique si on scrolle vers le bas
+  useEffect(() => {
+    if (searchMode) return;
+
+    const handleScroll = () => {
+      // Seuil de déclenchement (40px)
+      if (window.scrollY > 40) {
+        setSearchMode(true);
+      }
+    };
+
+    // Gestion du scroll souris même si la page ne scrolle pas (contenu court)
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY > 30) {
+        setSearchMode(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("wheel", handleWheel, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, [searchMode]);
+
   useEffect(() => {
     let active = true;
 
@@ -155,19 +182,17 @@ export default function HomePage() {
       <div className="flex min-h-[calc(100vh-4px)] flex-col items-center">
         {/* HEADER : logo + titre + formulaire de recherche */}
         <header
-          className={`w-full ${
-            searchMode
-              ? "sticky top-0 z-20 bg-white/0 px-4 pt-3 pb-3 backdrop-blur"
-              : "px-6 pt-10"
-          }`}
+          className={`w-full ${searchMode
+            ? "sticky top-0 z-20 bg-white/0 px-4 pt-3 pb-3 backdrop-blur"
+            : "px-6 pt-10"
+            }`}
         >
           {/* Carte interne avec bords arrondis en mode recherche */}
           <div
-            className={`mx-auto max-w-[420px] text-center transition-shadow ${
-              searchMode
-                ? "rounded-3xl bg-white/95 px-6 py-4 shadow-[0_8px_30px_rgba(15,23,42,0.16)]"
-                : ""
-            }`}
+            className={`mx-auto max-w-[420px] text-center transition-shadow ${searchMode
+              ? "rounded-3xl bg-white/95 px-6 py-4 shadow-[0_8px_30px_rgba(15,23,42,0.16)]"
+              : ""
+              }`}
           >
             <button
               type="button"
@@ -186,18 +211,16 @@ export default function HomePage() {
                 />
               )}
               <h1
-                className={`${
-                  searchMode ? "text-4xl" : "mt-7 text-[64px]"
-                } leading-none font-semibold tracking-tight text-slate-900`}
+                className={`${searchMode ? "text-4xl" : "mt-7 text-[64px]"
+                  } leading-none font-semibold tracking-tight text-slate-900`}
               >
                 <span>Pedia</span>
                 <span className="text-[#ef4444]">Go</span>
               </h1>
             </button>
             <p
-              className={`${
-                searchMode ? "mt-1" : "mt-2"
-              } text-sm text-slate-500`}
+              className={`${searchMode ? "mt-1" : "mt-2"
+                } text-sm text-slate-500`}
             >
               Le bon geste, maintenant&nbsp;!
             </p>

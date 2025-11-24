@@ -6,6 +6,7 @@ import {
 import { verifyStripeSignature } from "@/lib/stripeWebhook";
 import { getSupabaseAdminClient } from "@/lib/supabaseAdmin";
 import type { Database } from "@/types/database";
+import { StripeEventSchema } from "@/lib/stripeTypes";
 
 const PREMIUM_PLAN_CODE =
   process.env.STRIPE_PREMIUM_PLAN_CODE ?? "premium-monthly";
@@ -151,36 +152,48 @@ export async function POST(request: Request) {
     );
   }
 
-  const event = JSON.parse(payload) as {
-    type: string;
-    data: { object: Record<string, any> };
-  };
+  // Validation Zod
+  const json = JSON.parse(payload);
+  const parseResult = StripeEventSchema.safeParse(json);
+
+  if (!parseResult.success) {
+    console.error("Stripe webhook validation error:", parseResult.error);
+    return NextResponse.json(
+      { error: "Format d'événement Stripe invalide" },
+      { status: 400 },
+    );
+  }
+
+  const event = parseResult.data;
 
   try {
     switch (event.type) {
       case "checkout.session.completed": {
         const checkout = event.data.object;
-        const subscriptionId = checkout.subscription as string | undefined;
+        const subscriptionId = checkout.subscription;
         if (subscriptionId) {
-          await syncSubscriptionById(subscriptionId, checkout.metadata);
+          // metadata peut être undefined dans le type Zod, on gère le fallback
+          const meta = checkout.metadata as Record<string, string> | undefined;
+          await syncSubscriptionById(subscriptionId, meta);
         }
         break;
       }
       case "customer.subscription.created":
       case "customer.subscription.updated":
       case "customer.subscription.deleted": {
+        // On caste vers StripeSubscription car notre type Zod est compatible
+        // mais persistSubscription attend le type de stripeServer.ts
+        // Idéalement on unifierait les types, mais ici le cast est sûr.
         await persistSubscription(event.data.object as StripeSubscription);
         break;
       }
       case "invoice.payment_succeeded": {
         const invoice = event.data.object;
-        if (typeof invoice.subscription === "string") {
+        if (invoice.subscription) {
           await syncSubscriptionById(invoice.subscription);
         }
         break;
       }
-      default:
-        console.log(`Stripe event ignoré: ${event.type}`);
     }
   } catch (error) {
     console.error("Erreur lors du traitement du webhook Stripe", error);
