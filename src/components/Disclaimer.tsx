@@ -25,22 +25,18 @@ export default function Disclaimer({ className }: DisclaimerProps) {
       <div
         role="note"
         aria-label="Avertissement"
-        className="rounded-2xl border border-yellow-200 bg-yellow-50 px-3 py-2 text-[13px] leading-5 text-slate-700 sm:px-4 sm:py-3 sm:text-sm sm:leading-6"
+        className="rounded-2xl border border-yellow-200 bg-yellow-50 px-3 py-2 text-[11px] leading-4 text-slate-600 sm:text-xs"
       >
-        <p>
-          <span className="font-semibold">⚠️ PediaGo</span> est une aide à la décision et ne remplace pas le jugement clinique.
+        <p className="text-center">
+          ⚠️ PediaGo est une aide à la décision et ne remplace pas le jugement clinique.{" "}
+          <button
+            type="button"
+            className="font-semibold text-[#7c3aed] underline underline-offset-2"
+            onClick={() => setShowModal(true)}
+          >
+            Lire les CGU
+          </button>
         </p>
-        <p className="mt-2 text-[11px] leading-4 text-slate-500 sm:text-xs sm:leading-5">
-          En cas d’urgence, appelez le <span className="font-semibold">15</span> (ou{" "}
-          <span className="font-semibold">112</span>).
-        </p>
-        <button
-          type="button"
-          className="mt-2 text-[11px] font-semibold text-[#7c3aed] underline underline-offset-2 sm:text-xs"
-          onClick={() => setShowModal(true)}
-        >
-          Lire les CGU
-        </button>
       </div>
 
       {showModal && (

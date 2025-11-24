@@ -10,20 +10,29 @@
    🔧 RESET & BASE STYLES
    ---------------------------------------------------- */
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter",
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: #f8fafc;
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 24px 24px;
   color: #1f2937;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
@@ -39,7 +48,9 @@ a {
   text-decoration: none;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   font-family: inherit;
   outline: none;
 }
@@ -57,10 +68,12 @@ html {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
@@ -74,6 +87,7 @@ html {
     opacity: 0;
     transform: translateY(4px) scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -85,6 +99,7 @@ html {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+
   to {
     opacity: 0;
     transform: translateY(4px) scale(0.96);
@@ -97,6 +112,22 @@ html {
 
 .bubble-animate-out {
   animation: acrBubbleOut 160ms ease-in forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
 }
 
 /* ----------------------------------------------------

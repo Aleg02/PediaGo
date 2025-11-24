@@ -18,6 +18,7 @@ export default function ProtocolCard({
   isLocked,
 }: Props) {
   const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
@@ -80,13 +81,16 @@ export default function ProtocolCard({
     <button
       ref={cardRef}
       onClick={() => onOpen?.(item.slug)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       data-testid={`protocol-card-${item.slug}`}
-      className={`group relative w-full overflow-hidden rounded-3xl border border-slate-200/60 bg-white/90 px-5 py-4 text-left shadow-[0_20px_40px_rgba(15,23,42,0.12)] transition-all duration-500 hover:-translate-y-0.5 hover:shadow-[0_24px_45px_rgba(15,23,42,0.16)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/60`}
+      className={`group relative w-full overflow-hidden rounded-3xl border border-slate-200/60 bg-white/70 backdrop-blur-md px-5 py-4 text-left shadow-[0_20px_40px_rgba(15,23,42,0.12)] transition-all duration-500 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/60`}
       style={{
         background: `linear-gradient(135deg, ${withAlpha(
           item.accentColor,
           "12"
         )} 0%, ${withAlpha(item.accentColor, "05")} 100%)`,
+        boxShadow: isHovered ? `0 24px 45px ${withAlpha(item.accentColor, "33")}` : undefined,
       }}
     >
       {/* voile léger quand la fiche est verrouillée */}
@@ -108,9 +112,8 @@ export default function ProtocolCard({
 
       {/* Bloc principal : icône + titre + version */}
       <div
-        className={`flex items-start gap-3 transition-all duration-500 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        }`}
+        className={`flex items-start gap-3 transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
       >
         {/* Icône à gauche */}
         <div
@@ -118,8 +121,8 @@ export default function ProtocolCard({
           style={{
             background: `radial-gradient(circle at 30% 30%, ${withAlpha(
               item.accentColor,
-              "2e"
-            )} 0%, ${withAlpha(item.accentColor, "18")} 100%)`,
+              "40"
+            )} 0%, ${withAlpha(item.accentColor, "20")} 100%)`,
           }}
           aria-hidden
         >
@@ -145,9 +148,8 @@ export default function ProtocolCard({
           ligne dédiée, alignée à gauche sous le bloc principal */}
       {item.tags && item.tags.length > 0 && (
         <div
-          className={`mt-3 flex flex-wrap gap-2 transition-all duration-500 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
+          className={`mt-3 flex flex-wrap gap-2 transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
         >
           {item.tags.map((t) => (
             <span

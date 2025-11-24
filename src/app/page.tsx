@@ -14,6 +14,7 @@ import { fetchCardsList } from "@/lib/cardsClient";
 import { useSession } from "@supabase/auth-helpers-react";
 import { useUserEntitlements } from "@/hooks/useUserEntitlements";
 import PremiumAccessDialog from "@/components/PremiumAccessDialog";
+import QuickActions from "@/components/QuickActions";
 
 export default function HomePage() {
   const router = useRouter();
@@ -211,18 +212,27 @@ export default function HomePage() {
                 />
               )}
               <h1
-                className={`${searchMode ? "text-4xl" : "mt-7 text-[64px]"
-                  } leading-none font-semibold tracking-tight text-slate-900`}
+                className={`${searchMode ? "text-3xl" : "text-[56px]"
+                  } flex items-center justify-center gap-2 leading-none font-bold tracking-tight text-slate-900 transition-all duration-300`}
               >
+                {searchMode && (
+                  <Image
+                    src="/logo.svg"
+                    alt="PediaGo"
+                    width={40}
+                    height={40}
+                    className="h-8 w-auto"
+                  />
+                )}
                 <span>Pedia</span>
                 <span className="text-[#ef4444]">Go</span>
               </h1>
             </button>
             <p
-              className={`${searchMode ? "mt-1" : "mt-2"
-                } text-sm text-slate-500`}
+              className={`${searchMode ? "mt-1" : "mt-4"
+                } text-base font-medium text-slate-500`}
             >
-              Le bon geste, maintenant&nbsp;!
+              Urgences pédiatriques & protocoles
             </p>
 
             <div className={`${searchMode ? "mt-4" : "mt-10"} space-y-4`}>
@@ -259,6 +269,17 @@ export default function HomePage() {
                   inputRef={searchInputRef}
                 />
                 {/* En mode recherche sticky, on ne garde QUE PediaGo + slogan + Age/Poids + barre de recherche */}
+                {!searchMode && (
+                  <QuickActions
+                    className="mt-8"
+                    onSelect={(q) => {
+                      setQuery(q);
+                      setSearchMode(true);
+                      // On simule un clic bouton pour le focus
+                      searchModeTrigger.current = "button";
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -280,23 +301,7 @@ export default function HomePage() {
           {!searchMode && (
             <>
               <Disclaimer className="mt-5" />
-              <button
-                type="button"
-                onClick={() => {
-                  const shouldFocusInput =
-                    typeof window !== "undefined" &&
-                    !window.matchMedia("(pointer: coarse)").matches;
 
-                  searchModeTrigger.current = shouldFocusInput ? "button" : null;
-                  setSearchMode(true);
-                  if (!shouldFocusInput) {
-                    searchInputRef.current?.blur();
-                  }
-                }}
-                className="mt-14 flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_18px_35px_rgba(37,99,235,0.45)] transition hover:from-[#1d4ed8] hover:to-[#6d28d9] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2563eb]"
-              >
-                Accéder aux protocoles
-              </button>
             </>
           )}
 
@@ -317,14 +322,22 @@ export default function HomePage() {
               </div>
 
               {hits.length > 0 ? (
-                hits.map((p) => (
-                  <ProtocolCard
+                hits.map((p, index) => (
+                  <div
                     key={p.slug}
-                    item={p}
-                    onOpen={(slug) => openProtocol(slug, p.accessLevel, p.title)}
-                    highlightQuery={trimmedQuery}
-                    isLocked={p.accessLevel === "premium" && !canViewPremium}
-                  />
+                    className="animate-fade-in-up opacity-0"
+                    style={{
+                      animationDelay: `${index * 50}ms`,
+                      animationFillMode: "forwards",
+                    }}
+                  >
+                    <ProtocolCard
+                      item={p}
+                      onOpen={(slug) => openProtocol(slug, p.accessLevel, p.title)}
+                      highlightQuery={trimmedQuery}
+                      isLocked={p.accessLevel === "premium" && !canViewPremium}
+                    />
+                  </div>
                 ))
               ) : (
                 <div className="rounded-2xl border border-dashed border-slate-200 bg-white px-6 py-8 text-center text-sm text-slate-500">
