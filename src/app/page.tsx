@@ -173,7 +173,7 @@ export default function HomePage() {
     setSearchMode(false);
     searchModeTrigger.current = null;
     searchInputRef.current?.blur();
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
