@@ -173,6 +173,7 @@ export default function HomePage() {
     setSearchMode(false);
     searchModeTrigger.current = null;
     searchInputRef.current?.blur();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -275,8 +276,8 @@ export default function HomePage() {
                     onSelect={(q) => {
                       setQuery(q);
                       setSearchMode(true);
-                      // On simule un clic bouton pour le focus
-                      searchModeTrigger.current = "button";
+                      // On ne force PAS le focus pour éviter l'ouverture du clavier sur mobile
+                      searchModeTrigger.current = null;
                     }}
                   />
                 )}

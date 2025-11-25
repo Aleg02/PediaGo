@@ -125,7 +125,7 @@ export default function AgeWeightPicker({
 
   const labelCls = "text-slate-600 text-sm mb-1";
   const pillBase =
-    "rounded-full px-4 py-2 bg-white border border-black/10 shadow-sm text-[16px] leading-6 w-full";
+    "rounded-full px-4 py-2 bg-white border border-black/10 shadow-sm text-[16px] leading-6 w-full h-12";
   // Forcer un texte sombre sur les champs, même si le parent est en texte blanc
   const pillText = "text-gray-900 placeholder:text-gray-400 font-semibold";
   const pillCls = `${pillBase} ${pillText}`;
