@@ -43,6 +43,10 @@ import ProtocolFlowPlaiePenetranteThoracoAbdominale from "@/components/ProtocolF
 import ProtocolFlowTraumatismeRachisCervical from "@/components/ProtocolFlowTraumatismeRachisCervical";
 import ProtocolFlowCoupDeChaleur from "@/components/ProtocolFlowCoupDeChaleur";
 import ProtocolFlowHypothermie from "@/components/ProtocolFlowHypothermie";
+import ProtocolFlowEpiglottite from "@/components/ProtocolFlowEpiglottite";
+import ProtocolFlowReanimationNeonatale from "@/components/ProtocolFlowReanimationNeonatale";
+import ProtocolFlowCVO from "@/components/ProtocolFlowCVO";
+import ProtocolFlowFractureOuverte from "@/components/ProtocolFlowFractureOuverte";
 import ProtocolFlowIntoxParacetamol from "@/components/ProtocolFlowIntoxParacetamol";
 import ProtocolFlowIntoxBZD from "@/components/ProtocolFlowIntoxBZD";
 import ProtocolFlowIntoxOpioides from "@/components/ProtocolFlowIntoxOpioides";
@@ -57,6 +61,13 @@ import ProtocolFlowBradycardie from "@/components/ProtocolFlowBradycardie";
 import ProtocolFlowHyperkaliemie from "@/components/ProtocolFlowHyperkaliemie";
 import ProtocolFlowHyponatremie from "@/components/ProtocolFlowHyponatremie";
 import ProtocolFlowKawasakiChoc from "@/components/ProtocolFlowKawasakiChoc";
+import ProtocolFlowSyndromeDeLoge from "@/components/ProtocolFlowSyndromeDeLoge";
+import ProtocolFlowAppendicite from "@/components/ProtocolFlowAppendicite";
+import ProtocolFlowSyndromeBebeSecoue from "@/components/ProtocolFlowSyndromeBebeSecoue";
+import ProtocolFlowDetresseRespiratoireNeonat from "@/components/ProtocolFlowDetresseRespiratoireNeonat";
+import ProtocolFlowInvagination from "@/components/ProtocolFlowInvagination";
+import ProtocolFlowComa from "@/components/ProtocolFlowComa";
+import ProtocolFlowRTAG from "@/components/ProtocolFlowRTAG";
 
 // Sections posologie (NOUVEAU rendu V2 depuis le JSON)
 import PosologySections from "@/components/PosologySections";
@@ -120,6 +131,17 @@ export default function ProtocolClientPage({
         "traumatisme-rachis-cervical": ProtocolFlowTraumatismeRachisCervical,
         "coup-de-chaleur": ProtocolFlowCoupDeChaleur,
         "hypothermie-accidentelle": ProtocolFlowHypothermie,
+        "epiglottite-aigue": ProtocolFlowEpiglottite,
+        "crise-vaso-occlusive": ProtocolFlowCVO,
+        "fracture-ouverte-membre": ProtocolFlowFractureOuverte,
+        "syndrome-de-loge": ProtocolFlowSyndromeDeLoge,
+        "appendicite-aigue-enfant": ProtocolFlowAppendicite,
+        "syndrome-bebe-secoue": ProtocolFlowSyndromeBebeSecoue,
+        "detresse-respiratoire-nouveau-ne": ProtocolFlowDetresseRespiratoireNeonat,
+        "invagination-intestinale-aigue": ProtocolFlowInvagination,
+        "coma-pediatrique-non-traumatique": ProtocolFlowComa,
+        "reaction-transfusionnelle-aigue-grave": ProtocolFlowRTAG,
+        "reanimation-neonatale-salle-de-naissance": ProtocolFlowReanimationNeonatale,
         "intoxication-paracetamol": ProtocolFlowIntoxParacetamol,
         "intoxication-benzodiazepines": ProtocolFlowIntoxBZD,
         "intoxication-opioides": ProtocolFlowIntoxOpioides,

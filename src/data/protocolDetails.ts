@@ -1974,5 +1974,421 @@ export const PROTOCOL_DETAILS: Record<string, ProtocolSection[]> = {
         "Transfert hors réa si stable sans vasopresseurs, perfusion correcte, écho rassurante/stable, apyrexie > 48 h, inflammation décroissante, AAS anti-agrégante relayée, suivi cardio programmé (J7, J14, J30, 6 mois).",
       ],
     },
+  ],  "reanimation-neonatale-salle-de-naissance": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Ventilation efficace en priorite, prevention de l'hypothermie, reperage rapide des situations a risque (FC < 100, respiration absente/gasping, tonus faible).",
+      ],
+    },
+    {
+      title: "Sequence initiale",
+      bullets: [
+        "Naissance -> sechage -> stimulation -> position neutre puis VPP 30 s si respiration absente/gasping ou FC < 100.",
+        "Apres 30 s : FC >= 100 -> sevrage/CPAP ; FC 60-99 -> optimisation ventilation ; FC < 60 -> massage + O2 100 % puis adrenaline si persistance.",
+      ],
+    },
+    {
+      title: "Medicaments / volumes",
+      bullets: [
+        "Adrenaline IV/IO 0,01-0,03 mg/kg (0,1-0,3 mL/kg 1:10 000) toutes les 3-5 min si FC < 60 ; voie tracheale 0,05-0,1 mg/kg.",
+        "Remplissage NaCl 0,9 % 10 mL/kg si hypovolemie suspectee ; bolus glucose 10 % 2 mL/kg si suspicion hypoglycemie severe.",
+      ],
+    },
+    {
+      title: "Airway / orientation",
+      bullets: [
+        "Intubation si epuisement, hypoxemie, baisse du stridor, troubles conscience, < 2 ans severe ou massage necessaire.",
+        "Hospitalisation specialisee systematique ; reanimation si detresse respiratoire ou instabilite.",
+      ],
+    },
+  ],
+  "epiglottite-aigue": [
+    {
+      title: "Alerte et mesures immediates",
+      bullets: [
+        "Hyperthermie, hypersialorrhee, voix etouffee, stridor inspiratoire, position en tripode.",
+        "NE PAS coucher ni examiner la gorge a l'abaisse-langue ; parent present, O2 humidifie 5-10 L/min (SpO2 94-98 %).",
+      ],
+    },
+    {
+      title: "Conduite selon severite",
+      bullets: [
+        "Detresse/epuisement : airway immediat en bloc (ORL + anesthesie + rea).",
+        "Stridor stable : O2, VVP, ATB IV debutee, transfert protege vers bloc ORL.",
+        "Stabilite relative : transfert medicalise vers centre avec plateau ORL/anesthesie.",
+      ],
+    },
+    {
+      title: "Antibiotherapie",
+      bullets: [
+        "Ceftriaxone 100 mg/kg/j (max 2 g/j).",
+        "Alternatives : Cefotaxime 150-200 mg/kg/j ; Vancomycine 40-60 mg/kg/j si allergie severe.",
+        "Choc septique : ajouter Amikacine 15 mg/kg/j ; remplissage NaCl 0,9 % 10 mL/kg.",
+      ],
+    },
+    {
+      title: "Airway / orientation",
+      bullets: [
+        "Indications d'intubation : epuisement, hypoxemie malgre O2, baisse du stridor, troubles conscience, < 2 ans severe.",
+        "Hospitalisation specialisee systematique ; reanimation si detresse respiratoire.",
+      ],
+    },
+  ],
+  "crise-vaso-occlusive": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Controler la douleur, prevenir le syndrome thoracique aigu et l'infection, hydrater sans surcharger (1-1,5 x entretien).",
+      ],
+    },
+    {
+      title: "Mesures initiales",
+      bullets: [
+        "SpO2, FC/FR/PA/T°, EVA/EVENDOL, recherche signes de gravite (SpO2 < 94 %, douleur thoracique, fievre >= 38,5, deficit neuro, priapisme, choc).",
+        "O2 si SpO2 < 94 % (objectif 94-98 %), VVP si douleur moderee/severe ou gravite.",
+        "Hydratation 1-1,5 x 4-2-1; ne pas depasser 1,5 x (risque oedeme/STA).",
+      ],
+    },
+    {
+      title: "Antalgie",
+      bullets: [
+        "Paracetamol 15 mg/kg/prise (max 60 mg/kg/j).",
+        "Ibuprofene 10 mg/kg/prise (max 30 mg/kg/j) si pas de deshydratation/infection severe.",
+        "Morphine IV 0,05-0,1 mg/kg initial puis bolus 0,025-0,05 mg/kg q10min; alternatives morphine SC ou ketamine faible dose (specialiste).",
+        "Eviter codeine, tramadol, AINS si IRA/deshydratation, pas de corticoides (risque rebond).",
+      ],
+    },
+    {
+      title: "ATB / complications",
+      bullets: [
+        "Fièvre/infection/STA : Ceftriaxone 50-75 mg/kg/j (<= 2 g/j); si meningite suspectee : Cefotaxime 150-200 mg/kg/j + Vancomycine 40-60 mg/kg/j.",
+        "STA : Rx thorax, O2 si <94 %, kiné respi, transfusion simple si anemie, echange si severe.",
+        "Transfusion si STA moderee/severe, Hb <7 g/dL symptomatique, AVC/AIT, priapisme prolongé.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation si douleur non controlee a 2-3 h, fièvre >= 38,5, suspicion STA/infection, SpO2 <94 %, anemie, deshydratation, comorbidites, <3 ans.",
+        "Sortie si douleur controlee par PO, apyrexie, pas de signe respiratoire, famille fiable + RDV J2-J3.",
+      ],
+    },
+  ],
+  "fracture-ouverte-membre": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Stabiliser (ABCDE), prévenir choc/infection, antalgie rapide, transfert ortho < 6 h idéal.",
+      ],
+    },
+    {
+      title: "Mesures initiales",
+      bullets: [
+        "O2 titré SpO2 94-98 %, VVP, prévenir hypothermie, rechercher hémorragie/ischémie distale.",
+        "Signes gravité : hémorragie incontrôlable, ischémie, Gustilo III, polytrauma, douleur non contrôlée, choc, syndrome de loges.",
+      ],
+    },
+    {
+      title: "Antalgie",
+      bullets: [
+        "Paracétamol 15 mg/kg/prise (max 60 mg/kg/j).",
+        "Ibuprofène 10 mg/kg/prise (max 30 mg/kg/j) si ≥ 3 mois et pas de choc/IRA.",
+        "Morphine IV 0,05-0,1 mg/kg puis bolus 0,025-0,05 mg/kg q10min si douleur sévère.",
+        "Éviter codéine, tramadol, AINS si déshydratation/choc/chirurgie majeure imminente.",
+      ],
+    },
+    {
+      title: "ATB précoce (< 1 h)",
+      bullets: [
+        "Gustilo I-II : Cefazoline 30 mg/kg IV q8h (max 2 g/dose).",
+        "Gustilo III : + Amikacine 15 mg/kg/j.",
+        "Allergie : Clindamycine 10 mg/kg q8h + Amikacine 15 mg/kg/j.",
+        "Vaccin + immunoglobulines tétanos si doute et plaie contaminée.",
+      ],
+    },
+    {
+      title: "Plaie / immobilisation",
+      bullets: [
+        "Irrigation abondante NaCl 0,9 %, débris superficiels, pansement stérile humide.",
+        "Ne pas sonder/explorer, ne pas retirer corps étrangers profonds.",
+        "Attelle adaptée (articulations sus/sous-jacentes), alignement doux si déformation.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation systématique ; chirurgie urgente (lavage/débridement < 6 h idéal).",
+        "Critères de sortie après chirurgie (24-48 h) : plaie propre, apyrétique, antalgie orale efficace, pas de déficit neurovasculaire, radios OK, RDV ortho/kiné.",
+      ],
+    },
+  ],
+  "syndrome-de-loge": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Identifier précocement un syndrome de loge, lever les compressions, analgésie, préparer fasciotomie urgente (<6 h).",
+      ],
+    },
+    {
+      title: "Signes & mesures immédiates",
+      bullets: [
+        "Douleur disproportionnée + douleur à l’étirement, pâleur, parésie/faiblesse, paresthésies (tardif), tension « bois dur ». Pouls aboli = ischémie tardive.",
+        "O2 SpO2 94-98 %, ne pas surélever le membre, fendre/bivalver plâtre ou bandage serré.",
+        "Analgésie : Paracétamol 15 mg/kg, Ibuprofène 10 mg/kg si pas de choc/IRA, Morphine IV 0,05-0,1 mg/kg puis bolus 0,025-0,05 mg/kg q10min.",
+        "Perfusion 4-2-1, viser 1,25 x si rhabdomyolyse suspectée.",
+      ],
+    },
+    {
+      title: "Décision",
+      bullets: [
+        "Mesure de pression si doute/enfant non communicant : PIC >=30 mmHg ou ΔP<30 mmHg.",
+        "Suspicion faible : surveillance q30min, antalgie, retrait compressions, éviter AINS si chirurgie probable.",
+        "Suspicion forte : urgence chirurgicale, appel orthopédiste pédiatrique, préparation bloc.",
+        "Signes de gravité (ischémie/déficit/pouls faible) : fasciotomie immédiate.",
+      ],
+    },
+    {
+      title: "Examens / situations particulières",
+      bullets: [
+        "Biologie : CPK, ionogramme/fonction rénale, lactates, Hb si saignement.",
+        "Imagerie seulement pour fractures associées.",
+        "Polytrauma : ATLS ; post-op : surveillance rapprochée ; brûlures circonférentielles : risque loge/éventuelle escarrotomie.",
+      ],
+    },
+    {
+      title: "Orientation",
+      bullets: [
+        "Hospitalisation si suspicion forte, douleur incoercible, post-fasciotomie, polytrauma, <3 ans, rhabdomyolyse/IRA suspectée.",
+        "Sortie seulement après plusieurs heures de surveillance sans suspicion, douleur contrôlée, examen vasculo-neuro normal, parents formés + suivi programmé.",
+      ],
+    },
+  ],
+  "appendicite-aigue-enfant": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Identifier simple vs compliquée, sécuriser antalgie/hydratation, imagerie adaptée, antibiothérapie selon statut, parcours chirurgical.",
+      ],
+    },
+    {
+      title: "Évaluation",
+      bullets: [
+        "Douleur FID (migration péri-ombilicale), fièvre, vomissements tardifs, défense locale ; scores PAS/Alvarado/AIR en aide.",
+        "Gravité : fièvre >38,5 persistante, défense généralisée/contracture, masse FID, sepsis/déshydratation sévère, diarrhée suspectant perforation.",
+      ],
+    },
+    {
+      title: "Mesures immédiates",
+      bullets: [
+        "O2 SpO2 94-98 % si sepsis, VVP.",
+        "Antalgie : Paracétamol 15 mg/kg, Ibuprofène 10 mg/kg si hydratation ok, Morphine IV 0,05-0,1 mg/kg (bolus 0,025-0,05 mg/kg q10min).",
+        "Hydratation entretien 4-2-1 (éviter surhydratation si péritonite).",
+      ],
+    },
+    {
+      title: "Imagerie / biologie",
+      bullets: [
+        "NFS, CRP, ionogramme, β-hCG si adolescente, hémocultures si sepsis.",
+        "Échographie 1ère intention; scanner basse dose seulement si écho non concluante + tableau atypique.",
+      ],
+    },
+    {
+      title: "Conduite",
+      bullets: [
+        "Appendicite simple : appendicectomie <24 h, prophylaxie IV mono-dose (Cefazoline 30 mg/kg + Métronidazole 15 mg/kg).",
+        "Appendicite compliquée : ATB IV immédiate (Cefotaxime 150 mg/kg/j + Métronidazole 20-30 mg/kg/j; alternative Amox-Clav 80-100 mg/kg/j), chirurgie urgente ou drainage+chir différée si plastron/abcès.",
+      ],
+    },
+    {
+      title: "Post-op / orientation",
+      bullets: [
+        "Simple : pas d'ATB postop, sortie si apyrexie, alimentation reprise, douleur contrôlée, transit OK, parents fiables.",
+        "Compliquée : ATB 5-7 j (IV puis PO), surveillance fièvre/CRP/transit ; hospitalisation obligatoire pour toute appendicite.",
+      ],
+    },
+  ],
+  "syndrome-bebe-secoue": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Stabiliser (ABCDE), imagerie urgente, traiter convulsions/HTIC, protéger l'enfant et signaler immédiatement (procureur + CRIP).",
+      ],
+    },
+    {
+      title: "Signes & gravité",
+      bullets: [
+        "Suspicion AHT si coma, convulsions, anomalies pupillaires, irritabilité majeure, apnées/bradycardie, fontanelle bombée, ecchymoses multiples.",
+        "→ Appel neurochirurgie + réanimation pédiatrique.",
+      ],
+    },
+    {
+      title: "Imagerie et traitements",
+      bullets: [
+        "Scanner cérébral sans injection en urgence (hémorragies sous-durales, œdème, fractures). IRM 24-72 h pour lésions axonales/prognostic.",
+        "Convulsions : Midazolam 0,1 mg/kg IV (x1), puis Lévétiracétam 20-40 mg/kg IV si persistance. Phénytoïne 20 mg/kg selon protocole.",
+        "HTIC : Mannitol 0,5-1 g/kg ou NaCl 3 % 2-5 mL/kg.",
+        "Perfusion entretien 4-2-1 (viser 1,25 x si rhabdomyolyse), paracétamol 15 mg/kg si fièvre (pas d’ibuprofène).",
+      ],
+    },
+    {
+      title: "Bilan lésionnel",
+      bullets: [
+        "Fond d'œil 24-48 h (hémorragies rétiniennes), skeletal survey < 48 h (côtes postérieures, métaphyses), biologie (NFS, coag, ionogramme).",
+      ],
+    },
+    {
+      title: "Orientation / médico-légal",
+      bullets: [
+        "Hospitalisation systématique (surveillance neuro, réa/neurochirurgie, protection).",
+        "Signalement procureur + IP CRIP, documenter, ne pas confronter les parents.",
+        "Sortie seulement si AHT formellement exclu et domicile sécurisé ; si AHT confirmé : pas de retour domicile dangereux.",
+      ],
+    },
+  ],
+  "detresse-respiratoire-nouveau-ne": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Reconnaître et stabiliser la DRNN, titrer l'O2, initier CPAP/ventilation, surfactant si besoin, orienter en néonatalogie/réanimation.",
+      ],
+    },
+    {
+      title: "Signes / gravité",
+      bullets: [
+        "FR > 60, tirage, geignement, battement des ailes du nez, cyanose, discordance thoraco-abdominale.",
+        "Gravité : apnées, SpO2 < 90 % malgré O2, FC < 100, hypotonie, suspicion pneumothorax, SDR sévère prématuré.",
+      ],
+    },
+    {
+      title: "Mesures immédiates",
+      bullets: [
+        "O2 titré : objectif SpO2 <10 min (courbes ILCOR), puis 94-98 % ; lunettes 1-2 L/min, masque 5-10 L/min.",
+        "Position neutre, thermorégulation (incubateur si prématuré), limiter manipulations.",
+        "VVP si détresse ; glycémie capillaire : si <0,45 g/L → G10 % 2 mL/kg.",
+      ],
+    },
+    {
+      title: "Ventilation / traitements",
+      bullets: [
+        "CPAP 5-6 cmH2O (jusqu'à 8) si SpO2 insuffisante ou tirage modéré/sévère (SDR, TTN).",
+        "Intubation si apnées, échec CPAP, FR <30 avec lutte, pH<7,20 ou pCO2>65, pneumothorax instable, Silverman>6.",
+        "Surfactant (SDR prématuré) : 200 mg/kg initial, 100 mg/kg seconde dose.",
+        "ATB si infection suspectée : Ampicilline 50 mg/kg q12h + Gentamicine 4-5 mg/kg q24-36h.",
+      ],
+    },
+    {
+      title: "Situations particulières / orientation",
+      bullets: [
+        "Prématuré <32 SA : CPAP précoce, surfactant si FiO2 >30 %, surveillance hypothermie.",
+        "Inhalation méconiale : pas d'aspiration systématique ; intubation seulement si obstruction.",
+        "Hernie diaphragmatique : ne pas ventiler au masque, intubation immédiate + sonde gastrique.",
+        "Hospitalisation si DRNN modérée à sévère (CPAP, FiO2>0,30, infection, pneumothorax, SDR, apnées…).",
+        "Sortie si SpO2 >94 % en air, FR<60 sans tirage, thermo et alimentation stables, étiologie bénigne résolue.",
+      ],
+    },
+  ],
+  "invagination-intestinale-aigue": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Diagnostiquer tôt l'IIA, différencier formes non compliquées vs compliquées, choisir lavement thérapeutique ou chirurgie, réanimer et surveiller.",
+      ],
+    },
+    {
+      title: "Signes / gravité",
+      bullets: [
+        "Pleurs paroxystiques + jambes fléchies, vomissements (bilieux si grave), pâleur/léthargie, masse FID, rectorragies tardives.",
+        "Gravité : choc, vomissements bilieux, défense/douleur continue, rectorragies profuses, fièvre/péritonisme, trouble conscience/sepsis.",
+      ],
+    },
+    {
+      title: "Mesures immédiates",
+      bullets: [
+        "O2 SpO2 94-98 % ; VVP, perf 4-2-1 ; remplissage NaCl 0,9 % 10-20 mL/kg si choc.",
+        "Antalgie : Paracétamol 15 mg/kg, Morphine IV 0,05-0,1 mg/kg (bolus 0,025-0,05 mg/kg q10min), pas d'AINS.",
+        "Sonde gastrique si vomissements répétés.",
+      ],
+    },
+    {
+      title: "Imagerie / thérapeutique",
+      bullets: [
+        "Échographie de référence (cocarde/pseudorein, Doppler, épanchement).",
+        "Lavement air/CO2 si non compliquée ; contre-indiqué si gravité/perforation/choc non stabilisé.",
+        "Chirurgie si compliquée, échec ou récidive immédiate.",
+        "ATB si compliquée : Cefotaxime 100-150 mg/kg/j + Métronidazole 20-30 mg/kg/j.",
+      ],
+    },
+    {
+      title: "Orientation / sortie",
+      bullets: [
+        "Hospitalisation systématique (surveillance 12-24 h post-lavement). Réa/USI si choc, déshydratation sévère, IIA compliquée ou échec lavement.",
+        "Sortie si réduction confirmée, pas de douleur, transit/alimentation OK, pas de vomissements, examen normal, pas de récidive.",
+      ],
+    },
+  ],
+  "coma-pediatrique-non-traumatique": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Stabiliser ABCDE, traiter causes r�versibles (hypoglyc�mie, convulsions, sepsis, intoxication), prot�ger l'enc�phale et orienter en r�animation.",
+      ],
+    },
+    {
+      title: "Signes de gravit�",
+      bullets: [
+        "GCS = 8, convulsions persistantes, choc/sepsis, bradypn�e, hypotension, hypothermie <35 �C ou hyperthermie >40 �C, pupilles anormales, vomissements en jet, suspicion m�ningite/purpura.",
+      ],
+    },
+    {
+      title: "Traitements initiaux",
+      bullets: [
+        "O� SpO� 94�98 %, intubation si GCS = 8 ; remplissage NaCl 0,9 % 10�20 mL/kg si choc.",
+        "Hypoglyc�mie : G10 % 2 mL/kg puis perfusion glucose 5�8 mg/kg/min.",
+        "Convulsions : Midazolam 0,1 mg/kg IV (0,2 mg/kg IN/BU), puis L�v�tirac�tam 20�40 mg/kg ; Ph�nyto�ne 20 mg/kg si besoin.",
+        "HTIC : NaCl 3 % 3�5 mL/kg ou Mannitol 0,5�1 g/kg ; t�te 30�, PaCO� 35�45.",
+        "Infection grave : Cefotaxime 200 mg/kg/j ou Ceftriaxone 80�100 mg/kg/j � Amikacine 15 mg/kg/j; Vancomycine 40�60 mg/kg/j si m�ningite.",
+        "Intoxication : Naloxone 0,01 mg/kg (opiac�s), NAC si parac�taml; Flumaz�nil non recommand� en routine.",
+      ],
+    },
+    {
+      title: "Examens / orientation",
+      bullets: [
+        "Biologie : NFS, CRP, ionogramme, calc�mie, GDS, h�mocultures, toxiques si suspicion. Scanner c�r�bral si signes focaux/HTIC/coma inexpliqu�.",
+        "Hospitalisation r�animation si GCS = 12, HTIC, convulsions persistantes, sepsis, d�faillance respi/h�mo, intoxication s�v�re.",
+        "Sortie seulement si cause r�solue, examen neuro normal, pas de convulsions >24 h, glyc�mie stable, parents fiables, suivi programm�.",
+      ],
+    },
+  ],
+  "reaction-transfusionnelle-aigue-grave": [
+    {
+      title: "Objectif",
+      bullets: [
+        "Stopper la transfusion, traiter anaphylaxie/hemolyse/TRALI/TACO/sepsis, assurer hemovigilance et tra?abilite.",
+      ],
+    },
+    {
+      title: "Signes et gravite",
+      bullets: [
+        "Hypotension/choc, dyspnee severe, cyanose, tachycardie majeure, fievre >39, douleurs lombaires/thoraciques, hemoglobinurie, purpura/coag, troubles conscience.",
+      ],
+    },
+    {
+      title: "Traitement",
+      bullets: [
+        "Arret transfusion, O2 94-98 %, perfusion NaCl 0,9 %, conserver produit/tubulure.",
+        "Anaphylaxie : Adrenaline IM 0,01 mg/kg (max 0,5 mg), NaCl 10-20 mL/kg si hypoTA, cetirizine 0,25 mg/kg, methylpred 1-2 mg/kg.",
+        "Hemolyse aigue : O2, NaCl 10-20 mL/kg, furos?mide 1 mg/kg si oligurie, bilans hemolyse/CIVD.",
+        "TRALI : O2/VNI, pas de diuretique. TACO : O2, position assise, furos?mide 1 mg/kg, ralentir transfusions.",
+        "Sepsis transfusionnel : ATB iv (Cefotaxime 100-150 mg/kg/j ou Ceftriaxone 80-100 mg/kg/j) +/- Amikacine 15 mg/kg/j si choc ; prelevements tubulure + hemocs avant ATB.",
+      ],
+    },
+    {
+      title: "Orientation / sortie",
+      bullets: [
+        "Hospitalisation systematique; rea si choc, detresse respi, TRALI/TACO severe, RAIH, sepsis.",
+        "Sortie si asymptomatique >24 h, bilans rassurants, SpO2 stable air, examen normal, avis hemobiologiste + plan transfusionnel securise.",
+      ],
+    },
   ],
 };
