@@ -1103,4 +1103,19 @@ export const PROTOCOLS: Protocol[] = [
       { label: "CDC - Hemovigilance Guidance", url: "https://www.cdc.gov" },
     ],
   },
+  {
+    slug: "torsion-cordon-spermatique",
+    title: "Torsion du cordon spermatique",
+    version: "V1.0",
+    tags: ["urologie", "chirurgie", "urgence"],
+    icon: "⚡",
+    accentColor: "#dc2626",
+    accessLevel: "free",
+    sources: [
+      { label: "EAU Guidelines on Paediatric Urology (2023)", url: "https://uroweb.org/guidelines/paediatric-urology" },
+      { label: "ESPU - Management of Acute Scrotum", url: "https://www.espu.org" },
+      { label: "AFU - Torsion du cordon spermatique", url: "https://www.urofrance.org" },
+      { label: "HAS / SFP - Douleur de l'enfant", url: "https://www.has-sante.fr" },
+    ],
+  },
 ];

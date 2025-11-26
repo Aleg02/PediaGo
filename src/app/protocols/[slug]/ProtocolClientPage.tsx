@@ -68,6 +68,7 @@ import ProtocolFlowDetresseRespiratoireNeonat from "@/components/ProtocolFlowDet
 import ProtocolFlowInvagination from "@/components/ProtocolFlowInvagination";
 import ProtocolFlowComa from "@/components/ProtocolFlowComa";
 import ProtocolFlowRTAG from "@/components/ProtocolFlowRTAG";
+import ProtocolFlowTorsionTesticule from "@/components/ProtocolFlowTorsionTesticule";
 
 // Sections posologie (NOUVEAU rendu V2 depuis le JSON)
 import PosologySections from "@/components/PosologySections";
@@ -156,6 +157,7 @@ export default function ProtocolClientPage({
         "hyperkaliemie-severe": ProtocolFlowHyperkaliemie,
         "hyponatremie-severe": ProtocolFlowHyponatremie,
         "kawasaki-choc": ProtocolFlowKawasakiChoc,
+        "torsion-cordon-spermatique": ProtocolFlowTorsionTesticule,
     };
     const Flow = FlowBySlug[slug];
 
@@ -222,8 +224,8 @@ export default function ProtocolClientPage({
                         <button
                             onClick={() => setTab("protocole")}
                             className={`flex-1 px-5 py-2.5 rounded-full text-sm font-medium transition ${tab === "protocole"
-                                    ? "bg-slate-900 text-white shadow"
-                                    : "text-slate-600 hover:text-slate-900"
+                                ? "bg-slate-900 text-white shadow"
+                                : "text-slate-600 hover:text-slate-900"
                                 }`}
                         >
                             Protocole
@@ -231,8 +233,8 @@ export default function ProtocolClientPage({
                         <button
                             onClick={() => setTab("posologie")}
                             className={`flex-1 px-5 py-2.5 rounded-full text-sm font-medium transition ${tab === "posologie"
-                                    ? "bg-slate-900 text-white shadow"
-                                    : "text-slate-600 hover:text-slate-900"
+                                ? "bg-slate-900 text-white shadow"
+                                : "text-slate-600 hover:text-slate-900"
                                 }`}
                         >
                             Posologie
