@@ -77,9 +77,9 @@ export default function ProtocolFlowComa() {
     <div className="pb-8">
       <div className="rounded-3xl bg-gradient-to-b from-slate-900 via-indigo-900 to-purple-800 px-4 pt-6 pb-5 text-white shadow-sm">
         <p className="text-[13px] uppercase tracking-[0.2em] text-white/70">Neurologie · Urgence</p>
-        <h1 className="mt-1 text-2xl font-extrabold tracking-wide leading-tight">Coma p�diatrique non traumatique</h1>
+        <h1 className="mt-1 text-2xl font-extrabold tracking-wide leading-tight">Coma pédiatrique non traumatique</h1>
         <p className="text-sm text-white/85 mt-1">
-          Stabiliser ABCDE, traiter les causes r�versibles (hypoglyc�mie, convulsions, sepsis, intoxication), prot�ger l'enc�phale et organiser la r�animation.
+          Stabiliser ABCDE, traiter les causes réversibles (hypoglycémie, convulsions, sepsis, intoxication), protéger l'encéphale et organiser la réanimation.
         </p>
 
         <div className="mt-4 bg-white rounded-3xl p-3 shadow-sm text-gray-900">
@@ -90,41 +90,41 @@ export default function ProtocolFlowComa() {
             setWeightKg={(v) => setWeightKg(clampWeight(v ?? weightKg))}
           />
         </div>
-        <p className="mt-3 text-[13px] text-white/80">Version 2025 � HAS, SFP, SRLF, ESPNIC, AAP, NICE.</p>
+        <p className="mt-3 text-[13px] text-white/80">Version 2025 – HAS, SFP, SRLF, ESPNIC, AAP, NICE.</p>
       </div>
 
       <div className="mt-5 space-y-5">
         <div className="space-y-3">
           <FlowRibbon
-            title="�valuation initiale (ABCDE)"
-            subtitle="GCS, glyc�mie imm�diate"
+            title="Évaluation initiale (ABCDE)"
+            subtitle="GCS, glycémie immédiate"
             gradient="from-amber-500 via-orange-500 to-rose-500"
           />
           <FlowBlock
             title="A / B"
             items={[
               "VAS libre, position neutre, aspiration douce si vomissements.",
-              "Intubation si GCS = 8 ou d�tresse respiratoire (ISR conforme SRLF).",
-              "O� SpO� 94�98 % : lunettes 1�4 L/min, masque 10�15 L/min si d�tresse ; FR, tirage, capno si ventil�.",
+              "Intubation si GCS = 8 ou détresse respiratoire (ISR conforme SRLF).",
+              "O₂ SpO₂ 94–98 % : lunettes 1–4 L/min, masque 10–15 L/min si détresse ; FR, tirage, capno si ventilé.",
             ]}
           />
           <FlowBlock
             title="C"
             items={[
-              "FC, PA, TRC, T� ; VVP imm�diate.",
-              <>Si choc : NaCl 0,9 % 10�20 mL/kg en 10�20 min → <strong>{formatMl(bolus10)}</strong> � <strong>{formatMl(bolus20)}</strong>, r��valuation.</>,
+              "FC, PA, TRC, T° ; VVP immédiate.",
+              <>Si choc : NaCl 0,9 % 10–20 mL/kg en 10–20 min → <strong>{formatMl(bolus10)}</strong> à <strong>{formatMl(bolus20)}</strong>, réévaluation.</>,
             ]}
           />
           <FlowBlock
             title="D"
             items={[
-              "GCS p�diatrique, pupilles, tonus, convulsions.",
-              <>Glyc�mie capillaire : hypoglyc�mie &lt; 0,7 g/L → G10 % 2 mL/kg → <strong>{formatMl(glucoseBolus)}</strong>, puis perfusion glucose 5�8 mg/kg/min.</>,
+              "GCS pédiatrique, pupilles, tonus, convulsions.",
+              <>Glycémie capillaire : hypoglycémie &lt; 0,7 g/L → G10 % 2 mL/kg → <strong>{formatMl(glucoseBolus)}</strong>, puis perfusion glucose 5–8 mg/kg/min.</>,
             ]}
           />
           <FlowBlock
             title="E"
-            items={["Recherche purpura, intoxication, morsure, temp�rature, glyc�mie r�p�t�e."]}
+            items={["Recherche purpura, intoxication, morsure, température, glycémie répétée."]}
           />
         </div>
 
@@ -132,15 +132,15 @@ export default function ProtocolFlowComa() {
 
         <div className="space-y-3">
           <FlowRibbon
-            title="Signes de gravit�"
-            subtitle="Indication r�animation imm�diate"
+            title="Signes de gravité"
+            subtitle="Indication réanimation immédiate"
             gradient="from-red-600 via-rose-600 to-orange-600"
           />
           <FlowBlock
-            title="Crit�res"
+            title="Critères"
             items={[
-              "GCS = 8, convulsions persistantes, choc/sepsis, bradypn�e ou pauses, hypotension, hypothermie &lt; 35 �C ou hyperthermie > 40 �C.",
-              "Pupilles asym�triques/non r�actives, vomissements en jet, raideur m�ning�e s�v�re, suspicion m�ningite/purpura, troubles du rythme graves.",
+              "GCS = 8, convulsions persistantes, choc/sepsis, bradypnée ou pauses, hypotension, hypothermie &lt; 35 °C ou hyperthermie > 40 °C.",
+              "Pupilles asymétriques/non réactives, vomissements en jet, raideur méningée sévère, suspicion méningite/purpura, troubles du rythme graves.",
             ]}
           />
         </div>
@@ -149,44 +149,44 @@ export default function ProtocolFlowComa() {
 
         <div className="space-y-3">
           <FlowRibbon
-            title="Traitements initiaux cibl�s"
-            subtitle="Causes r�versibles"
+            title="Traitements initiaux ciblés"
+            subtitle="Causes réversibles"
             gradient="from-emerald-500 via-teal-500 to-cyan-500"
           />
           <FlowBlock
-            title="Hypoglyc�mie"
-            items={[<>G10 % 2 mL/kg IV → <strong>{formatMl(glucoseBolus)}</strong>, puis perfusion glucose 5�8 mg/kg/min.</>]}
+            title="Hypoglycémie"
+            items={[<>G10 % 2 mL/kg IV → <strong>{formatMl(glucoseBolus)}</strong>, puis perfusion glucose 5–8 mg/kg/min.</>]}
           />
           <FlowBlock
             title="Convulsions"
             items={[
               <>Midazolam IV 0,1 mg/kg → <strong>{formatMg(midazolamIv)}</strong> (renouvelable 1 fois) ; buccal/IN 0,2 mg/kg → <strong>{formatMg(midazolamInBuccal)}</strong>.</>,
               <>
-                Si persistance : L�v�tirac�tam 20�40 mg/kg IV → <strong>{formatMg(levetiracetamLow)}</strong> � <strong>{formatMg(levetiracetamHigh)}</strong> (10�20 min).
+                Si persistance : Lévétiracétam 20–40 mg/kg IV → <strong>{formatMg(levetiracetamLow)}</strong> à <strong>{formatMg(levetiracetamHigh)}</strong> (10–20 min).
               </>,
-              <>3e ligne : Ph�nyto�ne 20 mg/kg IV lent → <strong>{formatMg(phenytoin)}</strong>.</>,
+              <>3e ligne : Phénytoïne 20 mg/kg IV lent → <strong>{formatMg(phenytoin)}</strong>.</>,
             ]}
           />
           <FlowBlock
-            title="Infection s�v�re / m�ningite"
+            title="Infection sévère / méningite"
             items={[
-              "Cefotaxime 200 mg/kg/j IV (ou Ceftriaxone 80�100 mg/kg/j) � ajouter Amikacine 15 mg/kg/j si choc septique ; Vancomycine 40�60 mg/kg/j si m�ningite possible.",
+              "Cefotaxime 200 mg/kg/j IV (ou Ceftriaxone 80–100 mg/kg/j) à ajouter Amikacine 15 mg/kg/j si choc septique ; Vancomycine 40–60 mg/kg/j si méningite possible.",
             ]}
           />
           <FlowBlock
-            title="HTIC suspect�e"
+            title="HTIC suspectée"
             items={[
-              <>NaCl 3 % 3�5 mL/kg → <strong>{formatMl(nacl3Low)}</strong> � <strong>{formatMl(nacl3High)}</strong> en 10�20 min.</>,
-              <>Ou Mannitol 20 % 0,5�1 g/kg → <strong>{formatG(mannitolLowG)}</strong> � <strong>{formatG(mannitolHighG)}</strong> en 20 min.</>,
-              "T�te sur�lev�e 30�, PaCO� 35�45 mmHg, normothermie ; pas d'hyperventilation prolong�e.",
+              <>NaCl 3 % 3–5 mL/kg → <strong>{formatMl(nacl3Low)}</strong> à <strong>{formatMl(nacl3High)}</strong> en 10–20 min.</>,
+              <>Ou Mannitol 20 % 0,5–1 g/kg → <strong>{formatG(mannitolLowG)}</strong> à <strong>{formatG(mannitolHighG)}</strong> en 20 min.</>,
+              "Tête surélevée 30°, PaCO₂ 35–45 mmHg, normothermie ; pas d'hyperventilation prolongée.",
             ]}
           />
           <FlowBlock
-            title="Intoxication suspect�e"
+            title="Intoxication suspectée"
             items={[
-              <>Opiac�s : Naloxone 0,01 mg/kg IV → <strong>{formatMg(naloxone)}</strong> (r�p�ter si besoin).</>,
-              "Parac�tamil : N-ac�tylcyst�ine selon protocole local.",
-              "BZD : Flumaz�nil non recommand� en routine (risque convulsions).",
+              <>Opiacés : Naloxone 0,01 mg/kg IV → <strong>{formatMg(naloxone)}</strong> (répéter si besoin).</>,
+              "Paracétamol : N-acétylcystéine selon protocole local.",
+              "BZD : Flumazénil non recommandé en routine (risque convulsions).",
             ]}
           />
         </div>
@@ -195,19 +195,19 @@ export default function ProtocolFlowComa() {
 
         <div className="space-y-3">
           <FlowRibbon
-            title="Examens compl�mentaires"
-            subtitle="Apr�s stabilisation"
+            title="Examens complémentaires"
+            subtitle="Après stabilisation"
             gradient="from-slate-500 via-slate-600 to-slate-700"
           />
           <FlowBlock
             title="Biologie urgente"
-            items={["NFS, CRP, ionogramme, calc�mie, beta-HCG, h�mocultures si infection, GDS, ECG, toxiques sang/urines si suspicion."]}
+            items={["NFS, CRP, ionogramme, calcémie, beta-HCG, hémocultures si infection, GDS, ECG, toxiques sang/urines si suspicion."]}
           />
           <FlowBlock
             title="Imagerie"
             items={[
-              "Scanner c�r�bral si signes focaux, HTIC, coma inexpliqu�, crise prolong�e, pupilles anormales.",
-              "IRM en diff�r� pour �tiologie (enc�phalite, AVC, ADEM, etc.).",
+              "Scanner cérébral si signes focaux, HTIC, coma inexpliqué, crise prolongée, pupilles anormales.",
+              "IRM en différé pour étiologie (encéphalite, AVC, ADEM, etc.).",
             ]}
           />
         </div>
@@ -216,18 +216,18 @@ export default function ProtocolFlowComa() {
 
         <div className="space-y-3">
           <FlowRibbon
-            title="Situations particuli�res"
+            title="Situations particulières"
             subtitle="Adapter la prise en charge"
             gradient="from-indigo-500 via-blue-500 to-sky-500"
           />
-          <FlowBlock title="Nourrisson < 2 mois" items={["Suspicion m�ningite/infection s�v�re � ATB syst�matiques."]} />
+          <FlowBlock title="Nourrisson < 2 mois" items={["Suspicion méningite/infection sévère → ATB systématiques."]} />
           <FlowBlock
             title="Status epilepticus"
-            items={["S�quence AAP : Midazolam → L�v�tirac�tam → Ph�nyto�ne → anesth�sie (k�tamine selon protocole)."]}
+            items={["Séquence AAP : Midazolam → Lévétiracétam → Phénytoïne → anesthésie (kétamine selon protocole)."]}
           />
           <FlowBlock
-            title="Trouble m�tabolique"
-            items={["Ammoni�mie, lactates, correction m�tabolique sp�cialis�e."]}
+            title="Trouble métabolique"
+            items={["Ammoniémie, lactates, correction métabolique spécialisée."]}
           />
         </div>
 
@@ -236,19 +236,19 @@ export default function ProtocolFlowComa() {
         <div className="space-y-3">
           <FlowRibbon
             title="Orientation"
-            subtitle="Hospitalisation r�animation"
+            subtitle="Hospitalisation réanimation"
             gradient="from-amber-600 via-orange-600 to-rose-600"
           />
           <FlowBlock
             title="Hospitalisation"
             items={[
-              "Toute alt�ration de conscience � hospitalisation. R�animation p�diatrique si GCS = 12, infection grave, HTIC, convulsions persistantes, d�faillance respi/h�mo, hyperthermie majeure, intoxication s�v�re.",
+              "Toute altération de conscience → hospitalisation. Réanimation pédiatrique si GCS = 12, infection grave, HTIC, convulsions persistantes, défaillance respi/hémo, hyperthermie majeure, intoxication sévère.",
             ]}
           />
           <FlowBlock
-            title="Crit�res de sortie"
+            title="Critères de sortie"
             items={[
-              "Cause identifi�e et r�solue, examen neuro normal, pas de convulsion > 24 h, glyc�mie stable, parents fiables, avis p�diatrique, bilan/imagerie rassurants, suivi programm�.",
+              "Cause identifiée et résolue, examen neuro normal, pas de convulsion > 24 h, glycémie stable, parents fiables, avis pédiatrique, bilan/imagerie rassurants, suivi programmé.",
             ]}
           />
         </div>
@@ -257,45 +257,45 @@ export default function ProtocolFlowComa() {
 
         <div className="space-y-3">
           <FlowRibbon
-            title="R�sum� posologique"
+            title="Résumé posologique"
             subtitle="Calculs automatiques selon poids"
             gradient="from-slate-900 via-gray-800 to-slate-700"
           />
           <FlowBlock
-            title="Oxyg�ne"
-            items={["SpO� 94�98 %, 1�4 L/min lunettes ou 10�15 L/min masque selon gravit�."]}
+            title="Oxygène"
+            items={["SpO₂ 94–98 %, 1–4 L/min lunettes ou 10–15 L/min masque selon gravité."]}
           />
           <FlowBlock
             title="Remplissage"
-            items={[<>NaCl 0,9 % 10�20 mL/kg → <strong>{formatMl(bolus10)}</strong> � <strong>{formatMl(bolus20)}</strong>.</>]}
+            items={[<>NaCl 0,9 % 10–20 mL/kg → <strong>{formatMl(bolus10)}</strong> à <strong>{formatMl(bolus20)}</strong>.</>]}
           />
           <FlowBlock
             title="Glucose"
-            items={[<>G10 % 2 mL/kg → <strong>{formatMl(glucoseBolus)}</strong> ; perfusion 5�8 mg/kg/min ensuite.</>]}
+            items={[<>G10 % 2 mL/kg → <strong>{formatMl(glucoseBolus)}</strong> ; perfusion 5–8 mg/kg/min ensuite.</>]}
           />
           <FlowBlock
             title="Convulsions"
             items={[
               <>Midazolam IV 0,1 mg/kg → <strong>{formatMg(midazolamIv)}</strong> (IN/BU 0,2 mg/kg → <strong>{formatMg(midazolamInBuccal)}</strong>).</>,
               <>
-                L�v�tirac�tam 20�40 mg/kg → <strong>{formatMg(levetiracetamLow)}</strong> � <strong>{formatMg(levetiracetamHigh)}</strong>.
+                Lévétiracétam 20–40 mg/kg → <strong>{formatMg(levetiracetamLow)}</strong> à <strong>{formatMg(levetiracetamHigh)}</strong>.
               </>,
-              <>Ph�nyto�ne 20 mg/kg → <strong>{formatMg(phenytoin)}</strong>.</>,
+              <>Phénytoïne 20 mg/kg → <strong>{formatMg(phenytoin)}</strong>.</>,
             ]}
           />
           <FlowBlock
             title="Antidotes / HTIC"
             items={[
               <>Naloxone 0,01 mg/kg → <strong>{formatMg(naloxone)}</strong>.</>,
-              <>NaCl 3 % 3�5 mL/kg → <strong>{formatMl(nacl3Low)}</strong> � <strong>{formatMl(nacl3High)}</strong>.</>,
+              <>NaCl 3 % 3–5 mL/kg → <strong>{formatMl(nacl3Low)}</strong> à <strong>{formatMl(nacl3High)}</strong>.</>,
               <>
-                Mannitol 0,5�1 g/kg → <strong>{formatG(mannitolLowG)}</strong> � <strong>{formatG(mannitolHighG)}</strong>.
+                Mannitol 0,5–1 g/kg → <strong>{formatG(mannitolLowG)}</strong> à <strong>{formatG(mannitolHighG)}</strong>.
               </>,
             ]}
           />
           <FlowBlock
             title="Entretien"
-            items={[`Perfusion 4-2-1 ≈ ${formatMlPerHour(maintenance)} (ajuster selon besoin et risque d'oed�me c�r�bral).`]}
+            items={[`Perfusion 4-2-1 ≈ ${formatMlPerHour(maintenance)} (ajuster selon besoin et risque d'œdème cérébral).`]}
           />
         </div>
       </div>
