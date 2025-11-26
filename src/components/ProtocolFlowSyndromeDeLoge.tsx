@@ -122,7 +122,7 @@ export default function ProtocolFlowSyndromeDeLoge() {
             title="Analgésie"
             items={[
               <>Paracétamol 15 mg/kg/prise → <strong>{formatMg(paracetamolDose)}</strong> (max 60 mg/kg/j).</>,
-              <>+ Ibuprofène 10 mg/kg/prise → <strong>{formatMg(ibuprofenDose)}</strong> si > 3 mois et pas de choc/IRA (max 30 mg/kg/j).</>,
+              <>+ Ibuprofène 10 mg/kg/prise → <strong>{formatMg(ibuprofenDose)}</strong> si &gt; 3 mois et pas de choc/IRA (max 30 mg/kg/j).</>,
               <>
                 Morphine IV 0,05–0,1 mg/kg → <strong>{formatMg(morphineInitLow)}</strong> à <strong>{formatMg(morphineInitHigh)}</strong> ; bolus 0,025–0,05 mg/kg q10 min →{" "}
                 <strong>{formatMg(morphineBolusLow)}</strong> à <strong>{formatMg(morphineBolusHigh)}</strong>.

@@ -110,7 +110,7 @@ export default function ProtocolFlowDetresseRespiratoireNeonat() {
             title="VVP / glycémie"
             items={[
               "VVP si détresse modérée/sévère ; glycémie capillaire.",
-              <>Hypoglycémie < 0,45 g/L : G10 % 2 mL/kg → <strong>{formatMl(glucoseBolus)}</strong>.</>,
+              <>Hypoglycémie &lt; 0,45 g/L : G10 % 2 mL/kg → <strong>{formatMl(glucoseBolus)}</strong>.</>,
             ]}
           />
         </div>
