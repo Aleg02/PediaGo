@@ -69,6 +69,9 @@ import ProtocolFlowInvagination from "@/components/ProtocolFlowInvagination";
 import ProtocolFlowComa from "@/components/ProtocolFlowComa";
 import ProtocolFlowRTAG from "@/components/ProtocolFlowRTAG";
 import ProtocolFlowTorsionTesticule from "@/components/ProtocolFlowTorsionTesticule";
+import ProtocolFlowTamponnadePericardique from "@/components/ProtocolFlowTamponnadePericardique";
+import ProtocolFlowInsuffisanceSurrenalienne from "@/components/ProtocolFlowInsuffisanceSurrenalienne";
+import ProtocolFlowIntoxicationATC from "@/components/ProtocolFlowIntoxicationATC";
 
 // Sections posologie (NOUVEAU rendu V2 depuis le JSON)
 import PosologySections from "@/components/PosologySections";
@@ -158,6 +161,9 @@ export default function ProtocolClientPage({
         "hyponatremie-severe": ProtocolFlowHyponatremie,
         "kawasaki-choc": ProtocolFlowKawasakiChoc,
         "torsion-cordon-spermatique": ProtocolFlowTorsionTesticule,
+        "tamponnade-pericardique-aigue-enfant": ProtocolFlowTamponnadePericardique,
+        "insuffisance-surrenalienne-aigue": ProtocolFlowInsuffisanceSurrenalienne,
+        "intoxication-antidepresseurs-tricycliques": ProtocolFlowIntoxicationATC,
     };
     const Flow = FlowBySlug[slug];
 
